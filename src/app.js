@@ -6,9 +6,9 @@ const passport = require("passport");
 const path = require('path');
 const session = require("express-session");
 const SpotifyStrategy = require('passport-spotify').Strategy;
+const SpotifyWebApi = require('spotify-web-api-node');
 
 const { User, Playlist, Favorite } = require('./models/models');
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -18,18 +18,36 @@ app.use(morgan('dev'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+const callbackUrl = `http://${process.env.HOSTNAME}:${process.env.PORT}/auth/spotify/callback`;
+
+const spotifyApi = new SpotifyWebApi({
+    clientId: process.env.SPOTIFY_KEY,
+    clientSecret: process.env.SPOTIFY_SECRET,
+    redirectUri: callbackUrl
+});
+
 passport.use(
     new SpotifyStrategy(
         {
             clientID: process.env.SPOTIFY_KEY,
             clientSecret: process.env.SPOTIFY_SECRET,
-            callbackURL: `http://${process.env.HOSTNAME}:${process.env.PORT}/auth/spotify/callback`
+            callbackURL: callbackUrl
         },
         function (accessToken, refreshToken, expires_in, profile, done) {
             User.findOrCreate({
                 where: { spotify_user_id: profile.id }
             }).then((user, userCreated) => {
-                return done(null, { user: user[0], accessToken });
+                spotifyApi.setAccessToken(accessToken);
+
+                spotifyApi.getMe()
+                    .then(data => {
+                        console.log(data);
+                        return done(null, { user: user[0], accessToken, spotifyUser: data.body });
+                    })
+                    .catch(err => {
+                        console.error('Error getting user profile:', err);
+                    });
+
             });
         }
     )
