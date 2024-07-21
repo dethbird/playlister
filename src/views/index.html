@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<div id="root"></div>
+
+{% if not user %}
+<form action="/auth/spotify" method="get">
+    <input type="submit" value="Login with Spotify" />
+</form>
+{% else %}
+	<h2>Hello, {{ user.spotifyUser.display_name }}.</h2>
+    <a href="/logout">Logout</a>
+{% endif %}
+{% endblock %}

@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
+const consolidate = require('consolidate');
 const morgan = require('morgan');
 const passport = require("passport");
 const path = require('path');
@@ -16,7 +17,9 @@ app.use(morgan('dev'));
 
 // Set the view engine to Pug
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+app.set('view engine', 'html');
+app.engine('html', consolidate.nunjucks);
+app.use(express.static(__dirname + '../public'));
 
 const callbackUrl = `http://${process.env.HOSTNAME}:${process.env.PORT}/auth/spotify/callback`;
 
@@ -41,7 +44,6 @@ passport.use(
 
                 spotifyApi.getMe()
                     .then(data => {
-                        console.log(data);
                         return done(null, { user: user[0], accessToken, spotifyUser: data.body });
                     })
                     .catch(err => {
@@ -81,7 +83,6 @@ app.get('/', (req, res) => {
     console.log('USER', req.user);
     res.render('index', { title: 'Spotify Playlister', user: req.user });
 });
-
 
 app.get("/logout", (req, res) => {
     req.logout(() => {
