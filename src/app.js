@@ -83,7 +83,10 @@ passport.deserializeUser((user, done) => {
  */
 app.get('/', (req, res) => {
     console.log('USER', req.user);
-    res.render('index', { title: 'Spotify Playlister', user: req.user });
+    res.render('index', {
+        title: 'Spotify Playlister',
+        user: req.user,
+        spotifyUserJson: req.user ? JSON.stringify(req.user.spotifyUser) : '{}' });
 });
 
 app.get("/logout", (req, res) => {
