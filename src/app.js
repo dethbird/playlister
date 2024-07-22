@@ -113,7 +113,9 @@ app.get(
 /**
  * API Routes
  */
-
+// Player
+const playerRoutes = require('./routes/playerRoutes');
+app.use('/player', playerRoutes);
 
 
 

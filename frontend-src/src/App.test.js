@@ -4,12 +4,18 @@ import { Provider } from 'react-redux';
 import { store } from './app/store';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders the nav with the user display name', () => {
+  window.spotifyUser = {
+    display_name: "Pizza",
+    images: [
+      { url: 'http://image' }
+    ]
+  };
   const { getByText } = render(
     <Provider store={store}>
       <App />
     </Provider>
   );
 
-  expect(getByText(/learn/i)).toBeInTheDocument();
+  expect(getByText(/Pizza/i)).toBeInTheDocument();
 });
