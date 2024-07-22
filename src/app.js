@@ -15,13 +15,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 
-// Set the view engine to Pug
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 app.engine('html', consolidate.nunjucks);
+// server static contents from public dir
 app.use(express.static(__dirname + '../public'));
 
+// constants
 const callbackUrl = `http://${process.env.HOSTNAME}:${process.env.PORT}/auth/spotify/callback`;
+const PORT = process.env.PORT || 8001;
 
 const spotifyApi = new SpotifyWebApi({
     clientId: process.env.SPOTIFY_KEY,
@@ -41,7 +43,6 @@ passport.use(
                 where: { spotify_user_id: profile.id }
             }).then((user, userCreated) => {
                 spotifyApi.setAccessToken(accessToken);
-
                 spotifyApi.getMe()
                     .then(data => {
                         return done(null, { user: user[0], accessToken, spotifyUser: data.body });
@@ -61,7 +62,7 @@ app.use(
         cookie: { maxAge: process.env.SESSION_MAXAGE, secure: false },
         saveUninitialized: false,
         resave: false,
-        // store,
+        // store, // use a persistent store like connect-mongo
     })
 );
 
@@ -77,8 +78,9 @@ passport.deserializeUser((user, done) => {
 });
 
 
-const PORT = process.env.PORT || 8001;
-
+/**
+ * Auth and view routes
+ */
 app.get('/', (req, res) => {
     console.log('USER', req.user);
     res.render('index', { title: 'Spotify Playlister', user: req.user });
@@ -103,6 +105,14 @@ app.get(
         res.redirect('/');
     }
 );
+
+
+/**
+ * API Routes
+ */
+
+
+
 
 app.listen(PORT, () => {
     console.log(`Server is listening on ${PORT}`);
