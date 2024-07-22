@@ -7,9 +7,10 @@ const passport = require("passport");
 const path = require('path');
 const session = require("express-session");
 const SpotifyStrategy = require('passport-spotify').Strategy;
-const SpotifyWebApi = require('spotify-web-api-node');
 
 const { User, Playlist, Favorite } = require('./models/models');
+const spotifyApi = require('./modules/spotifyApi');
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -25,11 +26,18 @@ app.use(express.static(__dirname + '../../public'));
 const callbackUrl = `http://${process.env.HOSTNAME}:${process.env.PORT}/auth/spotify/callback`;
 const PORT = process.env.PORT || 8001;
 
-const spotifyApi = new SpotifyWebApi({
-    clientId: process.env.SPOTIFY_KEY,
-    clientSecret: process.env.SPOTIFY_SECRET,
-    redirectUri: callbackUrl
-});
+const requiredScopes = [
+    'user-library-read',
+    'user-library-modify',
+    'user-read-playback-state',
+    'user-read-currently-playing',
+    'playlist-read-private',
+    'playlist-modify-private',
+    'user-read-private',
+    'playlist-modify-public',
+    'app-remote-control',
+    'streaming'
+];
 
 passport.use(
     new SpotifyStrategy(
@@ -66,6 +74,13 @@ app.use(
     })
 );
 
+app.use((req, res, next) => {
+    if (req.user) {
+        spotifyApi.setAccessToken(req.user.accessToken);
+    }
+    next();
+});
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -86,7 +101,8 @@ app.get('/', (req, res) => {
     res.render('index', {
         title: 'Spotify Playlister',
         user: req.user,
-        spotifyUserJson: req.user ? JSON.stringify(req.user.spotifyUser) : '{}' });
+        spotifyUserJson: req.user ? JSON.stringify(req.user.spotifyUser) : '{}'
+    });
 });
 
 app.get("/logout", (req, res) => {
@@ -97,7 +113,7 @@ app.get("/logout", (req, res) => {
 });
 
 app.get('/auth/spotify', passport.authenticate('spotify', {
-    scope: ['user-read-email', 'user-read-private'],
+    scope: requiredScopes,
     showDialog: true
 }));
 
@@ -113,7 +129,7 @@ app.get(
 /**
  * API Routes
  */
-// Player
+// Player Routes
 const playerRoutes = require('./routes/playerRoutes');
 app.use('/player', playerRoutes);
 
