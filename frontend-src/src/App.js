@@ -1,14 +1,19 @@
 import React from 'react';
-// import { Counter } from './features/counter/Counter';
+import { Player } from './features/player/Player';
+import LoginScreen from './components/LoginScreen';
 import Nav from './components/Nav';
 import './App.css';
 
 function App() {
 
+  if (!window.spotifyUser.display_name) {
+    return <LoginScreen />;
+  }
+
   return (
     <div className="App">
       <Nav spotifyUser={window.spotifyUser} />
-      {/* <Counter /> */}
+      <Player />
     </div>
   );
 }
