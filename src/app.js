@@ -18,8 +18,8 @@ app.use(morgan('dev'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 app.engine('html', consolidate.nunjucks);
-// server static contents from public dir
-app.use(express.static(__dirname + '../public'));
+// server static contents from /public dir relative to the view templates
+app.use(express.static(__dirname + '../../public'));
 
 // constants
 const callbackUrl = `http://${process.env.HOSTNAME}:${process.env.PORT}/auth/spotify/callback`;
