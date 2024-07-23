@@ -95,6 +95,7 @@ export const playerSlice = createSlice({
     builder
       .addCase(getCurrentTrack.pending, (state) => {
         state.status = 'pending';
+        state.currentTrack = null;
       })
       .addCase(getCurrentTrack.fulfilled, (state, action) => {
         state.status = 'fulfilled';

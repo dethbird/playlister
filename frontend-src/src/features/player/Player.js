@@ -12,6 +12,8 @@ import {
 } from './playerSlice';
 import { LikeButton } from './LikeButton';
 
+let refreshTimer;
+
 export function Player() {
 
   const currentTrack = useSelector(selectCurrentTrack);
@@ -24,13 +26,8 @@ export function Player() {
     dispatch(getCurrentTrack());
   }, [dispatch]);
 
-  let refreshTimer;
-  if (isPlaying) {
-    const refreshIn = Number(currentTrack.item.duration_ms) - Number(currentTrack.progress_ms);
-    refreshTimer = setTimeout(() => { dispatch(getCurrentTrack())}, refreshIn);
-  } else {
-    clearTimeout(refreshTimer);
-  }
+  // prevent setting multiple timers on rerender
+  clearTimeout(refreshTimer);
 
   if (status === 'rejected') {
     return <div>Error...</div>;
@@ -44,13 +41,19 @@ export function Player() {
     return <div>Nothing is playing.</div>
   }
 
+  // only set new timer in fulfilled state.
+  if (isPlaying && currentTrack) {
+    const refreshIn = Number(currentTrack.item.duration_ms) - Number(currentTrack.progress_ms + 100);
+    refreshTimer = setTimeout(() => { dispatch(getCurrentTrack()) }, refreshIn);
+  }
+
   return (
     <div>
       <pre>{currentTrack.item.uri}</pre>
       <img src={currentTrack.item.album.images[1].url} />
-      <h3>{ currentTrack.item.name}</h3>
-      <h4>{ currentTrack.item.artists[0].name}</h4>
-      <h5>{ currentTrack.item.album.release_date}</h5>
+      <h3>{currentTrack.item.name}</h3>
+      <h4>{currentTrack.item.artists[0].name}</h4>
+      <h5>{currentTrack.item.album.release_date}</h5>
       <LikeButton trackId={currentTrack.item.id} />
       <button onClick={() => dispatch(play())} disabled={isPlaying}>Play</button>
       <button onClick={() => dispatch(pause())} disabled={!isPlaying}>Pause</button>
