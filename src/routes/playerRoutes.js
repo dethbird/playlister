@@ -56,5 +56,38 @@ router.post('/previous', (req, res) => {
         });
 });
 
+router.get('/liked', (req, res) => {
+    const { ids } = req.query;
+    spotifyApi.containsMySavedTracks(ids.split(','))
+        .then(data => {
+            res.json(data.body);
+        })
+        .catch(err => {
+            console.error('Error checking if track is liked:', err);
+        });
+});
+
+router.put('/like', (req, res) => {
+    const { ids } = req.query;
+    spotifyApi.addToMySavedTracks(ids.split(','))
+        .then(data => {
+            res.json(data.body);
+        })
+        .catch(err => {
+            console.error('Error adding tracks to liked:', err);
+        });
+});
+
+router.delete('/unlike', (req, res) => {
+    const { ids } = req.query;
+    spotifyApi.removeFromMySavedTracks(ids.split(','))
+        .then(data => {
+            res.json(data.body);
+        })
+        .catch(err => {
+            console.error('Error removing tracks from liked:', err);
+        });
+});
+
 
 module.exports = router;

@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 const initialState = {
   currentTrack: null,
   isPlaying: false,
+  isLiked: false,
   status: 'idle',
   error: null
 };
@@ -39,7 +40,7 @@ export const previous = createAsyncThunk(
   async (_, { dispatch }) => {
     const response = await fetch('/player/previous', { method: 'POST' });
     const data = await response.json();
-    setTimeout(() => {dispatch(getCurrentTrack())}, 250);
+    setTimeout(() => { dispatch(getCurrentTrack()) }, 250);
     return data;
   }
 );
@@ -49,7 +50,39 @@ export const next = createAsyncThunk(
   async (_, { dispatch }) => {
     const response = await fetch('/player/next', { method: 'POST' });
     const data = await response.json();
-    setTimeout(() => {dispatch(getCurrentTrack())}, 250);
+    setTimeout(() => { dispatch(getCurrentTrack()) }, 250);
+    return data;
+  }
+);
+
+// this app only deals with one track at a time
+export const liked = createAsyncThunk(
+  'player/liked',
+  async (trackId) => {
+    const response = await fetch('/player/liked?ids=' + trackId);
+    const data = await response.json();
+    return data[0];
+  }
+);
+
+export const like = createAsyncThunk(
+  'player/like',
+  async (trackId) => {
+    const response = await fetch('/player/like?ids=' + trackId, {
+      method: 'PUT'
+    });
+    const data = await response.json();
+    return data;
+  }
+);
+
+export const unlike = createAsyncThunk(
+  'player/unlike',
+  async (trackId) => {
+    const response = await fetch('/player/unlike?ids=' + trackId, {
+      method: 'DELETE'
+    });
+    const data = await response.json();
     return data;
   }
 );
@@ -77,6 +110,15 @@ export const playerSlice = createSlice({
       })
       .addCase(pause.fulfilled, (state, action) => {
         state.isPlaying = false;
+      })
+      .addCase(liked.fulfilled, (state, action) => {
+        state.isLiked = action.payload;
+      })
+      .addCase(like.fulfilled, (state, action) => {
+        state.isLiked = true;
+      })
+      .addCase(unlike.fulfilled, (state, action) => {
+        state.isLiked = false;
       });
   },
 });
@@ -85,6 +127,7 @@ export const playerSlice = createSlice({
 
 export const selectCurrentTrack = (state) => state.player.currentTrack;
 export const selectIsPlaying = (state) => state.player.isPlaying;
+export const selectIsLiked = (state) => state.player.isLiked;
 export const selectStatus = (state) => state.player.status;
 export const selectError = (state) => state.player.error;
 
