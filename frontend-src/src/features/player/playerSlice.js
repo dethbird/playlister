@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getCurrentlyPlaying } from './playerAPI';
 
 const initialState = {
   currentTrack: null,
@@ -10,8 +9,47 @@ const initialState = {
 export const getCurrentTrack = createAsyncThunk(
   'player/getCurrentTrack',
   async () => {
-    const response = await getCurrentlyPlaying();
-    return response.data;
+    const response = await fetch('/player/currently-playing');
+    const data = await response.json();
+    return data;
+  }
+);
+
+export const play = createAsyncThunk(
+  'player/play',
+  async () => {
+    const response = await fetch('/player/play', { method: 'PUT' });
+    const data = await response.json();
+    return data;
+  }
+);
+
+export const pause = createAsyncThunk(
+  'player/pause',
+  async () => {
+    const response = await fetch('/player/pause', { method: 'PUT' });
+    const data = await response.json();
+    return data;
+  }
+);
+
+export const previous = createAsyncThunk(
+  'player/previous',
+  async (_, { dispatch }) => {
+    const response = await fetch('/player/previous', { method: 'POST' });
+    const data = await response.json();
+    setTimeout(() => {dispatch(getCurrentTrack())}, 250);
+    return data;
+  }
+);
+
+export const next = createAsyncThunk(
+  'player/next',
+  async (_, { dispatch }) => {
+    const response = await fetch('/player/next', { method: 'POST' });
+    const data = await response.json();
+    setTimeout(() => {dispatch(getCurrentTrack())}, 250);
+    return data;
   }
 );
 

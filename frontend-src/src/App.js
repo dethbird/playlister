@@ -5,7 +5,6 @@ import Nav from './components/Nav';
 import './App.css';
 
 function App() {
-
   if (!window.spotifyUser.display_name) {
     return <LoginScreen />;
   }
