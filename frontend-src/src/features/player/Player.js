@@ -24,10 +24,22 @@ export function Player() {
 
   useEffect(() => {
     dispatch(getCurrentTrack());
+
+    const refreshTrack = () => {
+      dispatch(getCurrentTrack());
+    }
+
+    // refresh on focus
+    window.addEventListener('focus', refreshTrack);
+
+    return () => {
+      window.removeEventListener('focus', refreshTrack);
+    };
+
   }, [dispatch]);
 
   // prevent setting multiple timers on rerender
-  clearTimeout(refreshTimer);
+  refreshTimer = clearTimeout(refreshTimer);
 
   if (status === 'rejected') {
     return <div>Error...</div>;
@@ -42,8 +54,8 @@ export function Player() {
   }
 
   // only set new timer in fulfilled state.
-  if (isPlaying && currentTrack) {
-    const refreshIn = Number(currentTrack.item.duration_ms) - Number(currentTrack.progress_ms + 100);
+  if (isPlaying && currentTrack && !refreshTimer) {
+    const refreshIn = currentTrack.item.duration_ms - currentTrack.progress_ms + 100;
     refreshTimer = setTimeout(() => { dispatch(getCurrentTrack()) }, refreshIn);
   }
 
