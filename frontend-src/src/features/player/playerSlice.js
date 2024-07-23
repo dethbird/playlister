@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   currentTrack: null,
+  isPlaying: false,
   status: 'idle',
   error: null
 };
@@ -65,17 +66,25 @@ export const playerSlice = createSlice({
       .addCase(getCurrentTrack.fulfilled, (state, action) => {
         state.status = 'fulfilled';
         state.currentTrack = action.payload;
+        state.isPlaying = action.payload.is_playing;
       })
       .addCase(getCurrentTrack.rejected, (state, action) => {
         state.status = 'rejected';
         state.error = action.error.message;
-      });;
+      })
+      .addCase(play.fulfilled, (state, action) => {
+        state.isPlaying = true;
+      })
+      .addCase(pause.fulfilled, (state, action) => {
+        state.isPlaying = false;
+      });
   },
 });
 
 
 
 export const selectCurrentTrack = (state) => state.player.currentTrack;
+export const selectIsPlaying = (state) => state.player.isPlaying;
 export const selectStatus = (state) => state.player.status;
 export const selectError = (state) => state.player.error;
 
