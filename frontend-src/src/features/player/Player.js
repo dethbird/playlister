@@ -24,6 +24,14 @@ export function Player() {
     dispatch(getCurrentTrack());
   }, [dispatch]);
 
+  let refreshTimer;
+  if (isPlaying) {
+    const refreshIn = Number(currentTrack.item.duration_ms) - Number(currentTrack.progress_ms);
+    refreshTimer = setTimeout(() => { dispatch(getCurrentTrack())}, refreshIn);
+  } else {
+    clearTimeout(refreshTimer);
+  }
+
   if (status === 'rejected') {
     return <div>Error...</div>;
   }
