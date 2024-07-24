@@ -133,6 +133,10 @@ app.get(
 const playerRoutes = require('./routes/playerRoutes');
 app.use('/player', playerRoutes);
 
+// Playlists Routes
+const playlistsRoutes = require('./routes/playlistsRoutes');
+app.use('/playlists', playlistsRoutes);
+
 
 
 app.listen(PORT, () => {
