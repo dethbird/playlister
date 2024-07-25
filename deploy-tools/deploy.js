@@ -31,7 +31,6 @@ fs.readFile(`${buildDir}/asset-manifest.json`, 'utf8', (err, data) => {
 
         copyAsset(buildDir + jsonData['files']['main.css'], '../public/css/main.css');
         copyAsset(buildDir + jsonData['files']['main.js'], '../public/js/main.js');
-        copyAsset(buildDir + jsonData['files']['static/media/logo.svg'], '../public/media/logo.svg');
         copyAsset(buildDir + '/favicon.ico', '../public/favicon.ico');
 
         rootAssets.forEach(asset => {
