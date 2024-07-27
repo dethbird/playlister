@@ -4,7 +4,8 @@ import {
     getSpotifyPlaylists,
     selectCurrentPage,
     selectdDialogIsOpen,
-    selectStatus
+    selectStatus,
+    toggleDialog
 } from './spotifyPlaylistsSlice';
 import './SpotifyPlaylists.module.scss';
 
@@ -43,14 +44,20 @@ export function SpotifyPlaylistsList({ spotifyUser }) {
         });
 
         return userPlaylists.map(item => {
-            return <SpotifyPlaylistItem playlist={ item } />;
+            return <SpotifyPlaylistItem playlist={item} />;
         })
     }
 
     return (
-        <div style={{ display: dialogIsOpen ? 'block' : 'none' }} className='SpotifyPlaylistsList'>
-            <SpotifyPlaylistsListNav />
-            <div>{renderItems()}</div>
-        </div>
+        <dialog open={dialogIsOpen} className='SpotifyPlaylistsList'>
+            <article>
+                <header>
+                    <button aria-label="Close" rel="prev" onClick={() => { dispatch(toggleDialog()) }}></button>
+                    <p></p>
+                </header>
+                <SpotifyPlaylistsListNav />
+                <div>{renderItems()}</div>
+            </article>
+        </dialog>
     );
 }
