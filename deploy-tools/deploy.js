@@ -20,6 +20,21 @@ const copyAsset = (src, dest) => {
     });
 }
 
+const clearDir = dir => {
+    const files = fs.readdirSync(dir);
+    files.forEach(file => {
+        const filePath = dir + file;
+        const stat = fs.lstatSync(filePath);
+        if(!stat.isDirectory()){
+            console.log('deleting: ' + filePath);
+            fs.unlinkSync(filePath);
+        }
+    })
+}
+
+clearDir('../public/js/');
+clearDir('../public/css/');
+
 fs.readFile(`${buildDir}/asset-manifest.json`, 'utf8', (err, data) => {
     if (err) {
         console.error('Error reading file:', err);
@@ -27,11 +42,20 @@ fs.readFile(`${buildDir}/asset-manifest.json`, 'utf8', (err, data) => {
     }
     try {
         const jsonData = JSON.parse(data);
-        console.log(jsonData);
+        // console.log(jsonData);
 
         copyAsset(buildDir + jsonData['files']['main.css'], '../public/css/main.css');
         copyAsset(buildDir + jsonData['files']['main.js'], '../public/js/main.js');
-        copyAsset(buildDir + '/favicon.ico', '../public/favicon.ico');
+
+        const fileKeys = Object.keys(jsonData.files);
+        fileKeys.forEach(key => {
+            if (jsonData.files[key] !== '/index.html') {
+                copyAsset(
+                    buildDir + jsonData.files[key],
+                    jsonData.files[key].replace('/static', '../public'));
+            }
+        });
+
 
         rootAssets.forEach(asset => {
             copyAsset(buildDir + asset, `../public${asset}`);
