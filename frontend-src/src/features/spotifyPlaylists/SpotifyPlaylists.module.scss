@@ -1,4 +1,18 @@
 .SpotifyPlaylistItem {
   text-align: left;
-  margin-bottom: 15px;
+}
+
+.SpotifyPlaylistItem > img {
+  max-height: 100px;
+  width: auto;
+  float:left;
+}
+
+.PlaylistDetails {
+  display: inline-block;
+  clear:left;
+}
+
+.SpotifyPlaylistItem.ManageButton {
+  vertical-align: bottom;
 }

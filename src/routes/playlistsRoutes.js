@@ -18,5 +18,18 @@ router.get('/spotify', (req, res) => {
 
 });
 
+router.get('/spotify/:id', (req, res) => {
+    const { id } = req.params;
+    const { fields } = req.query;
+    spotifyApi.getPlaylist(id, { fields })
+        .then(data => {
+            res.json(data.body);
+        })
+        .catch(err => {
+            console.error('Error getting spotify playlist images:', err);
+        });
+
+});
+
 
 module.exports = router;

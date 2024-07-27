@@ -9,6 +9,7 @@ import {
 import './SpotifyPlaylists.module.scss';
 
 import { SpotifyPlaylistsListNav } from './SpotifyPlaylistsListNav';
+import { SpotifyPlaylistItem } from './SpotifyPlaylistItem';
 
 
 export function SpotifyPlaylistsList({ spotifyUser }) {
@@ -34,7 +35,7 @@ export function SpotifyPlaylistsList({ spotifyUser }) {
         }
 
         if (['pending', 'idle'].includes(status)) {
-            return <div>Loading...</div>;
+            return <div aria-busy="true"></div>;
         }
 
         const userPlaylists = currentPage.items.filter(item => {
@@ -42,12 +43,7 @@ export function SpotifyPlaylistsList({ spotifyUser }) {
         });
 
         return userPlaylists.map(item => {
-            return (
-                <article className='SpotifyPlaylistItem'>
-                    <div>{item.id}</div>
-                    <div>{item.name}</div>
-                    <div>{item.tracks.total} tracks</div>
-                </article>);
+            return <SpotifyPlaylistItem playlist={ item } />;
         })
     }
 

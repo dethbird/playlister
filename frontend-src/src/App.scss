@@ -4,6 +4,7 @@
 @use "flexboxgrid";
 
 @use "./components/Nav.scss";
+@use "./features/player/Player.module.scss";
 @use "./features/spotifyPlaylists/SpotifyPlaylists.module.scss";
 
 :root {

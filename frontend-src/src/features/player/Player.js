@@ -46,7 +46,7 @@ export function Player() {
   }
 
   if (['pending', 'idle'].includes(status)) {
-    return <div>Loading...</div>;
+    return <div aria-busy="true"></div>;
   }
 
   if (Object.keys(currentTrack).length === 0) {
@@ -60,18 +60,25 @@ export function Player() {
   }
 
   return (
-    <div>
-      <img src={currentTrack.item.album.images[1].url} />
-      <h3>{currentTrack.item.name}</h3>
-      <h4>{currentTrack.item.artists[0].name}</h4>
-      <h5>{currentTrack.item.album.release_date}</h5>
-      <div role="group">
-        <LikeButton trackId={currentTrack.item.id} />
-        <button onClick={() => dispatch(play())} disabled={isPlaying}>Play</button>
-        <button onClick={() => dispatch(pause())} disabled={!isPlaying}>Pause</button>
-        <button onClick={() => dispatch(previous())}>Prev</button>
-        <button onClick={() => dispatch(next())}>Next</button>
-      </div>
+    <div className="Player row">
+      <article className='CurrentlyPlaying col-xs-6'>
+        <img src={currentTrack.item.album.images[1].url} className="AlbumArt" />
+        <div className="AlbumInfo">
+          <h3>{currentTrack.item.name}</h3>
+          <h4>{currentTrack.item.album.name}</h4>
+          <h5>{currentTrack.item.artists[0].name}</h5>
+          <h6>{currentTrack.item.album.release_date}</h6>
+        </div>
+        <footer>
+          <div className="PlayerControls" role="group">
+            <LikeButton trackId={currentTrack.item.id} />
+            <button onClick={() => dispatch(play())} disabled={isPlaying}>Play</button>
+            <button onClick={() => dispatch(pause())} disabled={!isPlaying}>Pause</button>
+            <button onClick={() => dispatch(previous())}>Prev</button>
+            <button onClick={() => dispatch(next())}>Next</button>
+          </div>
+        </footer>
+      </article>
     </div>
   );
 }
