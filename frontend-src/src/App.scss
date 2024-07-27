@@ -1,6 +1,9 @@
 @use "@picocss/pico/scss/pico" with (
   $theme-color: "purple"
 );
+@use "flexboxgrid";
+
+@use "./components/Nav.scss";
 @use "./features/spotifyPlaylists/SpotifyPlaylists.module.scss";
 
 :root {

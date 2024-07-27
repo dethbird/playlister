@@ -2,12 +2,17 @@ import React from 'react';
 
 function Nav({ spotifyUser }) {
     return (
-        <div className="Nav">
-            <div>
-                <img src={ spotifyUser.images[0].url} />
-                {spotifyUser.display_name}
+        <div className="Nav row">
+            <div className="col-xs-offset-9 col-xs-3">
+                <div className="UserDetails">
+                    <img src={spotifyUser.images[0].url} className="UserImage" />
+                    {spotifyUser.display_name}
+                    <br />
+                    <a href="/logout">Logout</a>
+                </div>
+
             </div>
-            <div><a href="/logout">Logout</a></div>
+
         </div>
     );
 }
