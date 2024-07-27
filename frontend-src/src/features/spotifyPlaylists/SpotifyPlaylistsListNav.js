@@ -33,7 +33,7 @@ export function SpotifyPlaylistsListNav() {
     };
 
     return (
-        <>
+        <div role="group">
             <button
                 disabled={currentPage.previous === null}
                 onClick={() => {
@@ -51,6 +51,6 @@ export function SpotifyPlaylistsListNav() {
                         offset: currentPage.offset + currentPage.limit
                     }))
                 }}>next!</button>
-        </>
+        </div>
     );
 }

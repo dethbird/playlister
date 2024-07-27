@@ -61,16 +61,17 @@ export function Player() {
 
   return (
     <div>
-      <pre>{currentTrack.item.uri}</pre>
       <img src={currentTrack.item.album.images[1].url} />
       <h3>{currentTrack.item.name}</h3>
       <h4>{currentTrack.item.artists[0].name}</h4>
       <h5>{currentTrack.item.album.release_date}</h5>
-      <LikeButton trackId={currentTrack.item.id} />
-      <button onClick={() => dispatch(play())} disabled={isPlaying}>Play</button>
-      <button onClick={() => dispatch(pause())} disabled={!isPlaying}>Pause</button>
-      <button onClick={() => dispatch(previous())}>Prev</button>
-      <button onClick={() => dispatch(next())}>Next</button>
+      <div role="group">
+        <LikeButton trackId={currentTrack.item.id} />
+        <button onClick={() => dispatch(play())} disabled={isPlaying}>Play</button>
+        <button onClick={() => dispatch(pause())} disabled={!isPlaying}>Pause</button>
+        <button onClick={() => dispatch(previous())}>Prev</button>
+        <button onClick={() => dispatch(next())}>Next</button>
+      </div>
     </div>
   );
 }

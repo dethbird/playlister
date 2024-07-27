@@ -6,11 +6,12 @@ import {
     selectdDialogIsOpen,
     selectStatus
 } from './spotifyPlaylistsSlice';
+import './SpotifyPlaylists.module.scss';
 
 import { SpotifyPlaylistsListNav } from './SpotifyPlaylistsListNav';
 
 
-export function SpotifyPlaylistsList() {
+export function SpotifyPlaylistsList({ spotifyUser }) {
 
     const currentPage = useSelector(selectCurrentPage);
     const dialogIsOpen = useSelector(selectdDialogIsOpen);
@@ -26,30 +27,34 @@ export function SpotifyPlaylistsList() {
         return null;
     }
 
-    if (status === 'rejected') {
-        return <div>Error...</div>;
-    }
-
-    if (['pending', 'idle'].includes(status)) {
-        return <div>Loading...</div>;
-    }
-
     const renderItems = () => {
-        return currentPage.items.map(item => {
-            return (<li>
-                <div>
+
+        if (status === 'rejected') {
+            return <div>Error...</div>;
+        }
+
+        if (['pending', 'idle'].includes(status)) {
+            return <div>Loading...</div>;
+        }
+
+        const userPlaylists = currentPage.items.filter(item => {
+            return item.owner.id == spotifyUser.id;
+        });
+
+        return userPlaylists.map(item => {
+            return (
+                <article className='SpotifyPlaylistItem'>
                     <div>{item.id}</div>
                     <div>{item.name}</div>
                     <div>{item.tracks.total} tracks</div>
-                </div>
-            </li>);
+                </article>);
         })
     }
 
     return (
-        <div style={{ display: dialogIsOpen ? 'block' : 'none' }}>
+        <div style={{ display: dialogIsOpen ? 'block' : 'none' }} className='SpotifyPlaylistsList'>
             <SpotifyPlaylistsListNav />
-            <ul>{ renderItems() }</ul>
+            <div>{renderItems()}</div>
         </div>
     );
 }

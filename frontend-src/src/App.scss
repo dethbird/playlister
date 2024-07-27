@@ -1,0 +1,16 @@
+@use "@picocss/pico/scss/pico" with (
+  $theme-color: "purple"
+);
+@use "./features/spotifyPlaylists/SpotifyPlaylists.module.scss";
+
+:root {
+  --pico-border-radius: 1rem;
+  --pico-font-size: 75%;
+  --primary: fuchsia;
+}
+
+.App {
+  text-align: center;
+}
+
+

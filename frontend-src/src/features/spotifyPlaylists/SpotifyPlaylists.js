@@ -17,9 +17,9 @@ export function SpotifyPlaylists( { spotifyUser }) {
   const dispatch = useDispatch();
 
   return (
-    <div>
+    <div className='container'>
       <div><button onClick={() => dispatch(toggleDialog())} >Add a playlist to manage</button></div>
-      <SpotifyPlaylistsList  />
+      <SpotifyPlaylistsList  spotifyUser={ spotifyUser }/>
     </div>
   );
 }

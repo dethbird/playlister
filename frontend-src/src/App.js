@@ -3,7 +3,7 @@ import { Player } from './features/player/Player';
 import LoginScreen from './components/LoginScreen';
 import Nav from './components/Nav';
 import { SpotifyPlaylists } from './features/spotifyPlaylists/SpotifyPlaylists';
-import './App.css';
+import './App.scss';
 
 function App() {
   if (!window.spotifyUser.display_name) {
@@ -11,7 +11,7 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className="App container">
       <Nav spotifyUser={window.spotifyUser} />
       <Player />
       <SpotifyPlaylists spotifyUser={window.spotifyUser} />
