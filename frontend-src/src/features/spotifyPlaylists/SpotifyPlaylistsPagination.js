@@ -6,7 +6,7 @@ import {
 } from './spotifyPlaylistsSlice';
 
 
-export function SpotifyPlaylistsListNav() {
+export function SpotifyPlaylistsPagination() {
 
     const currentPage = useSelector(selectCurrentPage);
 

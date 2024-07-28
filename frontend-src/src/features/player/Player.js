@@ -60,8 +60,8 @@ export function Player() {
   }
 
   return (
-    <div className="Player row">
-      <article className='CurrentlyPlaying col-xs-6'>
+    <div className="Player">
+      <article className='CurrentlyPlaying'>
         <img src={currentTrack.item.album.images[1].url} className="AlbumArt" />
         <div className="AlbumInfo">
           <h3>{currentTrack.item.name}</h3>
