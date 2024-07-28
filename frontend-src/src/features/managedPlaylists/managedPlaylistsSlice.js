@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { selectCurrentTrack } from '../player/playerSlice';
 
 const initialState = {
@@ -108,6 +109,7 @@ export const addTrackToActive = createAsyncThunk(
     );
     const data = await response.json();
     const playlists = selectPlaylists(getState());
+    toast.success('Track added');
     setTimeout(() => {
       playlists.forEach(playlist => {
         if (playlist.active === 'Y') {
@@ -134,6 +136,7 @@ export const removeTrackFromActive = createAsyncThunk(
     );
     const data = await response.json();
     const playlists = selectPlaylists(getState());
+    toast.error('Track removed');
     setTimeout(() => {
       playlists.forEach(playlist => {
         if (playlist.active === 'Y') {
@@ -160,6 +163,7 @@ export const addTrackToPlaylist = createAsyncThunk(
       }
     );
     const data = await response.json();
+    toast.success('Track added');
     setTimeout(() => {
       dispatch(getPlaylistMeta(spotifyPlaylistId));
     }, 250);
@@ -182,6 +186,7 @@ export const removeTrackFromPlaylist = createAsyncThunk(
       }
     );
     const data = await response.json();
+    toast.error('Track removed');
     setTimeout(() => {
       dispatch(getPlaylistMeta(spotifyPlaylistId));
     }, 250);
