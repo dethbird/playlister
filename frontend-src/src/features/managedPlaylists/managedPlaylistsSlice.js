@@ -1,4 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
+import { selectCurrentTrack } from '../player/playerSlice';
 
 const initialState = {
   playlists: [],
@@ -106,7 +108,7 @@ export const addTrackToActive = createAsyncThunk(
     );
     const data = await response.json();
     const playlists = selectPlaylists(getState());
-    setTimeout(()=>{
+    setTimeout(() => {
       playlists.forEach(playlist => {
         if (playlist.active === 'Y') {
           dispatch(getPlaylistMeta(playlist.spotify_playlist_id));
@@ -132,7 +134,7 @@ export const removeTrackFromActive = createAsyncThunk(
     );
     const data = await response.json();
     const playlists = selectPlaylists(getState());
-    setTimeout(()=>{
+    setTimeout(() => {
       playlists.forEach(playlist => {
         if (playlist.active === 'Y') {
           dispatch(getPlaylistMeta(playlist.spotify_playlist_id));
@@ -143,6 +145,49 @@ export const removeTrackFromActive = createAsyncThunk(
   }
 );
 
+export const addTrackToPlaylist = createAsyncThunk(
+  'playlists/addTrackToPlaylist',
+  async (spotifyPlaylistId, { dispatch, getState }) => {
+    const currentTrack = selectCurrentTrack(getState());
+    const response = await fetch(
+      `/playlists/spotify/${spotifyPlaylistId}/add-track`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ uri: currentTrack.item.uri })
+      }
+    );
+    const data = await response.json();
+    setTimeout(() => {
+      dispatch(getPlaylistMeta(spotifyPlaylistId));
+    }, 250);
+    return data;
+  }
+);
+
+export const removeTrackFromPlaylist = createAsyncThunk(
+  'playlists/removeTrackFromPlaylist',
+  async (spotifyPlaylistId, { dispatch, getState }) => {
+    const currentTrack = selectCurrentTrack(getState());
+    const response = await fetch(
+      `/playlists/spotify/${spotifyPlaylistId}/remove-track`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ uri: currentTrack.item.uri })
+      }
+    );
+    const data = await response.json();
+    setTimeout(() => {
+      dispatch(getPlaylistMeta(spotifyPlaylistId));
+    }, 250);
+    return data;
+  }
+);
 
 
 

@@ -37,6 +37,41 @@ router.get('/spotify/:id', (req, res) => {
 });
 
 /**
+ * Add a track to a playlist
+ */
+router.post('/spotify/:id/add-track', (req, res) => {
+    const { id } = req.params;
+    const { uri } = req.body;
+    spotifyApi.removeTracksFromPlaylist(
+        id,
+        [{ uri }]
+    ).then(() => {
+        spotifyApi.addTracksToPlaylist(
+            id,
+            [uri]
+        ).then((data) => {
+            res.json(data);
+        });
+    });
+
+});
+
+/**
+ * Remove a track to a playlist
+ */
+router.delete('/spotify/:id/remove-track', (req, res) => {
+    const { id } = req.params;
+    const { uri } = req.body;
+    spotifyApi.removeTracksFromPlaylist(
+        id,
+        [{ uri }]
+    ).then((data) => {
+        res.json(data);
+    });
+});
+
+
+/**
  * Add a Spotify playlist to user's managed playlists
  */
 router.post('/', (req, res) => {

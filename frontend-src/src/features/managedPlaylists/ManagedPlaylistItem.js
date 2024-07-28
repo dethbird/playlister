@@ -4,7 +4,9 @@ import {
     getPlaylistMeta,
     removeManagedPlaylist,
     selectPlaylistsMeta,
-    togglePlaylistActive
+    togglePlaylistActive,
+    addTrackToPlaylist,
+    removeTrackFromPlaylist
 } from './managedPlaylistsSlice';
 
 export function ManagedPlaylistItem({ playlist }) {
@@ -32,11 +34,11 @@ export function ManagedPlaylistItem({ playlist }) {
                 <div className='col-xs-2'>
                     <img src={meta.images[1] ? meta.images[1].url : meta.images[0].url} className='ManagedPlaylistItemImage'/>
                 </div>
-                <div className='PlaylistDetails col-xs-7'>
+                <div className='PlaylistDetails col-xs-5'>
                     <h3><a href={meta.uri} target="_blank">{meta.name}</a></h3>
                     <div>{meta.tracks.total} tracks</div>
                 </div>
-                <div className='col-xs-3'>
+                <div className='col-xs-5'>
                     <button className='outline' onClick={()=>{ dispatch(removeManagedPlaylist(playlist.id))}}>Remove</button>
                     <input
                         name="avtive"
@@ -45,6 +47,8 @@ export function ManagedPlaylistItem({ playlist }) {
                         checked={playlist.active === 'Y'}
                         onClick={()=>{dispatch(togglePlaylistActive(playlist.id))}}
                     />
+                    <button className='outline' onClick={()=>{ dispatch(addTrackToPlaylist(playlist.spotify_playlist_id))}}>Add track</button>
+                    <button className='outline' onClick={()=>{ dispatch(removeTrackFromPlaylist(playlist.spotify_playlist_id))}}>Remove track</button>
                 </div>
             </>
         )
