@@ -57,6 +57,41 @@ export const togglePlaylistActive = createAsyncThunk(
   }
 );
 
+export const setActiveAll = createAsyncThunk(
+  'playlists/setActiveAll',
+  async (active, { dispatch }) => {
+    const response = await fetch(
+      `/playlists/set-active-all`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ active })
+      }
+    );
+    dispatch(getManagedPlaylists());
+    const data = await response.json();
+    return data;
+  }
+);
+
+export const invertActiveAll = createAsyncThunk(
+  'playlists/invertActiveAll',
+  async (_, { dispatch }) => {
+    const response = await fetch(
+      `/playlists/invert-active-all`,
+      {
+        method: 'PUT'
+      }
+    );
+    dispatch(getManagedPlaylists());
+    const data = await response.json();
+    return data;
+  }
+);
+
+
 
 export const managedPlaylistsSlice = createSlice({
   name: 'managedPlaylists',

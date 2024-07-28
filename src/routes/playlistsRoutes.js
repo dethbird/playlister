@@ -106,11 +106,52 @@ router.put('/:id/toggle-active', (req, res) => {
                     user_id: req.user.user.id
                 },
             })
-            .then(() => {
-                res.json(playlist);
-            });
+                .then(() => {
+                    res.json(playlist);
+                });
         });
 
+});
+
+/**
+ * Set all user's managed playlists to active Y || N
+ */
+router.put('/set-active-all', (req, res) => {
+    const { active } = req.body;
+
+    Playlist.update({ active }, {
+        where: {
+            user_id: req.user.user.id
+        },
+    })
+        .then((data) => {
+            res.json(data);
+        });
+});
+
+/**
+ * Invert all user's managed playlists to active Y || N
+ */
+router.put('/invert-active-all', (req, res) => {
+    Playlist.findAll({
+        where: {
+            user_id: req.user.user.id
+        }
+    })
+    .then(playlists => {
+        playlists.forEach(playlist => {
+            const active = playlist.active === 'Y' ? 'N' : 'Y';
+            Playlist.update({active}, {
+                where: {
+                    id: playlist.id,
+                    user_id: req.user.user.id
+                }
+            }).then(data => {
+                // noop
+            })
+        });
+        res.json({});
+    });
 });
 
 module.exports = router;
