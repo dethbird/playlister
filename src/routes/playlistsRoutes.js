@@ -64,7 +64,10 @@ router.get('/', (req, res) => {
     Playlist.findAll({
         where: {
             user_id: req.user.user.id
-        }
+        },
+        order: [
+            ['id', 'ASC']
+        ]
     })
         .then(playlists => {
             res.json(playlists);
@@ -85,6 +88,27 @@ router.delete('/:id', (req, res) => {
     })
         .then(data => {
             res.status(204).json(data);
+        });
+
+});
+
+/**
+ * Remove a user's managed playlists
+ */
+router.put('/:id/toggle-active', (req, res) => {
+    const { id } = req.params;
+    Playlist.findByPk(id)
+        .then(playlist => {
+            playlist.active = playlist.active === 'Y' ? 'N' : 'Y';
+            Playlist.update({ active: playlist.active }, {
+                where: {
+                    id: id,
+                    user_id: req.user.user.id
+                },
+            })
+            .then(() => {
+                res.json(playlist);
+            });
         });
 
 });

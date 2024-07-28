@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     getPlaylistMeta,
     removeManagedPlaylist,
-    selectPlaylistsMeta
+    selectPlaylistsMeta,
+    togglePlaylistActive
 } from './managedPlaylistsSlice';
 
 export function ManagedPlaylistItem({ playlist }) {
@@ -37,6 +38,13 @@ export function ManagedPlaylistItem({ playlist }) {
                 </div>
                 <div className='col-xs-3'>
                     <button className='outline' onClick={()=>{ dispatch(removeManagedPlaylist(playlist.id))}}>Remove</button>
+                    <input
+                        name="avtive"
+                        type="checkbox"
+                        role="switch"
+                        checked={playlist.active === 'Y'}
+                        onClick={()=>{dispatch(togglePlaylistActive(playlist.id))}}
+                    />
                 </div>
             </>
         )

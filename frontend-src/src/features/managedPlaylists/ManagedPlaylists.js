@@ -26,7 +26,7 @@ export function ManagedPlaylists() {
       return <div>Error...</div>;
     }
 
-    if (['pending', 'idle'].includes(status)) {
+    if (['pending', 'idle'].includes(status) && !playlists) {
       return <div aria-busy="true"></div>;
     }
 

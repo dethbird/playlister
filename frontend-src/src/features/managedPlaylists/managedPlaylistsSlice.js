@@ -42,6 +42,21 @@ export const removeManagedPlaylist = createAsyncThunk(
   }
 );
 
+export const togglePlaylistActive = createAsyncThunk(
+  'playlists/toggleActive',
+  async (managedPlaylistId, { dispatch }) => {
+    const response = await fetch(
+      `/playlists/${managedPlaylistId}/toggle-active`,
+      {
+        method: 'PUT'
+      }
+    );
+    dispatch(getManagedPlaylists());
+    const data = await response.json();
+    return data;
+  }
+);
+
 
 export const managedPlaylistsSlice = createSlice({
   name: 'managedPlaylists',
