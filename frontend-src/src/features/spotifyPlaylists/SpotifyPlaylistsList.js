@@ -35,7 +35,7 @@ export function SpotifyPlaylistsList({ spotifyUser }) {
             return <div>Error...</div>;
         }
 
-        if (['pending', 'idle'].includes(status)) {
+        if (['pending', 'idle'].includes(status) && !currentPage) {
             return <div aria-busy="true"></div>;
         }
 

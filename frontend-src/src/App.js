@@ -2,6 +2,7 @@ import React from 'react';
 import { Player } from './features/player/Player';
 import LoginScreen from './components/LoginScreen';
 import Nav from './components/Nav';
+import { ManagedPlaylists } from './features/managedPlaylists/ManagedPlaylists';
 import { SpotifyPlaylists } from './features/spotifyPlaylists/SpotifyPlaylists';
 import './App.scss';
 
@@ -15,6 +16,7 @@ function App() {
       <Nav spotifyUser={window.spotifyUser} />
       <Player />
       <SpotifyPlaylists spotifyUser={window.spotifyUser} />
+      <ManagedPlaylists />
     </div>
   );
 }

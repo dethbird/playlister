@@ -45,7 +45,7 @@ export function Player() {
     return <div>Error...</div>;
   }
 
-  if (['pending', 'idle'].includes(status)) {
+  if (['pending', 'idle'].includes(status) && !currentTrack) {
     return <div aria-busy="true"></div>;
   }
 

@@ -8,7 +8,7 @@ const path = require('path');
 const session = require("express-session");
 const SpotifyStrategy = require('passport-spotify').Strategy;
 
-const { User, Playlist, Favorite } = require('./models/models');
+const { User } = require('./models/models');
 const spotifyApi = require('./modules/spotifyApi');
 
 

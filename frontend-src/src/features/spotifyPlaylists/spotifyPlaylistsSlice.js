@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getManagedPlaylists } from '../managedPlaylists/managedPlaylistsSlice';
 
 const initialState = {
   currentPage: null,
@@ -11,9 +12,26 @@ const initialState = {
 
 export const getSpotifyPlaylists = createAsyncThunk(
   'playlists/spotify',
-  async ({limit, offset}) => {
+  async ({ limit, offset }) => {
     const response = await fetch(`/playlists/spotify?limit=${limit}&offset=${offset}`);
     const data = await response.json();
+    return data;
+  }
+);
+
+export const addSpotifyPlaylistToManaged = createAsyncThunk(
+  'playlists/addToManaged',
+  async (spotifyPlaylistId, { dispatch }) => {
+    const response = await fetch(`/playlists`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id: spotifyPlaylistId })
+    });
+    const data = await response.json();
+    dispatch(spotifyPlaylistsSlice.actions.toggleDialog());
+    dispatch(getManagedPlaylists());
     return data;
   }
 );
