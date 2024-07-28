@@ -27,6 +27,21 @@ export const getPlaylistMeta = createAsyncThunk(
   }
 );
 
+export const removeManagedPlaylist = createAsyncThunk(
+  'playlists/removeManaged',
+  async (managedPlaylistId, { dispatch }) => {
+    const response = await fetch(
+      `/playlists/${managedPlaylistId}`,
+      {
+        method: 'DELETE'
+      }
+    );
+    dispatch(getManagedPlaylists());
+    const data = await response.json();
+    return data;
+  }
+);
+
 
 export const managedPlaylistsSlice = createSlice({
   name: 'managedPlaylists',

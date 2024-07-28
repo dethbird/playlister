@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     getPlaylistMeta,
+    removeManagedPlaylist,
     selectPlaylistsMeta
 } from './managedPlaylistsSlice';
 
@@ -35,7 +36,7 @@ export function ManagedPlaylistItem({ playlist }) {
                     <div>{meta.tracks.total} tracks</div>
                 </div>
                 <div className='col-xs-3'>
-                    <button className='outline'>Remove</button>
+                    <button className='outline' onClick={()=>{ dispatch(removeManagedPlaylist(playlist.id))}}>Remove</button>
                 </div>
             </>
         )

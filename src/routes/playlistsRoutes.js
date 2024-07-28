@@ -52,7 +52,7 @@ router.post('/', (req, res) => {
         }
     })
         .then(playlist => {
-            res.json(playlist);
+            res.status(201).json(playlist);
         });
 
 });
@@ -68,6 +68,23 @@ router.get('/', (req, res) => {
     })
         .then(playlists => {
             res.json(playlists);
+        });
+
+});
+
+/**
+ * Remove a user's managed playlists
+ */
+router.delete('/:id', (req, res) => {
+    const { id } = req.params;
+    Playlist.destroy({
+        where: {
+            id: id,
+            user_id: req.user.user.id
+        }
+    })
+        .then(data => {
+            res.status(204).json(data);
         });
 
 });
