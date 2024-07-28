@@ -138,20 +138,77 @@ router.put('/invert-active-all', (req, res) => {
             user_id: req.user.user.id
         }
     })
-    .then(playlists => {
-        playlists.forEach(playlist => {
-            const active = playlist.active === 'Y' ? 'N' : 'Y';
-            Playlist.update({active}, {
-                where: {
-                    id: playlist.id,
-                    user_id: req.user.user.id
-                }
-            }).then(data => {
-                // noop
-            })
+        .then(playlists => {
+            playlists.forEach(playlist => {
+                const active = playlist.active === 'Y' ? 'N' : 'Y';
+                Playlist.update({ active }, {
+                    where: {
+                        id: playlist.id,
+                        user_id: req.user.user.id
+                    }
+                }).then(data => {
+                    // noop
+                })
+            });
+            res.json({});
         });
-        res.json({});
-    });
+});
+
+/**
+ * Add a track to active managed playlistsa
+ */
+router.put('/add-track-to-active', (req, res) => {
+    const { uri } = req.body;
+    const updated = [];
+    Playlist.findAll({
+        where: {
+            active: 'Y',
+            user_id: req.user.user.id
+        }
+    })
+        .then(playlists => {
+            playlists.forEach(playlist => {
+                spotifyApi.removeTracksFromPlaylist(
+                    playlist.spotify_playlist_id,
+                    [{ uri }]
+                ).then(() => {
+                    spotifyApi.addTracksToPlaylist(
+                        playlist.spotify_playlist_id,
+                        [uri]
+                    ).then(() => {
+                        updated.push(playlist.spotify_playlist_id);
+                    });
+                });
+            });
+        }).finally(() => {
+            res.json(updated);
+        });
+});
+
+/**
+ * Remove a track from active managed playlistsa
+ */
+router.put('/remove-track-from-active', (req, res) => {
+    const { uri } = req.body;
+    const updated = [];
+    Playlist.findAll({
+        where: {
+            active: 'Y',
+            user_id: req.user.user.id
+        }
+    })
+        .then(playlists => {
+            playlists.forEach(playlist => {
+                spotifyApi.removeTracksFromPlaylist(
+                    playlist.spotify_playlist_id,
+                    [{ uri }]
+                ).then(() => {
+                    updated.push(playlist.spotify_playlist_id);
+                });
+            });
+        }).finally(() => {
+            res.json(updated);
+        });
 });
 
 module.exports = router;

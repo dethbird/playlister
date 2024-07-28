@@ -20,7 +20,7 @@ export const getPlaylistMeta = createAsyncThunk(
   'playlists/getMeta',
   async (spotifyPlaylistId) => {
     const response = await fetch(
-      `/playlists/spotify/${spotifyPlaylistId}?fields=id,images,tracks(total),name,description`
+      `/playlists/spotify/${spotifyPlaylistId}?fields=id,images,tracks(total),name,description,uri`
     );
     const data = await response.json();
     return data;
@@ -90,6 +90,59 @@ export const invertActiveAll = createAsyncThunk(
     return data;
   }
 );
+
+export const addTrackToActive = createAsyncThunk(
+  'playlists/addTrackToActive',
+  async (uri, { dispatch, getState }) => {
+    const response = await fetch(
+      `/playlists/add-track-to-active`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ uri })
+      }
+    );
+    const data = await response.json();
+    const playlists = selectPlaylists(getState());
+    setTimeout(()=>{
+      playlists.forEach(playlist => {
+        if (playlist.active === 'Y') {
+          dispatch(getPlaylistMeta(playlist.spotify_playlist_id));
+        }
+      });
+    }, 250);
+    return data;
+  }
+);
+
+export const removeTrackFromActive = createAsyncThunk(
+  'playlists/removeTrackFromActive',
+  async (uri, { dispatch, getState }) => {
+    const response = await fetch(
+      `/playlists/remove-track-from-active`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ uri })
+      }
+    );
+    const data = await response.json();
+    const playlists = selectPlaylists(getState());
+    setTimeout(()=>{
+      playlists.forEach(playlist => {
+        if (playlist.active === 'Y') {
+          dispatch(getPlaylistMeta(playlist.spotify_playlist_id));
+        }
+      });
+    }, 250);
+    return data;
+  }
+);
+
 
 
 

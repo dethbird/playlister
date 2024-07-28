@@ -1,14 +1,21 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    selectCurrentTrack
+} from '../player/playerSlice';
 import {
     toggleDialog,
 } from '../spotifyPlaylists/spotifyPlaylistsSlice';
 import {
     invertActiveAll,
-    setActiveAll
+    setActiveAll,
+    addTrackToActive,
+    removeTrackFromActive
 } from '../managedPlaylists/managedPlaylistsSlice';
 
 export function ManagedPlaylistsNav() {
+
+    const currentTrack = useSelector(selectCurrentTrack);
 
     const dispatch = useDispatch();
 
@@ -18,8 +25,8 @@ export function ManagedPlaylistsNav() {
             <div><button onClick={() => dispatch(setActiveAll('Y'))} >Activate all</button></div>
             <div><button onClick={() => dispatch(setActiveAll('N'))} >Dectivate all</button></div>
             <div><button onClick={() => dispatch(invertActiveAll())} >Invert Active</button></div>
-            <div><button>Add track to active</button></div>
-            <div><button>Remove track from active</button></div>
+            <div><button onClick={currentTrack ? () => dispatch(addTrackToActive(currentTrack.item.uri)) : null} disabled={!currentTrack}>Add track to active</button></div>
+            <div><button onClick={currentTrack ? () => dispatch(removeTrackFromActive(currentTrack.item.uri)) : null} disabled={!currentTrack}>Remove track from active</button></div>
         </div>
     );
 }

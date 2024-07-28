@@ -33,7 +33,7 @@ export function ManagedPlaylistItem({ playlist }) {
                     <img src={meta.images[1] ? meta.images[1].url : meta.images[0].url} className='ManagedPlaylistItemImage'/>
                 </div>
                 <div className='PlaylistDetails col-xs-7'>
-                    <h3>{meta.name}</h3>
+                    <h3><a href={meta.uri} target="_blank">{meta.name}</a></h3>
                     <div>{meta.tracks.total} tracks</div>
                 </div>
                 <div className='col-xs-3'>
