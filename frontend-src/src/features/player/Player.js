@@ -1,7 +1,12 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ActionIcon } from '@mantine/core';
-import { IconPlayerTrackPrev } from '@tabler/icons-react';
+import { ActionIcon, Card, Image, Text } from '@mantine/core';
+import {
+  IconPlayerTrackPrev,
+  IconPlayerTrackNext,
+  IconPlayerPause,
+  IconPlayerPlay,
+} from '@tabler/icons-react';
 import {
   getCurrentTrack,
   play,
@@ -63,27 +68,45 @@ export function Player() {
 
   return (
     <div className="Player">
-      <article className='CurrentlyPlaying'>
-        <img src={currentTrack.item.album.images[1].url} className="AlbumArt" />
-        <div className="AlbumInfo">
-          <h3>{currentTrack.item.name}</h3>
-          <h4>{currentTrack.item.album.name}</h4>
-          <h5>{currentTrack.item.artists[0].name}</h5>
-          <h6>{currentTrack.item.album.release_date}</h6>
-        </div>
+      <Card
+        className='CurrentlyPlaying'
+        shadow="sm"
+        padding="md"
+      >
+        <Card.Section>
+          <Image
+            radius="md"
+            src={currentTrack.item.album.images[1].url}
+            className="AlbumArt"
+            w={150}
+            h="auto"
+            fit="contain"
+          />
+          <div className="AlbumInfo">
+            <Text fw={700}>{currentTrack.item.name}</Text>
+            <Text fw={500}>{currentTrack.item.album.name}</Text>
+            <Text fw={300}>{currentTrack.item.artists[0].name}</Text>
+            <Text fw={100}>{currentTrack.item.album.release_date}</Text>
+          </div>
+        </Card.Section>
         <footer>
           <div className="PlayerControls" role="group">
             <LikeButton trackId={currentTrack.item.id} />
-            <button onClick={() => dispatch(play())} disabled={isPlaying}>Play</button>
-            <button onClick={() => dispatch(pause())} disabled={!isPlaying}>Pause</button>
-            <ActionIcon aria-label="Previous Track" onClick={() => dispatch(previous())}>
-              <IconPlayerTrackPrev style={{ width: '70%', height: '70%' }} stroke={1.5} />
+            <ActionIcon aria-label="Pause" onClick={() => dispatch(play())} disabled={isPlaying}>
+              <IconPlayerPlay style={{ width: '70%', height: '70%' }} />
             </ActionIcon>
-            {/* <button onClick={() => dispatch(previous())}>Prev</button> */}
-            <button onClick={() => dispatch(next())}>Next</button>
+            <ActionIcon aria-label="Pause" onClick={() => dispatch(pause())} disabled={!isPlaying}>
+              <IconPlayerPause style={{ width: '70%', height: '70%' }} />
+            </ActionIcon>
+            <ActionIcon aria-label="Previous Track" onClick={() => dispatch(previous())}>
+              <IconPlayerTrackPrev style={{ width: '70%', height: '70%' }} />
+            </ActionIcon>
+            <ActionIcon aria-label="Next Track" onClick={() => dispatch(next())}>
+              <IconPlayerTrackNext style={{ width: '70%', height: '70%' }} />
+            </ActionIcon>
           </div>
         </footer>
-      </article>
+      </Card>
     </div>
   );
 }
