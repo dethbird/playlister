@@ -7,7 +7,6 @@ import {
     selectStatus,
     toggleDialog
 } from './spotifyPlaylistsSlice';
-import './SpotifyPlaylists.module.scss';
 
 import { SpotifyPlaylistsPagination } from './SpotifyPlaylistsPagination';
 import { SpotifyPlaylistItem } from './SpotifyPlaylistItem';

@@ -1,4 +1,23 @@
-.ManagedPlaylistItemImage {
-  max-width: 60px;
-  height: auto;
+.FavoritePlaylistItem {
+  text-align: left;
+}
+
+.FavoritePlaylistItem > img {
+  max-height: 100px;
+  width: auto;
+  float:left;
+}
+
+.PlaylistDetails {
+  display: inline-block;
+  clear:left;
+  text-align: left;
+}
+
+.FavoritePlaylistItem.ManageButton {
+  vertical-align: bottom;
+}
+
+.FavoritePlaylistsList > article > header {
+  text-align: right;
 }

@@ -6,7 +6,10 @@ import { selectCurrentTrack } from '../player/playerSlice';
 const initialState = {
   playlists: [],
   playlistsMeta: {},
+  favoriteDialogIsOpen: false,
+  favoritePlaylists: [],
   status: 'idle',
+  favoriteStatus: 'idle',
   error: null
 };
 
@@ -210,12 +213,42 @@ export const toggleFavoritePlaylist = createAsyncThunk(
   }
 );
 
+export const getFavoritePlaylists = createAsyncThunk(
+  'playlists/getFavoritePlaylists',
+  async () => {
+    const response = await fetch(`/playlists/favorite`);
+    const data = await response.json();
+    return data;
+  }
+);
+
+export const addFavoritePlaylistToManaged = createAsyncThunk(
+  'playlists/addFavoriteToManaged',
+  async (spotifyPlaylistId, { dispatch }) => {
+    const response = await fetch(`/playlists`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id: spotifyPlaylistId })
+    });
+    const data = await response.json();
+    dispatch(managedPlaylistsSlice.actions.toggleFavoriteDialog());
+    dispatch(getManagedPlaylists());
+    return data;
+  }
+);
+
 
 
 export const managedPlaylistsSlice = createSlice({
   name: 'managedPlaylists',
   initialState,
-  reducers: {},
+  reducers: {
+    toggleFavoriteDialog: (state, action) => {
+      state.favoriteDialogIsOpen = !state.favoriteDialogIsOpen;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getManagedPlaylists.pending, (state) => {
@@ -231,13 +264,28 @@ export const managedPlaylistsSlice = createSlice({
       })
       .addCase(getPlaylistMeta.fulfilled, (state, action) => {
         state.playlistsMeta[action.payload.id] = action.payload;
+      })
+      .addCase(getFavoritePlaylists.pending, (state) => {
+        state.favoriteStatus = 'pending';
+      })
+      .addCase(getFavoritePlaylists.fulfilled, (state, action) => {
+        state.favoriteStatus = 'fulfilled';
+        state.favoritePlaylists = action.payload;
+      })
+      .addCase(getFavoritePlaylists.rejected, (state, action) => {
+        state.favoriteStatus = 'rejected';
+        state.error = action.error.message;
       });
   },
 });
 
+export const { toggleFavoriteDialog } = managedPlaylistsSlice.actions;
 
 export const selectPlaylists = (state) => state.managedPlaylists.playlists;
 export const selectPlaylistsMeta = (state) => state.managedPlaylists.playlistsMeta;
+export const selectFavoriteDialogIsOpen = (state) => state.managedPlaylists.favoriteDialogIsOpen;
+export const selectFavoritePlaylists = (state) => state.managedPlaylists.favoritePlaylists;
+export const selectFavoriteStatus = (state) => state.managedPlaylists.favoriteStatus;
 export const selectStatus = (state) => state.managedPlaylists.status;
 export const selectError = (state) => state.managedPlaylists.error;
 

@@ -10,7 +10,8 @@ import {
     invertActiveAll,
     setActiveAll,
     addTrackToActive,
-    removeTrackFromActive
+    removeTrackFromActive,
+    toggleFavoriteDialog
 } from '../managedPlaylists/managedPlaylistsSlice';
 
 export function ManagedPlaylistsNav() {
@@ -22,6 +23,7 @@ export function ManagedPlaylistsNav() {
     return (
         <div className='ManagedPlaylistsNav'>
             <div><button onClick={() => dispatch(toggleDialog())} >Add a playlist to manage</button></div>
+            <div><button onClick={() => dispatch(toggleFavoriteDialog())} >Favorite playlists</button></div>
             <div><button onClick={() => dispatch(setActiveAll('Y'))} >Activate all</button></div>
             <div><button onClick={() => dispatch(setActiveAll('N'))} >Dectivate all</button></div>
             <div><button onClick={() => dispatch(invertActiveAll())} >Invert Active</button></div>

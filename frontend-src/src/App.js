@@ -3,6 +3,7 @@ import { ToastContainer } from 'react-toastify';
 import { Player } from './features/player/Player';
 import LoginScreen from './components/LoginScreen';
 import Nav from './components/Nav';
+import { FavoritePlaylists } from './features/favoritePlaylists/FavoritePlaylists';
 import { ManagedPlaylists } from './features/managedPlaylists/ManagedPlaylists';
 import { ManagedPlaylistsNav } from './features/managedPlaylists/ManagedPlaylistsNav';
 import { SpotifyPlaylists } from './features/spotifyPlaylists/SpotifyPlaylists';
@@ -27,6 +28,7 @@ function App() {
         </div>
       </div>
       <SpotifyPlaylists spotifyUser={window.spotifyUser} />
+      <FavoritePlaylists />
       <ManagedPlaylists />
     </div>
   );

@@ -1,43 +1,58 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  getManagedPlaylists,
-  selectPlaylists,
-  selectStatus
-} from './managedPlaylistsSlice';
+    getFavoritePlaylists,
+    selectFavoriteStatus,
+    selectFavoritePlaylists,
+    selectFavoriteDialogIsOpen,
+    toggleFavoriteDialog
+} from '../managedPlaylists/managedPlaylistsSlice';
 
-import { ManagedPlaylistItem } from './ManagedPlaylistItem';
 
 
-export function ManagedPlaylists() {
+import {FavoritePlaylistItem } from './FavoritePlaylistItem';
 
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getManagedPlaylists());
-  }, [dispatch]);
+export function FavoritePlaylists() {
 
-  const playlists = useSelector(selectPlaylists);
-  const status = useSelector(selectStatus);
+    const favoritePlaylists = useSelector(selectFavoritePlaylists);
+    const favoriteDialogIsOpen = useSelector(selectFavoriteDialogIsOpen);
+    const favoriteStatus = useSelector(selectFavoriteStatus);
 
-  const renderItems = () => {
+    const dispatch = useDispatch();
 
-    if (status === 'rejected') {
-      return <div>Error...</div>;
+    useEffect(() => {
+        dispatch(getFavoritePlaylists());
+    }, [dispatch]);
+
+    if (!favoriteDialogIsOpen) {
+        return null;
     }
 
-    if (['pending', 'idle'].includes(status) && !playlists) {
-      return <div aria-busy="true"></div>;
+    const renderItems = () => {
+
+        if (favoriteStatus === 'rejected') {
+            return <div>Error...</div>;
+        }
+
+        if (['pending', 'idle'].includes(favoriteStatus) && !favoritePlaylists) {
+            return <div aria-busy="true"></div>;
+        }
+
+        return favoritePlaylists.map(item => {
+            return <FavoritePlaylistItem playlist={item} />;
+        })
     }
 
-    return playlists.map(item => {
-      return <ManagedPlaylistItem playlist={item} />;
-    })
-  }
-
-  return (
-    <div className='ManagedPlaylists'>
-      <div>{renderItems()}</div>
-    </div>
-  );
+    return (
+        <dialog open={favoriteDialogIsOpen} className='FavoritePlaylistsList'>
+            <article>
+                <header>
+                    <button onClick={() => { dispatch(toggleFavoriteDialog()) }}>Close</button>
+                    <p></p>
+                </header>
+                <div>{renderItems()}</div>
+            </article>
+        </dialog>
+    );
 }

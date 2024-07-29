@@ -275,4 +275,17 @@ router.put('/favorite', (req, res) => {
     });
 });
 
+/**
+ * Get a user's favorited playlists
+ */
+router.get('/favorite', (req, res) => {
+    Favorite.findAll({
+        where: {
+            user_id: req.user.user.id
+        }
+    }).then(favorites => {
+        res.json(favorites);
+    });
+});
+
 module.exports = router;
