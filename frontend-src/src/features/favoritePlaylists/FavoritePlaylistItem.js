@@ -6,8 +6,7 @@ import {
     selectPlaylistsMeta,
     togglePlaylistActive,
     addTrackToPlaylist,
-    removeTrackFromPlaylist,
-    toggleFavoritePlaylist
+    removeTrackFromPlaylist
 } from './managedPlaylistsSlice';
 
 export function ManagedPlaylistItem({ playlist }) {
@@ -40,10 +39,6 @@ export function ManagedPlaylistItem({ playlist }) {
                     <div>{meta.tracks.total} tracks</div>
                 </div>
                 <div className='col-xs-5'>
-                    <button
-                        className='outline'
-                        onClick={()=>{ dispatch(toggleFavoritePlaylist(playlist.spotify_playlist_id))}}
-                    >{ playlist.favorited !== null ? 'Unfavorite' : 'Favorite' }</button>
                     <button className='outline' onClick={()=>{ dispatch(removeManagedPlaylist(playlist.id))}}>Remove</button>
                     <input
                         name="avtive"

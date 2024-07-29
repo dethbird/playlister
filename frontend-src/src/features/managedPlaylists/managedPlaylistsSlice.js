@@ -194,6 +194,22 @@ export const removeTrackFromPlaylist = createAsyncThunk(
   }
 );
 
+export const toggleFavoritePlaylist = createAsyncThunk(
+  'playlists/toggleFavorite',
+  async (spotifyPlaylistId, { dispatch }) => {
+    const response = await fetch(`/playlists/favorite`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id: spotifyPlaylistId })
+    });
+    const data = await response.json();
+    dispatch(getManagedPlaylists());
+    return data;
+  }
+);
+
 
 
 export const managedPlaylistsSlice = createSlice({

@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const spotifyApi = require('../modules/spotifyApi');
-
-const { Playlist, Favorite } = require('../models/models');
+const { QueryTypes } = require('sequelize');
+const { sequelize, Playlist, Favorite } = require('../models/models');
 
 
 /**
@@ -85,29 +85,31 @@ router.post('/', (req, res) => {
             user_id: req.user.user.id,
             spotify_playlist_id: id
         }
-    })
-        .then(playlist => {
-            res.status(201).json(playlist);
-        });
+    }).then(playlist => {
+        res.status(201).json(playlist);
+    });
 
 });
 
 /**
- * Get a user's managed playlists
+ * Get a user's managed playlists joining on favorites
  */
 router.get('/', (req, res) => {
-    Playlist.findAll({
-        where: {
-            user_id: req.user.user.id
-        },
-        order: [
-            ['id', 'ASC']
-        ]
-    })
-        .then(playlists => {
-            res.json(playlists);
-        });
-
+    sequelize.query(`
+        SELECT
+            playlist.*,
+            favorite.id as favorited
+        FROM playlist
+        LEFT JOIN favorite
+            ON playlist.spotify_playlist_id = favorite.spotify_playlist_id
+            AND playlist.user_id = favorite.user_id
+        WHERE playlist.user_id = ?
+        ORDER BY playlist.id ASC`, {
+        replacements: [req.user.user.id],
+        type: QueryTypes.SELECT,
+    }).then(data => {
+        res.json(data);
+    });
 });
 
 /**
@@ -120,10 +122,9 @@ router.delete('/:id', (req, res) => {
             id: id,
             user_id: req.user.user.id
         }
-    })
-        .then(data => {
-            res.status(204).json(data);
-        });
+    }).then(data => {
+        res.status(204).json(data);
+    });
 
 });
 
@@ -140,10 +141,9 @@ router.put('/:id/toggle-active', (req, res) => {
                     id: id,
                     user_id: req.user.user.id
                 },
-            })
-                .then(() => {
-                    res.json(playlist);
-                });
+            }).then(() => {
+                res.json(playlist);
+            });
         });
 
 });
@@ -190,7 +190,7 @@ router.put('/invert-active-all', (req, res) => {
 });
 
 /**
- * Add a track to active managed playlistsa
+ * Add a track to active managed playlists
  */
 router.put('/add-track-to-active', (req, res) => {
     const { uri } = req.body;
@@ -221,7 +221,7 @@ router.put('/add-track-to-active', (req, res) => {
 });
 
 /**
- * Remove a track from active managed playlistsa
+ * Remove a track from active managed playlists
  */
 router.put('/remove-track-from-active', (req, res) => {
     const { uri } = req.body;
@@ -244,6 +244,35 @@ router.put('/remove-track-from-active', (req, res) => {
         }).finally(() => {
             res.json(updated);
         });
+});
+
+/**
+ * Toggle a managed playlist as favorite
+ */
+router.put('/favorite', (req, res) => {
+    const { id } = req.body;
+    Favorite.findOne({
+        where: {
+            user_id: req.user.user.id,
+            spotify_playlist_id: id
+        }
+    }).then(favorite => {
+        if (!favorite) {
+            Favorite.create({
+                user_id: req.user.user.id,
+                spotify_playlist_id: id
+            }).then(favorite => {
+                res.json(favorite);
+            });
+        } else {
+            Favorite.destroy({
+                where: {
+                    user_id: req.user.user.id,
+                    spotify_playlist_id: id
+                }
+            }).then(data => res.json(data));
+        }
+    });
 });
 
 module.exports = router;
