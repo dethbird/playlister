@@ -101,7 +101,10 @@ app.get('/', (req, res) => {
     res.render('index', {
         title: 'Spotify Playlister',
         user: req.user,
-        spotifyUserJson: req.user ? JSON.stringify(req.user.spotifyUser) : '{}'
+        spotifyUserJson: req.user ? JSON.stringify({
+            display_name: req.user.spotifyUser.display_name,
+            images: req.user.spotifyUser.images
+        }) : '{}'
     });
 });
 
