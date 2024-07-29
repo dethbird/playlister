@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { apiRequest } from '../../app/apiConfig';
 import { selectCurrentTrack } from '../player/playerSlice';
 
 const initialState = {
@@ -16,7 +16,7 @@ const initialState = {
 export const getManagedPlaylists = createAsyncThunk(
   'playlists/getManaged',
   async () => {
-    const response = await fetch(`/playlists`);
+    const response = await apiRequest(`/playlists`);
     const data = await response.json();
     return data;
   }
@@ -25,7 +25,7 @@ export const getManagedPlaylists = createAsyncThunk(
 export const getPlaylistMeta = createAsyncThunk(
   'playlists/getMeta',
   async (spotifyPlaylistId) => {
-    const response = await fetch(
+    const response = await apiRequest(
       `/playlists/spotify/${spotifyPlaylistId}?fields=id,images,tracks(total),name,description,uri`
     );
     const data = await response.json();
@@ -36,7 +36,7 @@ export const getPlaylistMeta = createAsyncThunk(
 export const removeManagedPlaylist = createAsyncThunk(
   'playlists/removeManaged',
   async (managedPlaylistId, { dispatch }) => {
-    const response = await fetch(
+    const response = await apiRequest(
       `/playlists/${managedPlaylistId}`,
       {
         method: 'DELETE'
@@ -51,7 +51,7 @@ export const removeManagedPlaylist = createAsyncThunk(
 export const togglePlaylistActive = createAsyncThunk(
   'playlists/toggleActive',
   async (managedPlaylistId, { dispatch }) => {
-    const response = await fetch(
+    const response = await apiRequest(
       `/playlists/${managedPlaylistId}/toggle-active`,
       {
         method: 'PUT'
@@ -66,7 +66,7 @@ export const togglePlaylistActive = createAsyncThunk(
 export const setActiveAll = createAsyncThunk(
   'playlists/setActiveAll',
   async (active, { dispatch }) => {
-    const response = await fetch(
+    const response = await apiRequest(
       `/playlists/set-active-all`,
       {
         method: 'PUT',
@@ -85,7 +85,7 @@ export const setActiveAll = createAsyncThunk(
 export const invertActiveAll = createAsyncThunk(
   'playlists/invertActiveAll',
   async (_, { dispatch }) => {
-    const response = await fetch(
+    const response = await apiRequest(
       `/playlists/invert-active-all`,
       {
         method: 'PUT'
@@ -100,7 +100,7 @@ export const invertActiveAll = createAsyncThunk(
 export const addTrackToActive = createAsyncThunk(
   'playlists/addTrackToActive',
   async (uri, { dispatch, getState }) => {
-    const response = await fetch(
+    const response = await apiRequest(
       `/playlists/add-track-to-active`,
       {
         method: 'PUT',
@@ -127,7 +127,7 @@ export const addTrackToActive = createAsyncThunk(
 export const removeTrackFromActive = createAsyncThunk(
   'playlists/removeTrackFromActive',
   async (uri, { dispatch, getState }) => {
-    const response = await fetch(
+    const response = await apiRequest(
       `/playlists/remove-track-from-active`,
       {
         method: 'PUT',
@@ -155,7 +155,7 @@ export const addTrackToPlaylist = createAsyncThunk(
   'playlists/addTrackToPlaylist',
   async (spotifyPlaylistId, { dispatch, getState }) => {
     const currentTrack = selectCurrentTrack(getState());
-    const response = await fetch(
+    const response = await apiRequest(
       `/playlists/spotify/${spotifyPlaylistId}/add-track`,
       {
         method: 'POST',
@@ -178,7 +178,7 @@ export const removeTrackFromPlaylist = createAsyncThunk(
   'playlists/removeTrackFromPlaylist',
   async (spotifyPlaylistId, { dispatch, getState }) => {
     const currentTrack = selectCurrentTrack(getState());
-    const response = await fetch(
+    const response = await apiRequest(
       `/playlists/spotify/${spotifyPlaylistId}/remove-track`,
       {
         method: 'DELETE',
@@ -200,7 +200,7 @@ export const removeTrackFromPlaylist = createAsyncThunk(
 export const toggleFavoritePlaylist = createAsyncThunk(
   'playlists/toggleFavorite',
   async (spotifyPlaylistId, { dispatch }) => {
-    const response = await fetch(`/playlists/favorite`, {
+    const response = await apiRequest(`/playlists/favorite`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -216,7 +216,7 @@ export const toggleFavoritePlaylist = createAsyncThunk(
 export const getFavoritePlaylists = createAsyncThunk(
   'playlists/getFavoritePlaylists',
   async () => {
-    const response = await fetch(`/playlists/favorite`);
+    const response = await apiRequest(`/playlists/favorite`);
     const data = await response.json();
     return data;
   }
@@ -225,7 +225,7 @@ export const getFavoritePlaylists = createAsyncThunk(
 export const addFavoritePlaylistToManaged = createAsyncThunk(
   'playlists/addFavoriteToManaged',
   async (spotifyPlaylistId, { dispatch }) => {
-    const response = await fetch(`/playlists`, {
+    const response = await apiRequest(`/playlists`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

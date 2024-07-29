@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { apiRequest } from '../../app/apiConfig';
 
 const initialState = {
   currentTrack: null,
@@ -11,7 +12,7 @@ const initialState = {
 export const getCurrentTrack = createAsyncThunk(
   'player/getCurrentTrack',
   async () => {
-    const response = await fetch('/player/currently-playing');
+    const response = await apiRequest('/player/currently-playing');
     const data = await response.json();
     return data;
   }
@@ -20,7 +21,7 @@ export const getCurrentTrack = createAsyncThunk(
 export const play = createAsyncThunk(
   'player/play',
   async () => {
-    const response = await fetch('/player/play', { method: 'PUT' });
+    const response = await apiRequest('/player/play', { method: 'PUT' });
     const data = await response.json();
     return data;
   }
@@ -29,7 +30,7 @@ export const play = createAsyncThunk(
 export const pause = createAsyncThunk(
   'player/pause',
   async () => {
-    const response = await fetch('/player/pause', { method: 'PUT' });
+    const response = await apiRequest('/player/pause', { method: 'PUT' });
     const data = await response.json();
     return data;
   }
@@ -38,7 +39,7 @@ export const pause = createAsyncThunk(
 export const previous = createAsyncThunk(
   'player/previous',
   async (_, { dispatch }) => {
-    const response = await fetch('/player/previous', { method: 'POST' });
+    const response = await apiRequest('/player/previous', { method: 'POST' });
     const data = await response.json();
     setTimeout(() => { dispatch(getCurrentTrack()) }, 250);
     return data;
@@ -48,7 +49,7 @@ export const previous = createAsyncThunk(
 export const next = createAsyncThunk(
   'player/next',
   async (_, { dispatch }) => {
-    const response = await fetch('/player/next', { method: 'POST' });
+    const response = await apiRequest('/player/next', { method: 'POST' });
     const data = await response.json();
     setTimeout(() => { dispatch(getCurrentTrack()) }, 250);
     return data;
@@ -59,7 +60,7 @@ export const next = createAsyncThunk(
 export const liked = createAsyncThunk(
   'player/liked',
   async (trackId) => {
-    const response = await fetch('/player/liked?ids=' + trackId);
+    const response = await apiRequest('/player/liked?ids=' + trackId);
     const data = await response.json();
     return data[0];
   }
@@ -68,7 +69,7 @@ export const liked = createAsyncThunk(
 export const like = createAsyncThunk(
   'player/like',
   async (trackId) => {
-    const response = await fetch('/player/like?ids=' + trackId, {
+    const response = await apiRequest('/player/like?ids=' + trackId, {
       method: 'PUT'
     });
     const data = await response.json();
@@ -79,7 +80,7 @@ export const like = createAsyncThunk(
 export const unlike = createAsyncThunk(
   'player/unlike',
   async (trackId) => {
-    const response = await fetch('/player/unlike?ids=' + trackId, {
+    const response = await apiRequest('/player/unlike?ids=' + trackId, {
       method: 'DELETE'
     });
     const data = await response.json();

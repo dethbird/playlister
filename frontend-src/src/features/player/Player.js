@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { ActionIcon } from '@mantine/core';
+import { IconPlayerTrackPrev } from '@tabler/icons-react';
 import {
   getCurrentTrack,
   play,
@@ -74,7 +76,10 @@ export function Player() {
             <LikeButton trackId={currentTrack.item.id} />
             <button onClick={() => dispatch(play())} disabled={isPlaying}>Play</button>
             <button onClick={() => dispatch(pause())} disabled={!isPlaying}>Pause</button>
-            <button onClick={() => dispatch(previous())}>Prev</button>
+            <ActionIcon aria-label="Previous Track" onClick={() => dispatch(previous())}>
+              <IconPlayerTrackPrev style={{ width: '70%', height: '70%' }} stroke={1.5} />
+            </ActionIcon>
+            {/* <button onClick={() => dispatch(previous())}>Prev</button> */}
             <button onClick={() => dispatch(next())}>Next</button>
           </div>
         </footer>

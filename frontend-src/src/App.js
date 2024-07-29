@@ -1,5 +1,11 @@
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
+import {
+  Container,
+  createTheme,
+  MantineProvider,
+  rem
+} from '@mantine/core';
 import { Player } from './features/player/Player';
 import LoginScreen from './components/LoginScreen';
 import Nav from './components/Nav';
@@ -8,7 +14,30 @@ import { ManagedPlaylists } from './features/managedPlaylists/ManagedPlaylists';
 import { ManagedPlaylistsNav } from './features/managedPlaylists/ManagedPlaylistsNav';
 import { SpotifyPlaylists } from './features/spotifyPlaylists/SpotifyPlaylists';
 import './App.scss';
+import '@mantine/core/styles.css';
 import 'react-toastify/dist/ReactToastify.css';
+
+const theme = createTheme({
+  defaultGradient: {
+    from: 'orange',
+    to: 'red',
+    deg: 45,
+  },
+  fontSizes: {
+    xs: rem(10),
+    sm: rem(11),
+    md: rem(14),
+    lg: rem(16),
+    xl: rem(20),
+  }
+});
+
+window.spotifyUser = {
+  display_name: 'Pizza',
+  images: [
+    {url: 'https://i.scdn.co/image/ab67757000003b82bfe4a87bb89364982a8ea74d'}
+  ]
+}
 
 function App() {
   if (!window.spotifyUser.display_name) {
@@ -16,21 +45,23 @@ function App() {
   }
 
   return (
-    <div className="App container">
-      <ToastContainer autoClose={1500} />
-      <Nav spotifyUser={window.spotifyUser} />
-      <div className="row">
-        <div className="col-xs-6">
-          <Player />
+    <MantineProvider theme={theme}>
+      <Container>
+        <ToastContainer autoClose={1500} />
+        <Nav spotifyUser={window.spotifyUser} />
+        <div className="row">
+          <div className="col-xs-6">
+            <Player />
+          </div>
+          <div className="col-xs-6">
+            <ManagedPlaylistsNav />
+          </div>
         </div>
-        <div className="col-xs-6">
-          <ManagedPlaylistsNav />
-        </div>
-      </div>
-      <SpotifyPlaylists spotifyUser={window.spotifyUser} />
-      <FavoritePlaylists />
-      <ManagedPlaylists />
-    </div>
+        <SpotifyPlaylists spotifyUser={window.spotifyUser} />
+        <FavoritePlaylists />
+        <ManagedPlaylists />
+      </Container>
+    </MantineProvider>
   );
 }
 

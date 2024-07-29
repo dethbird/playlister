@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { apiRequest } from '../../app/apiConfig';
 import { getManagedPlaylists } from '../managedPlaylists/managedPlaylistsSlice';
 
 const initialState = {
@@ -13,7 +14,7 @@ const initialState = {
 export const getSpotifyPlaylists = createAsyncThunk(
   'playlists/spotify',
   async ({ limit, offset }) => {
-    const response = await fetch(`/playlists/spotify?limit=${limit}&offset=${offset}`);
+    const response = await apiRequest(`/playlists/spotify?limit=${limit}&offset=${offset}`);
     const data = await response.json();
     return data;
   }
@@ -22,7 +23,7 @@ export const getSpotifyPlaylists = createAsyncThunk(
 export const addSpotifyPlaylistToManaged = createAsyncThunk(
   'playlists/addToManaged',
   async (spotifyPlaylistId, { dispatch }) => {
-    const response = await fetch(`/playlists`, {
+    const response = await apiRequest(`/playlists`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

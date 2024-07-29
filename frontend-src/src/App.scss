@@ -1,6 +1,3 @@
-@use "@picocss/pico/scss/pico" with (
-  $theme-color: "fuchsia"
-);
 @use "flexboxgrid";
 
 @use "./components/Nav.scss";
@@ -9,16 +6,10 @@
 @use "./features/managedPlaylists/ManagedPlaylists.module.scss";
 @use "./features/spotifyPlaylists/SpotifyPlaylists.module.scss";
 
-:root {
-  --pico-border-radius: 1rem;
-  --pico-font-size: 75%;
+.Avatar {
+  float: left;
+  margin-right: 10px;
 }
-
-.App {
-  text-align: center;
-}
-
 .ManageButton {
-  vertical-align: bottom;
   text-align: right;
 }
