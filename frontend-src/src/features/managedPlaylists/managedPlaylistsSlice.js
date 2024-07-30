@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
+import { notifications } from '@mantine/notifications';
 import { apiRequest } from '../../app/apiConfig';
 import { selectCurrentTrack } from '../player/playerSlice';
 
@@ -12,6 +12,18 @@ const initialState = {
   favoriteStatus: 'idle',
   error: null
 };
+
+const trackAddedNotification = {
+  message: 'Track added',
+  color: 'green'
+};
+const trackRemovedNotification = {
+  message: 'Track removed',
+  color: 'red'
+};
+
+notifications.show(trackAddedNotification);
+notifications.show(trackRemovedNotification);
 
 export const getManagedPlaylists = createAsyncThunk(
   'playlists/getManaged',
@@ -112,7 +124,7 @@ export const addTrackToActive = createAsyncThunk(
     );
     const data = await response.json();
     const playlists = selectPlaylists(getState());
-    toast.success('Track added');
+    notifications.show(trackAddedNotification);
     setTimeout(() => {
       playlists.forEach(playlist => {
         if (playlist.active === 'Y') {
@@ -139,7 +151,7 @@ export const removeTrackFromActive = createAsyncThunk(
     );
     const data = await response.json();
     const playlists = selectPlaylists(getState());
-    toast.error('Track removed');
+    notifications.show(trackRemovedNotification);
     setTimeout(() => {
       playlists.forEach(playlist => {
         if (playlist.active === 'Y') {
@@ -166,7 +178,7 @@ export const addTrackToPlaylist = createAsyncThunk(
       }
     );
     const data = await response.json();
-    toast.success('Track added');
+    notifications.show(trackAddedNotification);
     setTimeout(() => {
       dispatch(getPlaylistMeta(spotifyPlaylistId));
     }, 250);
@@ -189,7 +201,7 @@ export const removeTrackFromPlaylist = createAsyncThunk(
       }
     );
     const data = await response.json();
-    toast.error('Track removed');
+    notifications.show(trackRemovedNotification);
     setTimeout(() => {
       dispatch(getPlaylistMeta(spotifyPlaylistId));
     }, 250);

@@ -1,11 +1,11 @@
 import React from 'react';
-import { ToastContainer } from 'react-toastify';
 import {
   Container,
   createTheme,
   MantineProvider,
   rem
 } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
 import { Player } from './features/player/Player';
 import LoginScreen from './components/LoginScreen';
 import Nav from './components/Nav';
@@ -15,7 +15,7 @@ import { ManagedPlaylistsNav } from './features/managedPlaylists/ManagedPlaylist
 import { SpotifyPlaylists } from './features/spotifyPlaylists/SpotifyPlaylists';
 import './App.scss';
 import '@mantine/core/styles.css';
-import 'react-toastify/dist/ReactToastify.css';
+import '@mantine/notifications/styles.css';
 
 const theme = createTheme({
   defaultGradient: {
@@ -40,7 +40,7 @@ function App() {
   return (
     <MantineProvider theme={theme}>
       <Container>
-        <ToastContainer autoClose={1500} />
+        <Notifications position="top-right" autoClose={1500} />
         <Nav spotifyUser={window.spotifyUser} />
         <div className="row">
           <div className="col-xs-6">

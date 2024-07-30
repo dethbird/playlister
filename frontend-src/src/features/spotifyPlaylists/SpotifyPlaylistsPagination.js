@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Pagination } from '@mantine/core';
 import {
     getSpotifyPlaylists,
     selectCurrentPage,
@@ -12,43 +13,56 @@ export function SpotifyPlaylistsPagination() {
 
     const dispatch = useDispatch();
 
-    const renderPageButtons = () => {
-        const buttons = [];
-        for (let i = 0; i < currentPage.total; i += currentPage.limit) {
-            const button = (
-                <button
-                disabled={currentPage.offset === i}
-                onClick={() => {
-                    dispatch(getSpotifyPlaylists({
-                        limit: currentPage.limit,
-                        offset: i
-                    }))
-                }}>{(i / currentPage.limit) + 1}</button>
-            );
-            buttons.push(button);
-        }
-        return buttons;
-    };
-
     return (
-        <div role="group">
-            <button
-                disabled={currentPage.previous === null}
-                onClick={() => {
-                    dispatch(getSpotifyPlaylists({
-                        limit: currentPage.limit,
-                        offset: currentPage.offset - currentPage.limit
-                    }))
-                }}>prev!</button>
-            { renderPageButtons() }
-            <button
-                disabled={currentPage.next === null}
-                onClick={() => {
-                    dispatch(getSpotifyPlaylists({
-                        limit: currentPage.limit,
-                        offset: currentPage.offset + currentPage.limit
-                    }))
-                }}>next!</button>
-        </div>
+        <Pagination
+            total={Math.ceil(currentPage.total / currentPage.limit)}
+            value={currentPage.offset / currentPage.limit + 1}
+            onChange={value => {
+                dispatch(getSpotifyPlaylists({
+                    limit: currentPage.limit,
+                    offset: (value - 1) * currentPage.limit
+                }))
+            }}
+        />
     );
+
+    // const renderPageButtons = () => {
+    //     const buttons = [];
+    //     for (let i = 0; i < currentPage.total; i += currentPage.limit) {
+    //         const button = (
+    //             <button
+    //             disabled={currentPage.offset === i}
+    //             onClick={() => {
+    //                 dispatch(getSpotifyPlaylists({
+    //                     limit: currentPage.limit,
+    //                     offset: i
+    //                 }))
+    //             }}>{(i / currentPage.limit) + 1}</button>
+    //         );
+    //         buttons.push(button);
+    //     }
+    //     return buttons;
+    // };
+
+    // return (
+    //     <div role="group">
+    //         <button
+    //             disabled={currentPage.previous === null}
+    //             onClick={() => {
+    //                 dispatch(getSpotifyPlaylists({
+    //                     limit: currentPage.limit,
+    //                     offset: currentPage.offset - currentPage.limit
+    //                 }))
+    //             }}>prev!</button>
+    //         { renderPageButtons() }
+    //         <button
+    //             disabled={currentPage.next === null}
+    //             onClick={() => {
+    //                 dispatch(getSpotifyPlaylists({
+    //                     limit: currentPage.limit,
+    //                     offset: currentPage.offset + currentPage.limit
+    //                 }))
+    //             }}>next!</button>
+    //     </div>
+    // );
 }
