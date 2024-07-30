@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Container, Modal, Title } from '@mantine/core';
 import {
     getSpotifyPlaylists,
     selectCurrentPage,
@@ -39,8 +40,10 @@ export function SpotifyPlaylists({ spotifyUser }) {
         }
 
         const userPlaylists = currentPage.items.filter(item => {
-            return item.owner.id == spotifyUser.id;
+            return item.owner.id === spotifyUser.id;
         });
+
+        console.log(currentPage);
 
         return userPlaylists.map(item => {
             return <SpotifyPlaylistItem playlist={item} />;
@@ -48,15 +51,17 @@ export function SpotifyPlaylists({ spotifyUser }) {
     }
 
     return (
-        <dialog open={dialogIsOpen} className='SpotifyPlaylistsList'>
-            <article>
-                <header>
-                    <button onClick={() => { dispatch(toggleDialog()) }}>Close</button>
-                    <p></p>
-                </header>
+        <Modal
+            opened={dialogIsOpen}
+            onClose={() => { dispatch(toggleDialog()) }}
+            title={<Title order={4}>Your Spotify playlists</Title>}
+            padding='xl'
+            fullScreen
+        >
+            <Container>
                 <SpotifyPlaylistsPagination />
                 <div>{renderItems()}</div>
-            </article>
-        </dialog>
+            </Container>
+        </Modal>
     );
 }

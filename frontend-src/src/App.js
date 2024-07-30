@@ -32,13 +32,6 @@ const theme = createTheme({
   }
 });
 
-window.spotifyUser = {
-  display_name: 'Pizza',
-  images: [
-    {url: 'https://i.scdn.co/image/ab67757000003b82bfe4a87bb89364982a8ea74d'}
-  ]
-}
-
 function App() {
   if (!window.spotifyUser.display_name) {
     return <LoginScreen />;

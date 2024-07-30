@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ActionIcon, Card, Image, Text } from '@mantine/core';
+import { ActionIcon, Card, Group, Image, Text } from '@mantine/core';
 import {
   IconPlayerTrackPrev,
   IconPlayerTrackNext,
@@ -72,6 +72,7 @@ export function Player() {
         className='CurrentlyPlaying'
         shadow="sm"
         padding="md"
+        margin="sm"
       >
         <Card.Section>
           <Image
@@ -80,7 +81,7 @@ export function Player() {
             className="AlbumArt"
             w={150}
             h="auto"
-            fit="contain"
+            fit="cover"
           />
           <div className="AlbumInfo">
             <Text fw={700}>{currentTrack.item.name}</Text>
@@ -90,21 +91,21 @@ export function Player() {
           </div>
         </Card.Section>
         <footer>
-          <div className="PlayerControls" role="group">
+          <Group className="PlayerControls" grow justify="center">
             <LikeButton trackId={currentTrack.item.id} />
-            <ActionIcon aria-label="Pause" onClick={() => dispatch(play())} disabled={isPlaying}>
+            <ActionIcon variant="light" aria-label="Pause" onClick={() => dispatch(play())} disabled={isPlaying}>
               <IconPlayerPlay style={{ width: '70%', height: '70%' }} />
             </ActionIcon>
-            <ActionIcon aria-label="Pause" onClick={() => dispatch(pause())} disabled={!isPlaying}>
+            <ActionIcon variant="light" aria-label="Pause" onClick={() => dispatch(pause())} disabled={!isPlaying}>
               <IconPlayerPause style={{ width: '70%', height: '70%' }} />
             </ActionIcon>
-            <ActionIcon aria-label="Previous Track" onClick={() => dispatch(previous())}>
+            <ActionIcon variant="light" aria-label="Previous Track" onClick={() => dispatch(previous())}>
               <IconPlayerTrackPrev style={{ width: '70%', height: '70%' }} />
             </ActionIcon>
-            <ActionIcon aria-label="Next Track" onClick={() => dispatch(next())}>
+            <ActionIcon variant="light" aria-label="Next Track" onClick={() => dispatch(next())}>
               <IconPlayerTrackNext style={{ width: '70%', height: '70%' }} />
             </ActionIcon>
-          </div>
+          </Group>
         </footer>
       </Card>
     </div>

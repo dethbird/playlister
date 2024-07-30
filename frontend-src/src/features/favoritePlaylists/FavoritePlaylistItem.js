@@ -29,10 +29,10 @@ export function FavoritePlaylistItem({ playlist }) {
         return (
             <>
                 <div className='col-xs-2'>
-                    <img src={meta.images[1] ? meta.images[1].url : meta.images[0].url} className='FavoritePlaylistItemImage' />
+                    <img alt="Playlist cover" src={meta.images[1] ? meta.images[1].url : meta.images[0].url} className='FavoritePlaylistItemImage' />
                 </div>
                 <div className='PlaylistDetails col-xs-5'>
-                    <h3><a href={meta.uri} target="_blank">{meta.name}</a></h3>
+                    <h3><a href={meta.uri} target="_blank"  rel="noreferrer">{meta.name}</a></h3>
                     <div>{meta.tracks.total} tracks</div>
                 </div>
                 <div className='col-xs-5 ManageButton'>

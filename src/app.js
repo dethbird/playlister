@@ -102,6 +102,7 @@ app.get('/', (req, res) => {
         title: 'Spotify Playlister',
         user: req.user,
         spotifyUserJson: req.user ? JSON.stringify({
+            id: req.user.spotifyUser.id,
             display_name: req.user.spotifyUser.display_name,
             images: req.user.spotifyUser.images
         }) : '{}'

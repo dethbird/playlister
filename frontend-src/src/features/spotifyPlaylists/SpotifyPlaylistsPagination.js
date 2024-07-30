@@ -12,8 +12,6 @@ export function SpotifyPlaylistsPagination() {
 
     const dispatch = useDispatch();
 
-    const totalPages = Math.ceil(currentPage.total / currentPage.limit);
-
     const renderPageButtons = () => {
         const buttons = [];
         for (let i = 0; i < currentPage.total; i += currentPage.limit) {
