@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Container, Modal, Title } from '@mantine/core';
 import {
     getFavoritePlaylists,
     selectFavoriteStatus,
@@ -45,14 +46,14 @@ export function FavoritePlaylists() {
     }
 
     return (
-        <dialog open={favoriteDialogIsOpen} className='FavoritePlaylistsList'>
-            <article>
-                <header>
-                    <button onClick={() => { dispatch(toggleFavoriteDialog()) }}>Close</button>
-                    <p></p>
-                </header>
-                <div>{renderItems()}</div>
-            </article>
-        </dialog>
+        <Modal
+            opened={favoriteDialogIsOpen}
+            onClose={() => { dispatch(toggleFavoriteDialog()) }}
+            title={<Title order={4}>Your favorited playlists</Title>}
+            padding='xl'
+            fullScreen
+        >
+            <Container>{renderItems()}</Container>
+        </Modal>
     );
 }

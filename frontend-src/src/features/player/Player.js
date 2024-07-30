@@ -71,8 +71,9 @@ export function Player() {
       <Card
         className='CurrentlyPlaying'
         shadow="sm"
-        padding="md"
+        padding="xl"
         margin="sm"
+        withBorder
       >
         <Card.Section>
           <Image

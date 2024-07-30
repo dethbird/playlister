@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Anchor, Grid, Paper, Text, Title } from '@mantine/core';
 import {
-    IconCirclePlus,
     IconMusic,
 } from '@tabler/icons-react';
 import {
@@ -25,12 +24,6 @@ export function SpotifyPlaylistItem({ playlist }) {
                     <IconMusic className='Notes' size={16} /><Text size='sm'>{playlist.tracks.total} tracks</Text>
                 </Grid.Col>
                 <Grid.Col span={3}>
-                    {/* <button
-                        className='outline'
-                        onClick={() => {
-                            dispatch(addSpotifyPlaylistToManaged(playlist.id))
-                        }}
-                    >Add to Managed Playlists</button> */}
                     <Button aria-label="Add to Managed Playlists" onClick={() => dispatch(addSpotifyPlaylistToManaged(playlist.id))}>
                         Add to managed playlists
                     </Button>
