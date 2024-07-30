@@ -31,7 +31,7 @@ export function ManagedPlaylists() {
     }
 
     return playlists.map(item => {
-      return <ManagedPlaylistItem playlist={item} />;
+      return <ManagedPlaylistItem playlist={item} key={item.id} />;
     })
   }
 

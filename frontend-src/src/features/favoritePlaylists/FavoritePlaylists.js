@@ -41,7 +41,7 @@ export function FavoritePlaylists() {
         }
 
         return favoritePlaylists.map(item => {
-            return <FavoritePlaylistItem playlist={item} />;
+            return <FavoritePlaylistItem playlist={item} key={item.id}/>;
         })
     }
 

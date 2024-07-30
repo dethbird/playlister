@@ -22,9 +22,6 @@ const trackRemovedNotification = {
   color: 'red'
 };
 
-notifications.show(trackAddedNotification);
-notifications.show(trackRemovedNotification);
-
 export const getManagedPlaylists = createAsyncThunk(
   'playlists/getManaged',
   async () => {

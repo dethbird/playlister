@@ -40,13 +40,17 @@ export function ManagedPlaylistItem({ playlist }) {
         }
         return (
             <Grid>
-                <Grid.Col span={2}>
-                    <img className='CoverArt' alt="Playlist cover" src={meta.images[1] ? meta.images[1].url : meta.images[0].url} />
-                </Grid.Col>
-                <Grid.Col span={5} className='PlaylistDetails' >
-                    <Title order={5}><Anchor size="xl" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor></Title>
-                    <br />
-                    <IconMusic className='Notes' size={16} /><Text size='sm'>{meta.tracks.total} tracks</Text>
+                <Grid.Col span={7}>
+                    <Grid>
+                        <Grid.Col span={{base: 12, sm: 3}}>
+                            <img className='CoverArt' alt="Playlist cover" src={meta.images[1] ? meta.images[1].url : meta.images[0].url} />
+                        </Grid.Col>
+                        <Grid.Col span={{base: 12, sm: 9}} className='PlaylistDetails' >
+                            <Title order={5}><Anchor size="xl" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor></Title>
+                            <br />
+                            <IconMusic className='Notes' size={16} /><Text size='sm'>{meta.tracks.total} tracks</Text>
+                        </Grid.Col>
+                    </Grid>
                 </Grid.Col>
                 <Grid.Col span={5}>
                     <Group grow justify="center">

@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Container,
   createTheme,
+  Grid,
   MantineProvider,
   rem
 } from '@mantine/core';
@@ -29,8 +30,37 @@ const theme = createTheme({
     md: rem(14),
     lg: rem(16),
     xl: rem(20),
-  }
+  },
+  // primaryColor: 'bright-pink',
+  colors: {
+    'red': [
+      "#fbeff2",
+      "#f1dbe1",
+      "#e5b2c0",
+      "#d9879d",
+      "#d06380",
+      "#ca4d6d",
+      "#c84164",
+      "#b23454",
+      "#9e2c4b",
+      "#8c223f"
+    ],
+    'green': [
+      "#effbf3",
+      "#dff4e6",
+      "#b7e8c9",
+      "#8fdcaa",
+      "#6dd38f",
+      "#59cc7f",
+      "#4dca76",
+      "#3eb264",
+      "#339e58",
+      "#258949"
+    ]
+  },
 });
+
+
 
 function App() {
   if (!window.spotifyUser.display_name) {
@@ -42,14 +72,14 @@ function App() {
       <Container>
         <Notifications position="top-right" autoClose={1500} />
         <Nav spotifyUser={window.spotifyUser} />
-        <div className="row">
-          <div className="col-xs-6">
+        <Grid>
+          <Grid.Col span={{ base: 12, sm: 6 }}>
             <Player />
-          </div>
-          <div className="col-xs-6">
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, sm: 6 }}>
             <ManagedPlaylistsNav />
-          </div>
-        </div>
+          </Grid.Col>
+        </Grid>
         <SpotifyPlaylists spotifyUser={window.spotifyUser} />
         <FavoritePlaylists />
         <ManagedPlaylists />

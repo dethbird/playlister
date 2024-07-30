@@ -43,10 +43,8 @@ export function SpotifyPlaylists({ spotifyUser }) {
             return item.owner.id === spotifyUser.id;
         });
 
-        console.log(currentPage);
-
         return userPlaylists.map(item => {
-            return <SpotifyPlaylistItem playlist={item} />;
+            return <SpotifyPlaylistItem playlist={item} key={item.id}/>;
         })
     }
 
