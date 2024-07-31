@@ -46,7 +46,7 @@ export function ManagedPlaylistItem({ playlist }) {
                             <img className='CoverArt' alt="Playlist cover" src={meta.images[1] ? meta.images[1].url : meta.images[0].url} />
                         </Grid.Col>
                         <Grid.Col span={{base: 12, sm: 9}} className='PlaylistDetails' >
-                            <Title order={5}><Anchor size="xl" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor></Title>
+                            <Anchor fw={ 500 } size="xl" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
                             <br />
                             <IconMusic className='Notes' size={16} /><Text size='sm'>{meta.tracks.total} tracks</Text>
                         </Grid.Col>
