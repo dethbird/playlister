@@ -20,7 +20,7 @@ import '@mantine/notifications/styles.css';
 
 const theme = createTheme({
   defaultGradient: {
-    from: 'orange',
+    from: 'green',
     to: 'red',
     deg: 45,
   },
@@ -76,7 +76,13 @@ const theme = createTheme({
 
 function App() {
   if (!window.spotifyUser.display_name) {
-    return <LoginScreen />;
+    return (
+      <MantineProvider theme={theme}>
+        <Container>
+          <LoginScreen />
+        </Container>
+      </MantineProvider>
+    );
   }
 
   return (
