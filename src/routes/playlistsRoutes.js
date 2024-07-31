@@ -104,7 +104,7 @@ router.get('/', (req, res) => {
             ON playlist.spotify_playlist_id = favorite.spotify_playlist_id
             AND playlist.user_id = favorite.user_id
         WHERE playlist.user_id = ?
-        ORDER BY playlist.id ASC`, {
+        ORDER BY playlist.sort_order ASC, playlist.id ASC`, {
         replacements: [req.user.user.id],
         type: QueryTypes.SELECT,
     }).then(data => {
@@ -187,6 +187,19 @@ router.put('/invert-active-all', (req, res) => {
             });
             res.json({});
         });
+});
+
+/**
+ * Reorder playlists based on order of ids passed in
+ */
+router.put('/reorder', (req, res) => {
+    const { ids } = req.body;
+    ids.forEach(async (id, index) => {
+        const playlist = await Playlist.findByPk(id);
+        playlist.sort_order = index;
+        await playlist.save();
+    });
+    res.json({});
 });
 
 /**

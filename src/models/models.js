@@ -45,6 +45,11 @@ const Playlist = sequelize.define(
             type: DataTypes.ENUM('Y', 'N'),
             allowNull: false,
             defaultValue: 'Y'
+        },
+        sort_order: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 9999
         }
     },
     {

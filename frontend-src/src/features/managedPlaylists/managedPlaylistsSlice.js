@@ -106,6 +106,25 @@ export const invertActiveAll = createAsyncThunk(
   }
 );
 
+export const reorderPlaylists = createAsyncThunk(
+  'playlists/reorderPlaylists',
+  async (ids, { dispatch }) => {
+    const response = await apiRequest(
+      `/playlists/reorder`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ ids })
+      }
+    );
+    dispatch(getManagedPlaylists());
+    const data = await response.json();
+    return data;
+  }
+);
+
 export const addTrackToActive = createAsyncThunk(
   'playlists/addTrackToActive',
   async (uri, { dispatch, getState }) => {

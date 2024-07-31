@@ -8,6 +8,8 @@ import {
     IconStar,
     IconStarFilled
 } from '@tabler/icons-react';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import {
     getPlaylistMeta,
     removeManagedPlaylist,
@@ -19,6 +21,19 @@ import {
 } from './managedPlaylistsSlice';
 
 export function ManagedPlaylistItem({ playlist }) {
+
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+    } = useSortable({ id: playlist.id });
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    };
 
     const playlistMeta = useSelector(selectPlaylistsMeta);
     let meta = null;
@@ -42,11 +57,11 @@ export function ManagedPlaylistItem({ playlist }) {
             <Grid>
                 <Grid.Col span={7}>
                     <Grid>
-                        <Grid.Col span={{base: 12, sm: 3}}>
+                        <Grid.Col span={{ base: 12, sm: 3 }}>
                             <img className='CoverArt' alt="Playlist cover" src={meta.images[1] ? meta.images[1].url : meta.images[0].url} />
                         </Grid.Col>
-                        <Grid.Col span={{base: 12, sm: 9}} className='PlaylistDetails' >
-                            <Anchor fw={ 500 } size="lg" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
+                        <Grid.Col span={{ base: 12, sm: 9 }} className='PlaylistDetails' >
+                            <Anchor fw={500} size="lg" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
                             <br />
                             <IconMusic className='Notes' size={16} /><Text size='sm'>{meta.tracks.total} tracks</Text>
                         </Grid.Col>
@@ -89,7 +104,7 @@ export function ManagedPlaylistItem({ playlist }) {
     }
 
     return (
-        <Paper className='ManagedPlaylistItem' shadow="xs" p="xs" m="xs">
+        <Paper className='ManagedPlaylistItem' shadow="xs" p="xs" m="xs" ref={setNodeRef} style={style} {...attributes} {...listeners}>
             {renderItem()}
         </Paper>
     );
