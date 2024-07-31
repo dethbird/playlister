@@ -54,7 +54,7 @@ export function FavoritePlaylistItem({ playlist }) {
     }
 
     return (
-        <Paper className='FavoritePlaylistItem' shadow="xs" p="xs" m="xs">
+        <Paper className='FavoritePlaylistItem' shadow="xs" p="xs" my="xs">
             {renderItem()}
         </Paper>
     );

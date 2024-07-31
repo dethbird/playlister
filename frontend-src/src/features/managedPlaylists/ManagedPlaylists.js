@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Text } from '@mantine/core';
 import {
   DndContext,
   MouseSensor,
@@ -75,6 +76,7 @@ export function ManagedPlaylists() {
 
   return (
     <div className='ManagedPlaylists'>
+      <Text tt='uppercase' ta='left' >Managed playlists</Text>
       <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
         <SortableContext items={playlists}>
           {renderItems()}

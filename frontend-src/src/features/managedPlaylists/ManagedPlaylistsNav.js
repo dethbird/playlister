@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ActionIcon, Group, Paper } from '@mantine/core';
+import { ActionIcon, Group, Paper, Text, Tooltip } from '@mantine/core';
 import {
     IconBrandSpotify,
     IconCirclePlus,
@@ -32,46 +32,60 @@ export function ManagedPlaylistsNav() {
 
     return (
         <>
+            <Text tt='uppercase' ta='left'>Playlists</Text>
             <Paper shadow="xs" p="xs">
                 <Group className='ManagedPlaylistsNav' grow justify="center">
-                    <ActionIcon variant="light" aria-label="Add a playlist to manage" onClick={() => dispatch(toggleDialog())} >
-                        <IconBrandSpotify />
-                    </ActionIcon>
-                    <ActionIcon variant="light" aria-label="Favorite playlists" onClick={() => dispatch(toggleFavoriteDialog())} >
-                        <IconStar />
-                    </ActionIcon>
-                    <ActionIcon variant="light" aria-label="Activate all" onClick={() => dispatch(setActiveAll('Y'))} >
-                        <IconToggleRightFilled />
-                    </ActionIcon>
-                    <ActionIcon variant="light" aria-label="Dectivate all" onClick={() => dispatch(setActiveAll('N'))} >
-                        <IconToggleLeft />
-                    </ActionIcon>
-                    <ActionIcon variant="light" aria-label="Invert active" onClick={() => dispatch(invertActiveAll())} >
-                        <IconTransfer />
-                    </ActionIcon>
+                    <Tooltip label="Add a spotify playlist to manage">
+                        <ActionIcon variant="light" aria-label="Add a spotify playlist to manage" onClick={() => dispatch(toggleDialog())} >
+                            <IconBrandSpotify />
+                        </ActionIcon>
+                    </Tooltip>
+                    <Tooltip label="Favorite playlists">
+                        <ActionIcon variant="light" aria-label="Favorite playlists" onClick={() => dispatch(toggleFavoriteDialog())} >
+                            <IconStar />
+                        </ActionIcon>
+                    </Tooltip>
+                    <Tooltip label="Activate all">
+                        <ActionIcon variant="light" aria-label="Activate all" onClick={() => dispatch(setActiveAll('Y'))} >
+                            <IconToggleRightFilled />
+                        </ActionIcon>
+                    </Tooltip>
+                    <Tooltip label="Deactivate all">
+                        <ActionIcon variant="light" aria-label="Dectivate all" onClick={() => dispatch(setActiveAll('N'))} >
+                            <IconToggleLeft />
+                        </ActionIcon>
+                    </Tooltip>
+                    <Tooltip label="Invert active">
+                        <ActionIcon variant="light" aria-label="Invert active" onClick={() => dispatch(invertActiveAll())} >
+                            <IconTransfer />
+                        </ActionIcon>
+                    </Tooltip>
                 </Group>
 
             </Paper>
-            <Paper shadow="xs" p="xs" m="xs">
+            <Text tt='uppercase' ta='left'>Add / Remove currently playing</Text>
+            <Paper shadow="xs" p="xs" >
                 <Group grow justify="center">
-
-                    <ActionIcon
-                        aria-label="Add track to active"
-                        onClick={currentTrack ? () => dispatch(addTrackToActive(currentTrack.item.uri)) : null}
-                        disabled={!currentTrack}
-                        color="green"
-                    >
-                        <IconCirclePlus />
-                    </ActionIcon>
-
-                    <ActionIcon
-                        aria-label="Remove track from active"
-                        onClick={currentTrack ? () => dispatch(removeTrackFromActive(currentTrack.item.uri)) : null}
-                        disabled={!currentTrack}
-                        color="red"
-                    >
-                        <IconCircleX />
-                    </ActionIcon>
+                    <Tooltip label="Add currently playing to active">
+                        <ActionIcon
+                            aria-label="Add track to active"
+                            onClick={currentTrack ? () => dispatch(addTrackToActive(currentTrack.item.uri)) : null}
+                            disabled={!currentTrack}
+                            color="green"
+                        >
+                            <IconCirclePlus />
+                        </ActionIcon>
+                    </Tooltip>
+                    <Tooltip label="Remove currently playing from active">
+                        <ActionIcon
+                            aria-label="Remove track from active"
+                            onClick={currentTrack ? () => dispatch(removeTrackFromActive(currentTrack.item.uri)) : null}
+                            disabled={!currentTrack}
+                            color="red"
+                        >
+                            <IconCircleX />
+                        </ActionIcon>
+                    </Tooltip>
                 </Group>
             </Paper>
         </>

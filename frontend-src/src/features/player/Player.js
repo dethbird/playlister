@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ActionIcon, Card, Group, Image, Text } from '@mantine/core';
+import { ActionIcon, Card, Group, Image, Text, Tooltip } from '@mantine/core';
 import {
   IconPlayerTrackPrev,
   IconPlayerTrackNext,
@@ -68,6 +68,7 @@ export function Player() {
 
   return (
     <div className="Player">
+      <Text tt='uppercase' ta='left'>Currently Playing</Text>
       <Card
         className='CurrentlyPlaying'
         shadow="sm"
@@ -94,18 +95,26 @@ export function Player() {
         <footer>
           <Group className="PlayerControls" grow justify="center">
             <LikeButton trackId={currentTrack.item.id} />
-            <ActionIcon variant="light" aria-label="Pause" onClick={() => dispatch(play())} disabled={isPlaying}>
-              <IconPlayerPlay style={{ width: '70%', height: '70%' }} />
-            </ActionIcon>
-            <ActionIcon variant="light" aria-label="Pause" onClick={() => dispatch(pause())} disabled={!isPlaying}>
-              <IconPlayerPause style={{ width: '70%', height: '70%' }} />
-            </ActionIcon>
-            <ActionIcon variant="light" aria-label="Previous Track" onClick={() => dispatch(previous())}>
-              <IconPlayerTrackPrev style={{ width: '70%', height: '70%' }} />
-            </ActionIcon>
-            <ActionIcon variant="light" aria-label="Next Track" onClick={() => dispatch(next())}>
-              <IconPlayerTrackNext style={{ width: '70%', height: '70%' }} />
-            </ActionIcon>
+            <Tooltip label="Play">
+              <ActionIcon variant="light" aria-label="Play" onClick={() => dispatch(play())} disabled={isPlaying}>
+                <IconPlayerPlay style={{ width: '70%', height: '70%' }} />
+              </ActionIcon>
+            </Tooltip>
+            <Tooltip label="Pause">
+              <ActionIcon variant="light" aria-label="Pause" onClick={() => dispatch(pause())} disabled={!isPlaying}>
+                <IconPlayerPause style={{ width: '70%', height: '70%' }} />
+              </ActionIcon>
+            </Tooltip>
+            <Tooltip label="Previous">
+              <ActionIcon variant="light" aria-label="Previous Track" onClick={() => dispatch(previous())}>
+                <IconPlayerTrackPrev style={{ width: '70%', height: '70%' }} />
+              </ActionIcon>
+            </Tooltip>
+            <Tooltip label="Next">
+              <ActionIcon variant="light" aria-label="Next Track" onClick={() => dispatch(next())}>
+                <IconPlayerTrackNext style={{ width: '70%', height: '70%' }} />
+              </ActionIcon>
+            </Tooltip>
           </Group>
         </footer>
       </Card>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ActionIcon, Anchor, Grid, Group, Paper, Switch, Text } from '@mantine/core';
+import { ActionIcon, Anchor, Grid, Group, Paper, Switch, Text, Tooltip } from '@mantine/core';
 import {
     IconCirclePlus,
     IconCircleX,
@@ -69,34 +69,43 @@ export function ManagedPlaylistItem({ playlist }) {
                 </Grid.Col>
                 <Grid.Col span={5}>
                     <Group grow justify="center">
-                        <ActionIcon variant="light" aria-label="Favorite / Unfavorite" onClick={() => dispatch(toggleFavoritePlaylist(playlist.spotify_playlist_id))}>
-                            {playlist.favorited !== null ? <IconStarFilled /> : <IconStar />}
-                        </ActionIcon>
-                        <ActionIcon variant="light" aria-label="Remove from managed" onClick={() => dispatch(removeManagedPlaylist(playlist.id))}>
-                            <IconCircleX />
-                        </ActionIcon>
-                        <Switch
-                            checked={playlist.active === 'Y'}
-                            onChange={() => { dispatch(togglePlaylistActive(playlist.id)) }}
-                        />
+                        <Tooltip label="Favorite / unfavorite">
+                            <ActionIcon variant="light" aria-label="Favorite / Unfavorite" onClick={() => dispatch(toggleFavoritePlaylist(playlist.spotify_playlist_id))}>
+                                {playlist.favorited !== null ? <IconStarFilled /> : <IconStar />}
+                            </ActionIcon>
+                        </Tooltip>
+                        <Tooltip label="Remove from managed">
+                            <ActionIcon variant="light" aria-label="Remove from managed" onClick={() => dispatch(removeManagedPlaylist(playlist.id))}>
+                                <IconCircleX />
+                            </ActionIcon>
+                        </Tooltip>
+                        <Tooltip label="Active / inactive">
+                            <Switch
+                                checked={playlist.active === 'Y'}
+                                onChange={() => { dispatch(togglePlaylistActive(playlist.id)) }}
+                            />
+                        </Tooltip>
                     </Group>
                     <br />
                     <Group grow justify="center" px={16}>
-                        <ActionIcon
-                            aria-label="Add track"
-                            onClick={() => { dispatch(addTrackToPlaylist(playlist.spotify_playlist_id)) }}
-                            color="green"
-                        >
-                            <IconCirclePlus />
-                        </ActionIcon>
-
-                        <ActionIcon
-                            aria-label="Remove track"
-                            onClick={() => { dispatch(removeTrackFromPlaylist(playlist.spotify_playlist_id)) }}
-                            color="red"
-                        >
-                            <IconCircleX />
-                        </ActionIcon>
+                        <Tooltip label="Add currently playing to this playlist">
+                            <ActionIcon
+                                aria-label="Add track"
+                                onClick={() => { dispatch(addTrackToPlaylist(playlist.spotify_playlist_id)) }}
+                                color="green"
+                            >
+                                <IconCirclePlus />
+                            </ActionIcon>
+                        </Tooltip>
+                        <Tooltip label="Remove currently playing from this playlist">
+                            <ActionIcon
+                                aria-label="Remove track"
+                                onClick={() => { dispatch(removeTrackFromPlaylist(playlist.spotify_playlist_id)) }}
+                                color="red"
+                            >
+                                <IconCircleX />
+                            </ActionIcon>
+                        </Tooltip>
                     </Group>
                 </Grid.Col>
             </Grid>
@@ -104,7 +113,7 @@ export function ManagedPlaylistItem({ playlist }) {
     }
 
     return (
-        <Paper className='ManagedPlaylistItem' shadow="xs" p="xs" m="xs" ref={setNodeRef} style={style} {...attributes} {...listeners}>
+        <Paper className='ManagedPlaylistItem' shadow="xs" p="xs" my="xs" ref={setNodeRef} style={style} {...attributes} {...listeners}>
             {renderItem()}
         </Paper>
     );

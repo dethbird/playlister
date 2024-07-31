@@ -4,12 +4,10 @@ import { Anchor, Avatar, Grid, Image, Paper, Text } from '@mantine/core';
 function Nav({ spotifyUser }) {
     return (
         <Grid className='Nav'>
-            <Grid.Col span={{ base: 4, xs: 4, sm: 4, m: 1 }}>
-                <Paper shadow="xs" p="xs" m="xs">
-                    <Image src='/img/logo.002.jpg' />
-                </Paper>
+            <Grid.Col span={{ base: 3, xs: 2}}>
+                <Image src='/img/logo.001.png' />
             </Grid.Col>
-            <Grid.Col offset={{ base: 1, xs: 2, sm: 3}} span={{ base: 7, xs: 6, sm: 5 }}>
+            <Grid.Col offset={{ base: 3, xs: 6, sm: 7}} span={{ base: 6, xs: 4, sm: 3}}>
                 <Paper shadow="xs" p="xs" m="xs">
                     <Avatar src={spotifyUser.images[0].url} alt={spotifyUser.display_name} className='Avatar' />
                     <Text fw={500}>{spotifyUser.display_name}</Text>
