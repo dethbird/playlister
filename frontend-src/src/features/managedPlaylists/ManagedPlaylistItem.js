@@ -19,6 +19,9 @@ import {
     removeTrackFromPlaylist,
     toggleFavoritePlaylist
 } from './managedPlaylistsSlice';
+import {
+    selectCurrentTrack
+} from '../player/playerSlice'
 
 export function ManagedPlaylistItem({ playlist }) {
 
@@ -34,6 +37,8 @@ export function ManagedPlaylistItem({ playlist }) {
         transform: CSS.Transform.toString(transform),
         transition,
     };
+
+    const currentTrack = useSelector(selectCurrentTrack);
 
     const playlistMeta = useSelector(selectPlaylistsMeta);
     let meta = null;
@@ -68,7 +73,7 @@ export function ManagedPlaylistItem({ playlist }) {
                     </Grid>
                 </Grid.Col>
                 <Grid.Col span={5}>
-                    <Group grow justify="center">
+                    <Group grow justify="flex-end">
                         <Tooltip label="Favorite / unfavorite">
                             <ActionIcon variant="light" aria-label="Favorite / Unfavorite" onClick={() => dispatch(toggleFavoritePlaylist(playlist.spotify_playlist_id))}>
                                 {playlist.favorited !== null ? <IconStarFilled /> : <IconStar />}
@@ -87,12 +92,13 @@ export function ManagedPlaylistItem({ playlist }) {
                         </Tooltip>
                     </Group>
                     <br />
-                    <Group grow justify="center" px={16}>
+                    <Group grow justify="flex-end" px={16}>
                         <Tooltip label="Add currently playing to this playlist">
                             <ActionIcon
                                 aria-label="Add track"
                                 onClick={() => { dispatch(addTrackToPlaylist(playlist.spotify_playlist_id)) }}
                                 color="green"
+                                disabled={ currentTrack.timestamp === undefined}
                             >
                                 <IconCirclePlus />
                             </ActionIcon>
@@ -102,6 +108,7 @@ export function ManagedPlaylistItem({ playlist }) {
                                 aria-label="Remove track"
                                 onClick={() => { dispatch(removeTrackFromPlaylist(playlist.spotify_playlist_id)) }}
                                 color="red"
+                                disabled={ currentTrack.timestamp === undefined}
                             >
                                 <IconCircleX />
                             </ActionIcon>

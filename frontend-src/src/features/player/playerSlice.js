@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { apiRequest } from '../../app/apiConfig';
 
 const initialState = {
-  currentTrack: null,
+  currentTrack: {},
   isPlaying: false,
   isLiked: false,
   status: 'idle',

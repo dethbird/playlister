@@ -27,6 +27,7 @@ import {
 export function ManagedPlaylistsNav() {
 
     const currentTrack = useSelector(selectCurrentTrack);
+    console.log('ct', currentTrack.timestamp === undefined);
 
     const dispatch = useDispatch();
 
@@ -69,8 +70,8 @@ export function ManagedPlaylistsNav() {
                     <Tooltip label="Add currently playing to active">
                         <ActionIcon
                             aria-label="Add track to active"
-                            onClick={currentTrack ? () => dispatch(addTrackToActive(currentTrack.item.uri)) : null}
-                            disabled={!currentTrack}
+                            onClick={currentTrack.timestamp !== undefined ? () => dispatch(addTrackToActive(currentTrack.item.uri)) : null}
+                            disabled={currentTrack.timestamp === undefined}
                             color="green"
                         >
                             <IconCirclePlus />
@@ -79,8 +80,8 @@ export function ManagedPlaylistsNav() {
                     <Tooltip label="Remove currently playing from active">
                         <ActionIcon
                             aria-label="Remove track from active"
-                            onClick={currentTrack ? () => dispatch(removeTrackFromActive(currentTrack.item.uri)) : null}
-                            disabled={!currentTrack}
+                            onClick={currentTrack.timestamp !== undefined  ? () => dispatch(removeTrackFromActive(currentTrack.item.uri)) : null}
+                            disabled={currentTrack.timestamp === undefined}
                             color="red"
                         >
                             <IconCircleX />

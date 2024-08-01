@@ -4,6 +4,15 @@
 @use "./features/managedPlaylists/ManagedPlaylists.module.scss";
 @use "./features/spotifyPlaylists/SpotifyPlaylists.module.scss";
 
+.AppLogo {
+  width: 350px;
+  height:auto;
+}
+.SpotifyLogo {
+  max-width: 50px;
+  height: auto;
+  margin-left: 15px;
+}
 .Avatar {
   float: left;
   margin-right: 10px;
