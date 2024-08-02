@@ -27,7 +27,6 @@ import {
 export function ManagedPlaylistsNav() {
 
     const currentTrack = useSelector(selectCurrentTrack);
-    console.log('ct', currentTrack.timestamp === undefined);
 
     const dispatch = useDispatch();
 

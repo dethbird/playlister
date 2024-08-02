@@ -237,6 +237,7 @@ export const toggleFavoritePlaylist = createAsyncThunk(
     });
     const data = await response.json();
     dispatch(getManagedPlaylists());
+    dispatch(getFavoritePlaylists());
     return data;
   }
 );
