@@ -102,6 +102,9 @@ function App() {
         <FavoritePlaylists />
         <ManagedPlaylists />
       </Container>
+      <Container p='xl' ta='center' fw={300}>
+        <footer>&copy; {new Date().getFullYear()} Playlister.</footer>
+      </Container>
     </MantineProvider>
   );
 }
