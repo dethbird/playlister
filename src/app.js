@@ -1,10 +1,10 @@
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({path: path.join(__dirname, '../.env')});
 const express = require('express');
 const app = express();
 const consolidate = require('consolidate');
 const morgan = require('morgan');
 const passport = require("passport");
-const path = require('path');
 const session = require("express-session");
 const SpotifyStrategy = require('passport-spotify').Strategy;
 
