@@ -23,7 +23,7 @@ app.engine('html', consolidate.nunjucks);
 app.use(express.static(__dirname + '../../public'));
 
 // constants
-const callbackUrl = `http://${process.env.HOSTNAME}:${process.env.PORT}/auth/spotify/callback`;
+const callbackUrl = `${process.env.HTTP_PROTOCOL}://${process.env.HOSTNAME}:${process.env.PORT}/auth/spotify/callback`;
 const PORT = process.env.PORT || 8001;
 
 const requiredScopes = [
