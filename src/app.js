@@ -4,7 +4,6 @@ const express = require('express');
 const app = express();
 const compression = require("compression");
 const consolidate = require('consolidate');
-const helmet = require("helmet");
 const morgan = require('morgan');
 const passport = require("passport");
 const RateLimit = require("express-rate-limit");
@@ -21,7 +20,6 @@ const limiter = RateLimit({
 
 app.use(limiter);
 app.use(compression());
-app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
