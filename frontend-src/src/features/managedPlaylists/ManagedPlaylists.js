@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Text } from '@mantine/core';
+import { Alert, Container, Text } from '@mantine/core';
+import { IconInfoCircle } from '@tabler/icons-react';
 import {
   DndContext,
   MouseSensor,
@@ -46,6 +47,16 @@ export function ManagedPlaylists() {
   const playlists = useSelector(selectPlaylists);
   const status = useSelector(selectStatus);
 
+  if (playlists.length < 1) {
+    return (
+      <Container m='xl'>
+        <Alert variant="light" color="grape" title="No managed playlists" icon={<IconInfoCircle />}>
+          Click the Spotify icon in the Playlists menu to start adding playlists you would like to manage.
+        </Alert>
+      </Container>
+    )
+  }
+
   const renderItems = () => {
 
     if (status === 'rejected') {
@@ -64,13 +75,13 @@ export function ManagedPlaylists() {
   const handleDragEnd = event => {
     const { active, over } = event;
     if (active.id !== over.id) {
-        const items = active.data.current.sortable.items;
-        const sorted = arrayMove(
-          items,
-          items.indexOf(active.id),
-          items.indexOf(over.id)
-        );
-        dispatch(reorderPlaylists(sorted));
+      const items = active.data.current.sortable.items;
+      const sorted = arrayMove(
+        items,
+        items.indexOf(active.id),
+        items.indexOf(over.id)
+      );
+      dispatch(reorderPlaylists(sorted));
     }
   }
 

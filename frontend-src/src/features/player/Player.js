@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ActionIcon, Card, Group, Image, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Alert, Card, Container, Group, Image, Text, Tooltip } from '@mantine/core';
 import {
+  IconInfoCircle,
   IconPlayerTrackPrev,
   IconPlayerTrackNext,
   IconPlayerPause,
-  IconPlayerPlay,
+  IconPlayerPlay
 } from '@tabler/icons-react';
 import {
   getCurrentTrack,
@@ -57,7 +58,13 @@ export function Player() {
   }
 
   if (Object.keys(currentTrack).length === 0) {
-    return <div>Nothing is playing.</div>
+    return (
+      <Container m='xl'>
+        <Alert variant="light" color="grape" title="Nothing is playing" icon={<IconInfoCircle />}>
+          Play something on Spotify on any of your devices then check back here.
+        </Alert>
+      </Container>
+    )
   }
 
   // only set new timer in fulfilled state.
