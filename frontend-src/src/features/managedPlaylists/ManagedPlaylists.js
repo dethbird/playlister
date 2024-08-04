@@ -49,11 +49,14 @@ export function ManagedPlaylists() {
 
   if (playlists.length < 1) {
     return (
-      <Container m='xl'>
-        <Alert variant="light" color="grape" title="No managed playlists" icon={<IconInfoCircle />}>
-          Click the Spotify icon in the Playlists menu to start adding playlists you would like to manage.
-        </Alert>
-      </Container>
+      <>
+        <Text tt='uppercase' ta='left' >Managed playlists</Text>
+        <Container m='xl'>
+          <Alert variant="light" color="grape" title="No managed playlists" icon={<IconInfoCircle />}>
+            Click the Spotify icon in the Playlists menu to start adding playlists you would like to manage.
+          </Alert>
+        </Container>
+      </>
     )
   }
 
