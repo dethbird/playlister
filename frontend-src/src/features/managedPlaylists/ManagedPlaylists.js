@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert, Container, Text } from '@mantine/core';
-import { IconInfoCircle } from '@tabler/icons-react';
+import { IconBrandSpotify } from '@tabler/icons-react';
 import {
   DndContext,
   MouseSensor,
@@ -52,7 +52,7 @@ export function ManagedPlaylists() {
       <>
         <Text tt='uppercase' ta='left' >Managed playlists</Text>
         <Container m='xl'>
-          <Alert variant="light" color="grape" title="No managed playlists" icon={<IconInfoCircle />}>
+          <Alert variant="light" color="grape" title="No managed playlists" icon={<IconBrandSpotify />}>
             Click the Spotify icon in the Playlists menu to start adding playlists you would like to manage.
           </Alert>
         </Container>

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ActionIcon, Alert, Card, Container, Group, Image, Text, Tooltip } from '@mantine/core';
 import {
-  IconInfoCircle,
   IconPlayerTrackPrev,
   IconPlayerTrackNext,
   IconPlayerPause,
@@ -60,7 +59,7 @@ export function Player() {
   if (Object.keys(currentTrack).length === 0) {
     return (
       <Container m='xl'>
-        <Alert variant="light" color="grape" title="Nothing is playing" icon={<IconInfoCircle />}>
+        <Alert variant="light" color="grape" title="Nothing is playing" icon={<IconPlayerPlay />}>
           Play something on Spotify on any of your devices then check back here.
         </Alert>
       </Container>
