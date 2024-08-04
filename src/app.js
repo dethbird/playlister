@@ -2,16 +2,26 @@ const path = require('path');
 require('dotenv').config({path: path.join(__dirname, '../.env')});
 const express = require('express');
 const app = express();
+const compression = require("compression");
 const consolidate = require('consolidate');
+const helmet = require("helmet");
 const morgan = require('morgan');
 const passport = require("passport");
+const RateLimit = require("express-rate-limit");
 const session = require("express-session");
 const SpotifyStrategy = require('passport-spotify').Strategy;
 
 const { User } = require('./models/models');
 const spotifyApi = require('./modules/spotifyApi');
 
+const limiter = RateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minute
+    max: 80,
+});
 
+app.use(limiter);
+app.use(compression());
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
