@@ -56,6 +56,8 @@ passport.use(
                         console.error('Error getting user profile:', err);
                     });
 
+            }).catch(err => {
+                console.log(err);
             });
         }
     )
