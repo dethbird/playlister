@@ -23,9 +23,6 @@ app.engine('html', consolidate.nunjucks);
 app.use(express.static(__dirname + '../../public'));
 
 // constants
-const callbackUrl = `${process.env.HTTP_PROTOCOL}://${process.env.HOSTNAME}:${process.env.PORT}/auth/spotify/callback`;
-const PORT = process.env.PORT || 8001;
-
 const requiredScopes = [
     'user-library-read',
     'user-library-modify',
@@ -44,7 +41,7 @@ passport.use(
         {
             clientID: process.env.SPOTIFY_KEY,
             clientSecret: process.env.SPOTIFY_SECRET,
-            callbackURL: callbackUrl
+            callbackURL: process.env.SPOTIFY_CALLBACK_URL
         },
         function (accessToken, refreshToken, expires_in, profile, done) {
             User.findOrCreate({
@@ -142,7 +139,7 @@ const playlistsRoutes = require('./routes/playlistsRoutes');
 app.use('/playlists', playlistsRoutes);
 
 
-
+const PORT = process.env.PORT || 8001
 app.listen(PORT, () => {
     console.log(`Server is listening on ${PORT}`);
 });
