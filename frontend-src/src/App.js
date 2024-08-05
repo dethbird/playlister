@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   Container,
   createTheme,
@@ -14,6 +15,7 @@ import { FavoritePlaylists } from './features/favoritePlaylists/FavoritePlaylist
 import { ManagedPlaylists } from './features/managedPlaylists/ManagedPlaylists';
 import { ManagedPlaylistsNav } from './features/managedPlaylists/ManagedPlaylistsNav';
 import { SpotifyPlaylists } from './features/spotifyPlaylists/SpotifyPlaylists';
+import { getUser, getSpotifyUser, selectUser, selectSpotifyUser } from './features/user/userSlice';
 import './App.scss';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
@@ -76,7 +78,18 @@ const theme = createTheme({
 
 
 function App() {
-  if (!window.spotifyUser.display_name) {
+
+  const spotifyUser = useSelector(selectSpotifyUser);
+  const user = useSelector(selectUser);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUser());
+    dispatch(getSpotifyUser());
+  }, [dispatch]);
+
+  if (Object.keys(spotifyUser).length === 0) {
     return (
       <MantineProvider theme={theme}>
         <Container>
@@ -87,10 +100,10 @@ function App() {
   }
 
   return (
-    <MantineProvider theme={theme} defaultColorScheme="light">
+    <MantineProvider theme={theme} defaultColorScheme={ user.theme }>
       <Container>
         <Notifications position="top-right" autoClose={1500} />
-        <Nav spotifyUser={window.spotifyUser} />
+        <Nav spotifyUser={spotifyUser} />
         <Grid>
           <Grid.Col span={{ base: 12, xs: 6 }}>
             <Player />
@@ -99,7 +112,7 @@ function App() {
             <ManagedPlaylistsNav />
           </Grid.Col>
         </Grid>
-        <SpotifyPlaylists spotifyUser={window.spotifyUser} />
+        <SpotifyPlaylists spotifyUser={spotifyUser} />
         <FavoritePlaylists />
         <ManagedPlaylists />
       </Container>
