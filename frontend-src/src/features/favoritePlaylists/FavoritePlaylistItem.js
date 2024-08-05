@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Anchor, Grid, Paper, Text } from '@mantine/core';
+import { ActionIcon, Anchor, Grid, Paper, Text, Tooltip } from '@mantine/core';
 import {
     IconMusic,
+    IconPlus
 } from '@tabler/icons-react';
 import {
     getPlaylistMeta,
@@ -32,22 +33,24 @@ export function FavoritePlaylistItem({ playlist }) {
         }
         return (
             <Grid>
-                <Grid.Col span={7}>
+                <Grid.Col span={10}>
                     <Grid>
-                        <Grid.Col span={{base: 12, sm: 3}}>
+                        <Grid.Col span={{ base: 12, sm: 3 }}>
                             <img alt="Playlist cover" src={meta.images[1] ? meta.images[1].url : meta.images[0].url} className='CoverArt' />
                         </Grid.Col>
-                        <Grid.Col span={{base: 12, sm: 9}} >
+                        <Grid.Col span={{ base: 12, sm: 9 }} >
                             <Anchor fw={500} size="lg" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
                             <p>{meta.description}</p>
                             <IconMusic className='Notes' size={16} /><Text size='sm'>{meta.tracks.total} tracks</Text>
                         </Grid.Col>
                     </Grid>
                 </Grid.Col>
-                <Grid.Col span={5}>
-                    <Button aria-label="Add to Managed Playlists" onClick={() => dispatch(addFavoritePlaylistToManaged(playlist.spotify_playlist_id))}>
-                        Add to managed playlists
-                    </Button>
+                <Grid.Col span={2}>
+                    <Tooltip label="Add to Managed Playlists">
+                        <ActionIcon size='lg' aria-label="Add to Managed Playlists" onClick={() => dispatch(addFavoritePlaylistToManaged(playlist.spotify_playlist_id))}>
+                            <IconPlus />
+                        </ActionIcon>
+                    </Tooltip>
                 </Grid.Col>
             </Grid>
         )

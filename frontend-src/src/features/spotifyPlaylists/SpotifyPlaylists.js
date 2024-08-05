@@ -59,6 +59,7 @@ export function SpotifyPlaylists({ spotifyUser }) {
             <Container>
                 <SpotifyPlaylistsPagination />
                 <div>{renderItems()}</div>
+                <SpotifyPlaylistsPagination />
             </Container>
         </Modal>
     );

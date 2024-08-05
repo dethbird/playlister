@@ -56,13 +56,18 @@ export function Player() {
     return <div aria-busy="true"></div>;
   }
 
+  const sectionTitle = <Text tt='uppercase' ta='left'>Currently Playing</Text>;
+
   if (Object.keys(currentTrack).length === 0) {
     return (
-      <Container m='xl'>
-        <Alert variant="light" color="grape" title="Nothing is playing" icon={<IconPlayerPlay />}>
-          Play something on Spotify on any of your devices then check back here.
-        </Alert>
-      </Container>
+      <>
+        {sectionTitle}
+        <Container m='xl'>
+          <Alert variant="light" color="grape" title="Nothing is playing" icon={<IconPlayerPlay />}>
+            Play something on Spotify on any of your devices then check back here.
+          </Alert>
+        </Container>
+      </>
     )
   }
 
