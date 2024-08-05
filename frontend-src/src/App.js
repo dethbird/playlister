@@ -15,7 +15,7 @@ import { FavoritePlaylists } from './features/favoritePlaylists/FavoritePlaylist
 import { ManagedPlaylists } from './features/managedPlaylists/ManagedPlaylists';
 import { ManagedPlaylistsNav } from './features/managedPlaylists/ManagedPlaylistsNav';
 import { SpotifyPlaylists } from './features/spotifyPlaylists/SpotifyPlaylists';
-import { getUser, getSpotifyUser, selectUser, selectSpotifyUser } from './features/user/userSlice';
+import { getUser, selectUser } from './features/user/userSlice';
 import './App.scss';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
@@ -80,14 +80,13 @@ const theme = createTheme({
 function App() {
 
   const user = useSelector(selectUser);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getUser());
   }, [dispatch]);
 
-  if (!window.spotifyUser.display_name) {
+  if (!window.spotifyUser.display_name || Object.keys(user).length === 0) {
     return (
       <MantineProvider theme={theme}>
         <Container>
