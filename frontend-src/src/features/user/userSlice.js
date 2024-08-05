@@ -30,12 +30,7 @@ export const getSpotifyUser = createAsyncThunk(
 export const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {
-        logout: (state, action) => {
-            state.user = {};
-            state.spotifyUser = {};
-        }
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(getSpotifyUser.pending, (state) => {
@@ -55,7 +50,6 @@ export const userSlice = createSlice({
     },
 });
 
-export const { logout } = userSlice.actions;
 
 export const selectUser = (state) => state.user.user;
 export const selectSpotifyUser = (state) => state.user.spotifyUser;

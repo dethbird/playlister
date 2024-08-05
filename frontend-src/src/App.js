@@ -79,17 +79,15 @@ const theme = createTheme({
 
 function App() {
 
-  const spotifyUser = useSelector(selectSpotifyUser);
   const user = useSelector(selectUser);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getUser());
-    dispatch(getSpotifyUser());
   }, [dispatch]);
 
-  if (Object.keys(spotifyUser).length === 0) {
+  if (!window.spotifyUser.display_name) {
     return (
       <MantineProvider theme={theme}>
         <Container>
@@ -103,7 +101,7 @@ function App() {
     <MantineProvider theme={theme} defaultColorScheme={ user.theme }>
       <Container>
         <Notifications position="top-right" autoClose={1500} />
-        <Nav spotifyUser={spotifyUser} />
+        <Nav spotifyUser={window.spotifyUser} />
         <Grid>
           <Grid.Col span={{ base: 12, xs: 6 }}>
             <Player />
@@ -112,7 +110,7 @@ function App() {
             <ManagedPlaylistsNav />
           </Grid.Col>
         </Grid>
-        <SpotifyPlaylists spotifyUser={spotifyUser} />
+        <SpotifyPlaylists spotifyUser={window.spotifyUser} />
         <FavoritePlaylists />
         <ManagedPlaylists />
       </Container>

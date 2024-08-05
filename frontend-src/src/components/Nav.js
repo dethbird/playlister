@@ -1,16 +1,7 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { Anchor, Avatar, Grid, Image, Paper, Text } from '@mantine/core';
-import { logout } from '../features/user/userSlice';
 
 function Nav({ spotifyUser }) {
-
-    const dispatch = useDispatch();
-
-    const handleLogout = () => {
-        dispatch(logout);
-        document.location = '/logout';
-    }
 
     return (
         <Grid className='Nav'>
@@ -21,7 +12,7 @@ function Nav({ spotifyUser }) {
                 <Paper shadow="xs" p="xs" m="xs">
                     <Avatar src={spotifyUser.images[0].url} alt={spotifyUser.display_name} className='Avatar' />
                     <Text fw={500}>{spotifyUser.display_name}</Text>
-                    <Anchor onClick={() => { handleLogout() }} title='Logout'>Logout</Anchor>
+                    <Anchor href="/logout" title='Logout'>Logout</Anchor>
                 </Paper>
 
             </Grid.Col>
