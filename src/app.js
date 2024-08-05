@@ -140,6 +140,11 @@ app.get(
 /**
  * API Routes
  */
+
+// User Routes
+const userRoutes = require('./routes/userRoutes');
+app.use('/me', userRoutes);
+
 // Player Routes
 const playerRoutes = require('./routes/playerRoutes');
 app.use('/player', playerRoutes);

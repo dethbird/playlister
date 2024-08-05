@@ -15,7 +15,12 @@ const User = sequelize.define(
             type: DataTypes.INTEGER,
             allowNull: false,
             unique: true
-        }
+        },
+        theme: {
+            type: DataTypes.ENUM('light', 'dark'),
+            allowNull: false,
+            defaultValue: 'light'
+        },
     },
     {
         tableName: 'user',
