@@ -14,7 +14,7 @@ export function SpotifyPlaylistItem({ playlist }) {
     const dispatch = useDispatch();
 
     return (
-        <Paper className='SpotifyPlaylistItem' shadow="xs" p="xs" my="xs">
+        <Paper className='SpotifyPlaylistItem' withBorder shadow="xs" p="xs" my="xs">
             <Grid>
                 <Grid.Col span={10}>
                     <Grid>

@@ -98,7 +98,7 @@ export function ManagedPlaylistItem({ playlist }) {
                                 aria-label="Add track"
                                 onClick={() => { dispatch(addTrackToPlaylist(playlist.spotify_playlist_id)) }}
                                 color="green"
-                                disabled={ currentTrack.timestamp === undefined}
+                                disabled={currentTrack.timestamp === undefined}
                             >
                                 <IconCirclePlus />
                             </ActionIcon>
@@ -108,7 +108,7 @@ export function ManagedPlaylistItem({ playlist }) {
                                 aria-label="Remove track"
                                 onClick={() => { dispatch(removeTrackFromPlaylist(playlist.spotify_playlist_id)) }}
                                 color="red"
-                                disabled={ currentTrack.timestamp === undefined}
+                                disabled={currentTrack.timestamp === undefined}
                             >
                                 <IconCircleX />
                             </ActionIcon>
@@ -120,7 +120,7 @@ export function ManagedPlaylistItem({ playlist }) {
     }
 
     return (
-        <Paper className='ManagedPlaylistItem' shadow="xs" p="xs" my="xs" ref={setNodeRef} style={style} {...attributes} {...listeners}>
+        <Paper className='ManagedPlaylistItem' withBorder shadow="xs" p="xs" my="xs" ref={setNodeRef} style={style} {...attributes} {...listeners}>
             {renderItem()}
         </Paper>
     );

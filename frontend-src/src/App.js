@@ -32,6 +32,7 @@ const theme = createTheme({
     xl: rem(20),
   },
   primaryColor: 'pale-purple',
+  primaryShade: { light: 6, dark: 8 },
   colors: {
     'red': [
       "#ffe8fc",
@@ -69,7 +70,7 @@ const theme = createTheme({
       "#464388",
       "#3b3979"
     ]
-  },
+  }
 });
 
 
@@ -86,7 +87,7 @@ function App() {
   }
 
   return (
-    <MantineProvider theme={theme}>
+    <MantineProvider theme={theme} defaultColorScheme="light">
       <Container>
         <Notifications position="top-right" autoClose={1500} />
         <Nav spotifyUser={window.spotifyUser} />
