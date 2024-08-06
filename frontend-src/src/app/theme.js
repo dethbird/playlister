@@ -44,16 +44,16 @@ export const theme = createTheme({
             "#00aa28"
         ],
         'pale-purple': [
-            "#f2f0ff",
-            "#e0dff2",
-            "#bfbdde",
-            "#9b98ca",
-            "#7d79ba",
-            "#6a65b0",
-            "#605bac",
-            "#504c97",
-            "#464388",
-            "#3b3979"
-        ]
+            "#f6efff",
+            "#e7def3",
+            "#cbbce0",
+            "#af97cd",
+            "#9677bd",
+            "#8763b3",
+            "#7f59af",
+            "#6d4a9a",
+            "#61408b",
+            "#54367b"
+          ]
     }
 });

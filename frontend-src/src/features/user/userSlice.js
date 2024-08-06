@@ -26,6 +26,18 @@ export const getSpotifyUser = createAsyncThunk(
     }
 );
 
+export const toggleTheme = createAsyncThunk(
+    'user/toggleTheme',
+    async (_, {dispatch}) => {
+        const response = await apiRequest('/me/toggle-theme', {
+            method: 'PUT'
+        });
+        const data = await response.json();
+        dispatch(getUser());
+        return data;
+    }
+);
+
 
 export const userSlice = createSlice({
     name: 'user',

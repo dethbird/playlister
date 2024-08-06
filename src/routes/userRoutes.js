@@ -25,5 +25,20 @@ router.get('/spotify', (req, res) => {
         });
 });
 
+router.put('/toggle-theme', async (req, res) => {
+
+    User.findByPk(req.user.user.id)
+        .then(user => {
+            user.theme = user.theme === 'light' ? 'dark' : 'light';
+            user.save()
+            .then(data => {
+                res.json(data);
+            });
+        })
+        .catch(err => {
+            console.error('Error toggling theme:', err);
+        });
+});
+
 
 module.exports = router;

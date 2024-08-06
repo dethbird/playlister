@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
 import {
   Container,
   Grid,
@@ -13,7 +12,6 @@ import { FavoritePlaylists } from './features/favoritePlaylists/FavoritePlaylist
 import { ManagedPlaylists } from './features/managedPlaylists/ManagedPlaylists';
 import { ManagedPlaylistsNav } from './features/managedPlaylists/ManagedPlaylistsNav';
 import { SpotifyPlaylists } from './features/spotifyPlaylists/SpotifyPlaylists';
-import { getUser, selectUser } from './features/user/userSlice';
 import { theme } from './app/theme';
 import './App.scss';
 import '@mantine/core/styles.css';
@@ -22,15 +20,8 @@ import '@mantine/notifications/styles.css';
 
 function App() {
 
-  const user = useSelector(selectUser);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
-
   const renderBody = () => {
-    if (!window.spotifyUser.display_name || Object.keys(user).length === 0) {
+    if (!window.spotifyUser.display_name) {
       return (
         <LoginScreen />
       );
@@ -55,7 +46,7 @@ function App() {
     }
   }
   return (
-    <MantineProvider theme={theme} defaultColorScheme={user.theme}>
+    <MantineProvider theme={theme} >
       <Container>
         { renderBody() }
       </Container>

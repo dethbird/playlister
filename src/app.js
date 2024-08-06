@@ -15,7 +15,7 @@ const spotifyApi = require('./modules/spotifyApi');
 
 const limiter = RateLimit({
     windowMs: 1 * 60 * 1000, // 1 minute
-    max: 80,
+    max: 250,
 });
 
 app.use(limiter);
