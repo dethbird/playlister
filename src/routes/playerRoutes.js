@@ -9,7 +9,7 @@ router.get('/currently-playing', (req, res) => {
             res.json(data.body);
         })
         .catch(err => {
-            console.error('Error getting currently playing profile:', err);
+            console.error('Error getting currently playing track:', err);
         });
 
 });

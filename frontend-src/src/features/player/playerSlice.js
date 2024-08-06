@@ -11,7 +11,7 @@ const initialState = {
 
 export const getCurrentTrack = createAsyncThunk(
   'player/getCurrentTrack',
-  async () => {
+  async (_, { rejectWithValue }) => {
     const response = await apiRequest('/player/currently-playing');
     const data = await response.json();
     return data;
@@ -104,7 +104,6 @@ export const playerSlice = createSlice({
       })
       .addCase(getCurrentTrack.rejected, (state, action) => {
         state.status = 'rejected';
-        state.error = action.error.message;
       })
       .addCase(play.fulfilled, (state, action) => {
         state.isPlaying = true;
@@ -123,7 +122,6 @@ export const playerSlice = createSlice({
       });
   },
 });
-
 
 
 export const selectCurrentTrack = (state) => state.player.currentTrack;

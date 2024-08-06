@@ -49,7 +49,7 @@ export function Player() {
   refreshTimer = clearTimeout(refreshTimer);
 
   if (status === 'rejected') {
-    return <div>Error...</div>;
+    return null;
   }
 
   if (['pending', 'idle'].includes(status) && !currentTrack) {

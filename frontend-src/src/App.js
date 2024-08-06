@@ -1,9 +1,14 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
+  Alert,
   Container,
   Grid,
   MantineProvider,
 } from '@mantine/core';
+import {
+  IconMoodWrrr
+} from '@tabler/icons-react';
 import { Notifications } from '@mantine/notifications';
 import { Player } from './features/player/Player';
 import LoginScreen from './components/LoginScreen';
@@ -12,6 +17,7 @@ import { FavoritePlaylists } from './features/favoritePlaylists/FavoritePlaylist
 import { ManagedPlaylists } from './features/managedPlaylists/ManagedPlaylists';
 import { ManagedPlaylistsNav } from './features/managedPlaylists/ManagedPlaylistsNav';
 import { SpotifyPlaylists } from './features/spotifyPlaylists/SpotifyPlaylists';
+import { selectStatus } from './features/player/playerSlice';
 import { theme } from './app/theme';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
@@ -20,10 +26,22 @@ import './App.scss';
 
 function App() {
 
+  const playerStatus = useSelector(selectStatus);
+
   const renderBody = () => {
     if (!window.spotifyUser.display_name) {
       return (
         <LoginScreen />
+      );
+    } else if (playerStatus === 'rejected') {
+      // This is for potential server errors. Either Spotify token or session expired
+      return (
+        <Container size='md' m='xl' p='xl'>
+          <Nav spotifyUser={{}} />
+          <Alert variant="light" color="grape" title="Uh oh, something went wrong." icon={<IconMoodWrrr />}>
+            Please try refreshing the page later.
+          </Alert>
+        </Container>
       );
     } else {
       return (
