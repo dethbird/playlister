@@ -54,6 +54,6 @@ export const theme = createTheme({
             "#6d4a9a",
             "#61408b",
             "#54367b"
-          ]
+        ]
     }
 });

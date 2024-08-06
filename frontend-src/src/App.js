@@ -13,9 +13,9 @@ import { ManagedPlaylists } from './features/managedPlaylists/ManagedPlaylists';
 import { ManagedPlaylistsNav } from './features/managedPlaylists/ManagedPlaylistsNav';
 import { SpotifyPlaylists } from './features/spotifyPlaylists/SpotifyPlaylists';
 import { theme } from './app/theme';
-import './App.scss';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
+import './App.scss';
 
 
 function App() {
@@ -48,7 +48,7 @@ function App() {
   return (
     <MantineProvider theme={theme} >
       <Container>
-        { renderBody() }
+        {renderBody()}
       </Container>
       <Container p='xl' ta='center' fw={300}>
         <footer>&copy; {new Date().getFullYear()} Playlister.</footer>

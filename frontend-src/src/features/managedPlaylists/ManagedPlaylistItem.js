@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ActionIcon, Anchor, Grid, Group, Paper, Switch, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Anchor, Box, Grid, Group, Switch, Text, Tooltip } from '@mantine/core';
 import {
     IconCirclePlus,
     IconCircleX,
@@ -10,6 +10,7 @@ import {
 } from '@tabler/icons-react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { PaperStyled } from '../../components/PaperStyled';
 import {
     getPlaylistMeta,
     removeManagedPlaylist,
@@ -120,9 +121,11 @@ export function ManagedPlaylistItem({ playlist }) {
     }
 
     return (
-        <Paper className='ManagedPlaylistItem' withBorder shadow="xs" p="xs" my="xs" ref={setNodeRef} style={style} {...attributes} {...listeners}>
-            {renderItem()}
-        </Paper>
+        <Box ref={setNodeRef} style={style} {...attributes} {...listeners}>
+            <PaperStyled shadow="xs" p="xs" my="xs" className='ManagedPlaylistItem' >
+                {renderItem()}
+            </PaperStyled>
+        </Box>
     );
 }
 

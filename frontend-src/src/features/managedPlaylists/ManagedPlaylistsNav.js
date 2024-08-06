@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ActionIcon, Group, Indicator, Paper, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Group, Indicator, Text, Tooltip } from '@mantine/core';
 import {
     IconBrandSpotify,
     IconCirclePlus,
@@ -10,6 +10,7 @@ import {
     IconToggleRightFilled,
     IconTransfer,
 } from '@tabler/icons-react';
+import { PaperStyled } from '../../components/PaperStyled';
 import {
     selectCurrentTrack
 } from '../player/playerSlice';
@@ -37,7 +38,7 @@ export function ManagedPlaylistsNav() {
     return (
         <>
             <Text tt='uppercase' ta='left'>Playlists</Text>
-            <Paper shadow="xs" p="xs">
+            <PaperStyled shadow="xs" p="xs">
                 <Group className='ManagedPlaylistsNav' grow justify="center">
                     <Tooltip label="Add a spotify playlist to manage">
                         <ActionIcon variant="light" aria-label="Add a spotify playlist to manage" onClick={() => dispatch(toggleDialog())} >
@@ -69,9 +70,9 @@ export function ManagedPlaylistsNav() {
                     </Tooltip>
                 </Group>
 
-            </Paper>
+            </PaperStyled>
             <Text tt='uppercase' ta='left'>Add / Remove currently playing</Text>
-            <Paper shadow="xs" p="xs" >
+            <PaperStyled shadow="xs" p="xs" >
                 <Group grow justify="center">
                     <Tooltip label="Remove currently playing from active">
                         <ActionIcon
@@ -94,7 +95,7 @@ export function ManagedPlaylistsNav() {
                         </ActionIcon>
                     </Tooltip>
                 </Group>
-            </Paper>
+            </PaperStyled>
         </>
     );
 }

@@ -4,6 +4,15 @@
 @use "./features/managedPlaylists/ManagedPlaylists.module.scss";
 @use "./features/spotifyPlaylists/SpotifyPlaylists.module.scss";
 
+/* For light mode */
+:root[data-mantine-color-scheme="light"] body {
+  --mantine-color-body: #F5F5F5;
+}
+/* For dark mode */
+:root[data-mantine-color-scheme="dark"] body {
+  --mantine-color-body: #0f0f0f;
+}
+
 .AppLogo {
   width: 350px;
   height:auto;
