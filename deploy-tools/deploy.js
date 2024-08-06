@@ -56,7 +56,6 @@ fs.readFile(`${buildDir}/asset-manifest.json`, 'utf8', (err, data) => {
             }
         });
 
-
         rootAssets.forEach(asset => {
             copyAsset(buildDir + asset, `../public${asset}`);
         })
