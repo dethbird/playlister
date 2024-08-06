@@ -10,16 +10,16 @@ function LoginScreen() {
                 opacity={1}
                 zIndex={0}
             />
-            <Container shadow="xl" m="xs" p="md" className={classes.container} size="md">
+            <Container shadow="xl" m="xs" p="md" className={classes.container} size="lg">
                 <Grid>
                     <Grid.Col span={{ base: 12, xs: 6, sm: 4 }}>
-                        <Image src='/img/logo.001.png' className='AppLogo' />
+                        <Image src='/img/logo.001.png' />
                     </Grid.Col>
                 </Grid>
 
                 <Text p="md" fw={300}>Add / remove your currently playing track from multiple playlists at once.</Text>
-                <Button color="green" m='xl' size="xl" radius="xl" href="/auth/spotify" onClick={() => { document.location = '/auth/spotify' }}>
-                     Login with Spotify <Image src='/img/spotify_logo.png' className='SpotifyLogo' />
+                <Button color="green"  size="xl" radius="xl" href="/auth/spotify" onClick={() => { document.location = '/auth/spotify' }}>
+                    <Image src='/img/spotify_logo.png' className='SpotifyLogo' /> Login with Spotify
                 </Button>
             </Container>
         </div>
