@@ -93,16 +93,6 @@ export function ManagedPlaylistItem({ playlist }) {
                     </Group>
                     <br />
                     <Group grow justify="flex-end" px={16}>
-                        <Tooltip label="Add currently playing to this playlist">
-                            <ActionIcon
-                                aria-label="Add track"
-                                onClick={() => { dispatch(addTrackToPlaylist(playlist.spotify_playlist_id)) }}
-                                color="green"
-                                disabled={currentTrack.timestamp === undefined}
-                            >
-                                <IconCirclePlus />
-                            </ActionIcon>
-                        </Tooltip>
                         <Tooltip label="Remove currently playing from this playlist">
                             <ActionIcon
                                 aria-label="Remove track"
@@ -111,6 +101,16 @@ export function ManagedPlaylistItem({ playlist }) {
                                 disabled={currentTrack.timestamp === undefined}
                             >
                                 <IconCircleX />
+                            </ActionIcon>
+                        </Tooltip>
+                        <Tooltip label="Add currently playing to this playlist">
+                            <ActionIcon
+                                aria-label="Add track"
+                                onClick={() => { dispatch(addTrackToPlaylist(playlist.spotify_playlist_id)) }}
+                                color="green"
+                                disabled={currentTrack.timestamp === undefined}
+                            >
+                                <IconCirclePlus />
                             </ActionIcon>
                         </Tooltip>
                     </Group>

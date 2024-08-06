@@ -73,16 +73,6 @@ export function ManagedPlaylistsNav() {
             <Text tt='uppercase' ta='left'>Add / Remove currently playing</Text>
             <Paper shadow="xs" p="xs" >
                 <Group grow justify="center">
-                    <Tooltip label="Add currently playing to active">
-                        <ActionIcon
-                            aria-label="Add track to active"
-                            onClick={currentTrack.timestamp !== undefined ? () => dispatch(addTrackToActive(currentTrack.item.uri)) : null}
-                            disabled={currentTrack.timestamp === undefined || playlists.length < 1}
-                            color="green"
-                        >
-                            <IconCirclePlus />
-                        </ActionIcon>
-                    </Tooltip>
                     <Tooltip label="Remove currently playing from active">
                         <ActionIcon
                             aria-label="Remove track from active"
@@ -91,6 +81,16 @@ export function ManagedPlaylistsNav() {
                             color="red"
                         >
                             <IconCircleX />
+                        </ActionIcon>
+                    </Tooltip>
+                    <Tooltip label="Add currently playing to active">
+                        <ActionIcon
+                            aria-label="Add track to active"
+                            onClick={currentTrack.timestamp !== undefined ? () => dispatch(addTrackToActive(currentTrack.item.uri)) : null}
+                            disabled={currentTrack.timestamp === undefined || playlists.length < 1}
+                            color="green"
+                        >
+                            <IconCirclePlus />
                         </ActionIcon>
                     </Tooltip>
                 </Group>
