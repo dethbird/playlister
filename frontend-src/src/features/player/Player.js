@@ -48,6 +48,8 @@ export function Player() {
   // prevent setting multiple timers on rerender
   refreshTimer = clearTimeout(refreshTimer);
 
+  console.log(status);
+
   if (status === 'rejected') {
     return null;
   }

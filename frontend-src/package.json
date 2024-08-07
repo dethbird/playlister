@@ -12,7 +12,7 @@
     "@tabler/core": "^1.0.0-beta20",
     "@tabler/icons-react": "^3.11.0",
     "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
+    "@testing-library/react": "^15.0.6",
     "@testing-library/user-event": "^14.5.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -25,6 +25,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test-coverage": "npm run test -- --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -44,5 +45,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "jest-matchmedia-mock": "^1.1.0"
   }
 }
