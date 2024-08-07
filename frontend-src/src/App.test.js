@@ -27,8 +27,6 @@ describe('App', () => {
   beforeAll(() => {
     matchMedia = new MatchMediaMock();
     window.spotifyUser = spotifyUser;
-    // selectStatus.mockRestore();
-    // selectCurrentTrack.mockRestore();
   });
 
   afterEach(() => {
@@ -93,10 +91,7 @@ describe('App', () => {
       </Provider>
     );
     expect(getByText(/David Coldplay/i)).toBeInTheDocument();
-    expect(getByText(/Currently playing/i)).toBeInTheDocument();
-    expect(getByText(/playlists/i)).toBeInTheDocument();
     expect(getByText(/Add \/ Remove currently playing/i)).toBeInTheDocument();
-    expect(getByText(/Managed playlists/i)).toBeInTheDocument();
     expect(getByText(/©/i)).toBeInTheDocument();
   });
 

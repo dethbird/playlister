@@ -25,8 +25,10 @@ export function LikeButton({ trackId }) {
   const iconStyle = { width: '70%', height: '70%' };
 
   return (
-    <Tooltip label="Like / unlike">
+    <Tooltip label="Like / Unlike">
       <ActionIcon
+        role='button'
+        name="Like / Unlike"
         aria-label="Like / Unlike"
         onClick={() => isLiked ? dispatch(unlike(trackId)) : dispatch(like(trackId))}
         color='pink'

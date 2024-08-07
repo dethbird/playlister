@@ -48,14 +48,12 @@ export function Player() {
   // prevent setting multiple timers on rerender
   refreshTimer = clearTimeout(refreshTimer);
 
-  console.log(status);
-
   if (status === 'rejected') {
     return null;
   }
 
   if (['pending', 'idle'].includes(status) && !currentTrack) {
-    return <div aria-busy="true"></div>;
+    return <div role='alert' aria-busy="true"></div>;
   }
 
   const sectionTitle = <Text tt='uppercase' ta='left'>Currently Playing</Text>;
@@ -78,6 +76,8 @@ export function Player() {
     const refreshIn = currentTrack.item.duration_ms - currentTrack.progress_ms + 100;
     refreshTimer = setTimeout(() => { dispatch(getCurrentTrack()) }, refreshIn);
   }
+
+  const buttonStyle = { width: '70%', height: '70%' };
 
   return (
     <div className="Player">
@@ -109,23 +109,23 @@ export function Player() {
           <Group className="PlayerControls" grow justify="center">
             <LikeButton trackId={currentTrack.item.id} />
             <Tooltip label="Play">
-              <ActionIcon variant="light" aria-label="Play" onClick={() => dispatch(play())} disabled={isPlaying}>
-                <IconPlayerPlay style={{ width: '70%', height: '70%' }} />
+              <ActionIcon variant="light" role='button' name="Play" aria-label="Play" onClick={() => dispatch(play())} disabled={isPlaying}>
+                <IconPlayerPlay style={buttonStyle} />
               </ActionIcon>
             </Tooltip>
             <Tooltip label="Pause">
-              <ActionIcon variant="light" aria-label="Pause" onClick={() => dispatch(pause())} disabled={!isPlaying}>
-                <IconPlayerPause style={{ width: '70%', height: '70%' }} />
+              <ActionIcon variant="light" role='button' name="Pause" aria-label="Pause" onClick={() => dispatch(pause())} disabled={!isPlaying}>
+                <IconPlayerPause style={buttonStyle} />
               </ActionIcon>
             </Tooltip>
             <Tooltip label="Previous">
-              <ActionIcon variant="light" aria-label="Previous Track" onClick={() => dispatch(previous())}>
-                <IconPlayerTrackPrev style={{ width: '70%', height: '70%' }} />
+              <ActionIcon variant="light" role='button' name="Previous Track" aria-label="Previous Track" onClick={() => dispatch(previous())}>
+                <IconPlayerTrackPrev style={buttonStyle} />
               </ActionIcon>
             </Tooltip>
             <Tooltip label="Next">
-              <ActionIcon variant="light" aria-label="Next Track" onClick={() => dispatch(next())}>
-                <IconPlayerTrackNext style={{ width: '70%', height: '70%' }} />
+              <ActionIcon variant="light" role='button' name="Next Track" aria-label="Next Track" onClick={() => dispatch(next())}>
+                <IconPlayerTrackNext style={buttonStyle} />
               </ActionIcon>
             </Tooltip>
           </Group>
