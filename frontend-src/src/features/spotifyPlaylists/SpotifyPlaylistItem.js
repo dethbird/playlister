@@ -1,10 +1,11 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { ActionIcon, Anchor, Grid, Paper, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Anchor, Grid, Text, Tooltip } from '@mantine/core';
 import {
     IconMusic,
     IconPlus
 } from '@tabler/icons-react';
+import { PaperStyled } from '../../components/PaperStyled';
 import {
     addSpotifyPlaylistToManaged,
 } from './spotifyPlaylistsSlice';
@@ -14,7 +15,7 @@ export function SpotifyPlaylistItem({ playlist }) {
     const dispatch = useDispatch();
 
     return (
-        <Paper className='SpotifyPlaylistItem' withBorder shadow="xs" p="xs" my="xs">
+        <PaperStyled className='SpotifyPlaylistItem' withBorder shadow="xs" p="xs" my="xs">
             <Grid>
                 <Grid.Col span={10}>
                     <Grid>
@@ -36,7 +37,7 @@ export function SpotifyPlaylistItem({ playlist }) {
                     </Tooltip>
                 </Grid.Col>
             </Grid>
-        </Paper>
+        </PaperStyled>
     );
 }
 

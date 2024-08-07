@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { store } from './app/store';
 import App from './App';
 
-test('renders the nav with the user display name', () => {
+test('renders login screen when spotify user is not set', () => {
   window.spotifyUser = {
     display_name: "Pizza",
     images: [

@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ActionIcon, Anchor, Grid, Paper, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Anchor, Grid, Text, Tooltip } from '@mantine/core';
 import {
     IconMusic,
     IconPlus
 } from '@tabler/icons-react';
+import { PaperStyled } from '../../components/PaperStyled';
 import {
     getPlaylistMeta,
     selectPlaylistsMeta,
@@ -57,9 +58,9 @@ export function FavoritePlaylistItem({ playlist }) {
     }
 
     return (
-        <Paper className='FavoritePlaylistItem' withBorder shadow="xs" p="xs" my="xs">
+        <PaperStyled className='FavoritePlaylistItem' withBorder shadow="xs" p="xs" my="xs">
             {renderItem()}
-        </Paper>
+        </PaperStyled>
     );
 }
 

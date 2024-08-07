@@ -31,7 +31,7 @@ router.get('/spotify/:id', (req, res) => {
             res.json(data.body);
         })
         .catch(err => {
-            console.error('Error getting spotify playlist images:', err);
+            console.error('Error getting spotify playlist meta:', err);
         });
 
 });
@@ -57,7 +57,7 @@ router.post('/spotify/:id/add-track', (req, res) => {
 });
 
 /**
- * Remove a track to a playlist
+ * Remove a track from a playlist
  */
 router.delete('/spotify/:id/remove-track', (req, res) => {
     const { id } = req.params;
