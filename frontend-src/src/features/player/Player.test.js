@@ -67,6 +67,7 @@ describe('Player', () => {
         matchMedia.clear();
         jest.clearAllTimers();
         jest.restoreAllMocks();
+        jest.useRealTimers()
     });
 
     test('renders nothing playing alert when nothing is playing', () => {

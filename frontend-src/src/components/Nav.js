@@ -1,21 +1,11 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Anchor, Avatar, Grid, Image, Text, useMantineColorScheme } from '@mantine/core';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { Anchor, Avatar, Grid, Image, Text } from '@mantine/core';
 import { PaperStyled } from './PaperStyled';
-import { getUser, selectUser, toggleTheme } from '../features/user/userSlice';
+import { toggleTheme } from '../features/user/userSlice';
 
 function Nav({ spotifyUser }) {
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(getUser());
-    }, [dispatch]);
-
-
-    const user = useSelector(selectUser);
-    const { setColorScheme } = useMantineColorScheme();
-
-    setColorScheme(user.theme ? user.theme : 'auto');
 
     const renderSpotifyUser = () => {
         if (!spotifyUser.display_name) {

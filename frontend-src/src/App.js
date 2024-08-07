@@ -1,10 +1,11 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Alert,
   Container,
   Grid,
   MantineProvider,
+  useMantineColorScheme
 } from '@mantine/core';
 import {
   IconMoodWrrr
@@ -18,13 +19,35 @@ import { ManagedPlaylists } from './features/managedPlaylists/ManagedPlaylists';
 import { ManagedPlaylistsNav } from './features/managedPlaylists/ManagedPlaylistsNav';
 import { SpotifyPlaylists } from './features/spotifyPlaylists/SpotifyPlaylists';
 import { selectStatus } from './features/player/playerSlice';
+import { getUser, selectUser } from './features/user/userSlice';
 import { theme } from './app/theme';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import './App.scss';
 
 
+// wrapper around app body but within theme provider for changing themes
+function AppBody(props) {
+  const user = useSelector(selectUser);
+  const { setColorScheme } = useMantineColorScheme();
+
+  useEffect(() => {
+    setColorScheme(user.theme ? user.theme : 'dark');
+  }, [user, setColorScheme]);
+
+  return (
+    <>
+      {props.children}
+    </>
+  )
+}
+
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+      dispatch(getUser());
+  }, [dispatch]);
 
   const playerStatus = useSelector(selectStatus);
 
@@ -65,12 +88,14 @@ function App() {
   }
   return (
     <MantineProvider theme={theme} >
-      <Container>
-        {renderBody()}
-      </Container>
-      <Container p='xl' ta='center' fw={300}>
-        <footer>&copy; {new Date().getFullYear()} Playlister.</footer>
-      </Container>
+      <AppBody>
+        <Container>
+          {renderBody()}
+        </Container>
+        <Container p='xl' ta='center' fw={300}>
+          <footer>&copy; {new Date().getFullYear()} Playlister.</footer>
+        </Container>
+      </AppBody>
     </MantineProvider>
   );
 }
