@@ -19,7 +19,7 @@ const User = sequelize.define(
         theme: {
             type: DataTypes.ENUM('light', 'dark'),
             allowNull: false,
-            defaultValue: 'light'
+            defaultValue: 'dark'
         },
     },
     {
