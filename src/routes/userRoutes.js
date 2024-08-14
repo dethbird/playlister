@@ -5,13 +5,18 @@ const { User } = require('../models/models');
 
 
 router.get('/', (req, res) => {
-    User.findByPk(req.user.user.id)
-        .then(data => {
-            res.json(data);
-        })
-        .catch(err => {
-            console.error('Error fetching app user:', err);
-        });
+    if (req.user) {
+        User.findByPk(req.user.user.id)
+            .then(data => {
+                res.json(data);
+            })
+            .catch(err => {
+                console.error('Error fetching app user:', err);
+            });
+    } else {
+        res.status(404).json({ message: 'No session user, user not found' });
+    }
+
 
 });
 
@@ -31,9 +36,9 @@ router.put('/toggle-theme', async (req, res) => {
         .then(user => {
             user.theme = user.theme === 'light' ? 'dark' : 'light';
             user.save()
-            .then(data => {
-                res.json(data);
-            });
+                .then(data => {
+                    res.json(data);
+                });
         })
         .catch(err => {
             console.error('Error toggling theme:', err);
