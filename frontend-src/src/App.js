@@ -27,7 +27,7 @@ import './App.scss';
 
 
 // wrapper around app body but within theme provider for changing themes
-function AppBody(props) {
+export function AppBody(props) {
   const user = useSelector(selectUser);
   const { setColorScheme } = useMantineColorScheme();
 

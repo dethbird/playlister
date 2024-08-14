@@ -4,7 +4,10 @@ import MatchMediaMock from 'jest-matchmedia-mock';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import { getCurrentTrack, selectStatus, selectCurrentTrack, selectIsPlaying } from './features/player/playerSlice';
+import { selectUser } from './features/user/userSlice';
 import App from './App';
+import { AppBody } from './App';
+import { MantineProvider, useMantineColorScheme } from '@mantine/core';
 
 let matchMedia;
 const spotifyUser = {
@@ -22,6 +25,11 @@ jest.mock('./features/player/playerSlice', () => ({
   getCurrentTrack: jest.fn()
 }));
 
+jest.mock('@mantine/core', () => ({
+  ...jest.requireActual('@mantine/core'),
+  useMantineColorScheme: jest.fn()
+}));
+
 
 describe('App', () => {
   beforeAll(() => {
@@ -35,6 +43,12 @@ describe('App', () => {
   });
 
   test('renders login screen when spotify user is not set', () => {
+    useMantineColorScheme.mockReturnValue({
+      colorScheme: 'light',
+      toggleColorScheme: jest.fn(),
+      setColorScheme: jest.fn()
+    });
+
     window.spotifyUser = {};
     const { getByText } = render(
       <Provider store={store}>
@@ -46,19 +60,20 @@ describe('App', () => {
   });
 
   test('renders error boundary when player current track status is rejected', () => {
-    const state = {
-      player: {
-        status: 'rejected'
-      }
-    };
+    useMantineColorScheme.mockReturnValue({
+      colorScheme: 'light',
+      toggleColorScheme: jest.fn(),
+      setColorScheme: jest.fn()
+    });
+
     selectStatus
       .mockReturnValue('rejected');
     selectCurrentTrack
-      .mockReturnValue(cb => { });
+      .mockReturnValue({});
     selectIsPlaying
-      .mockReturnValue(cb => false);
+      .mockReturnValue(false);
     getCurrentTrack
-      .mockReturnValue({type: 'player/getCurrentTrack'});
+      .mockReturnValue({ type: 'player/getCurrentTrack' });
 
 
     const { getByText } = render(
@@ -70,19 +85,20 @@ describe('App', () => {
   });
 
   test('renders the page when user is logged in', () => {
-    const state = {
-      player: {
-        status: 'rejected'
-      }
-    };
+    useMantineColorScheme.mockReturnValue({
+      colorScheme: 'light',
+      toggleColorScheme: jest.fn(),
+      setColorScheme: jest.fn()
+    });
+
     selectStatus
       .mockReturnValue('fulfilled');
     selectCurrentTrack
-      .mockReturnValue(cb => { });
+      .mockReturnValue({});
     selectIsPlaying
-      .mockReturnValue(cb => false);
+      .mockReturnValue(false);
     getCurrentTrack
-      .mockReturnValue({type: 'player/getCurrentTrack'});
+      .mockReturnValue({ type: 'player/getCurrentTrack' });
 
 
     const { getByText } = render(
@@ -93,6 +109,30 @@ describe('App', () => {
     expect(getByText(/David Coldplay/i)).toBeInTheDocument();
     expect(getByText(/Add \/ Remove currently playing/i)).toBeInTheDocument();
     expect(getByText(/©/i)).toBeInTheDocument();
+  });
+
+  test('sets the user theme when user is loaded', () => {
+
+    useMantineColorScheme.mockReturnValue({
+      colorScheme: 'light',
+      toggleColorScheme: jest.fn(),
+      setColorScheme: jest.fn()
+    });
+
+    jest.mock('./features/user/userSlice', () => ({
+      selectUser: jest.fn().mockReturnValue({ theme: 'dark' })
+    }));
+
+    render(
+      <Provider store={store}>
+        <MantineProvider>
+          <AppBody><div>pizza</div></AppBody>
+        </MantineProvider>
+      </Provider>
+    );
+
+    const { setColorScheme } = useMantineColorScheme();
+    expect(setColorScheme).toHaveBeenCalledTimes(1);
   });
 
 });

@@ -1,33 +1,22 @@
-// import counterReducer, {
-//   increment,
-//   decrement,
-//   incrementByAmount,
-// } from './counterSlice';
+import playerReducer, {
+  increment
+} from './playerSlice';
 
-// describe('counter reducer', () => {
-//   const initialState = {
-//     value: 3,
-//     status: 'idle',
-//   };
-//   it('should handle initial state', () => {
-//     expect(counterReducer(undefined, { type: 'unknown' })).toEqual({
-//       value: 0,
-//       status: 'idle',
-//     });
-//   });
+describe('playerReducer', () => {
+  const initialState = {
+    currentTrack: {},
+    isPlaying: false,
+    isLiked: false,
+    status: 'idle',
+    error: null
+  };
+  it('should handle initial state', () => {
+    expect(playerReducer(undefined, { type: 'unknown' })).toEqual(initialState);
+  });
 
-//   it('should handle increment', () => {
-//     const actual = counterReducer(initialState, increment());
-//     expect(actual.value).toEqual(4);
-//   });
+  // it('should handle increment', () => {
+  //   const actual = counterReducer(initialState, increment());
+  //   expect(actual.value).toEqual(4);
+  // });
 
-//   it('should handle decrement', () => {
-//     const actual = counterReducer(initialState, decrement());
-//     expect(actual.value).toEqual(2);
-//   });
-
-//   it('should handle incrementByAmount', () => {
-//     const actual = counterReducer(initialState, incrementByAmount(2));
-//     expect(actual.value).toEqual(5);
-//   });
-// });
+});

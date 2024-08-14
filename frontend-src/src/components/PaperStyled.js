@@ -12,6 +12,4 @@ export function PaperStyled(props) {
             {props.children}
         </Paper>
     );
-
 }
-

@@ -18,7 +18,16 @@ function LoginScreen() {
                 </Grid>
 
                 <Text p="md" fw={300}>Add / remove your currently playing track from multiple playlists at once.</Text>
-                <Button color="green"  size="xl" radius="xl" href="/auth/spotify" onClick={() => { document.location = '/auth/spotify' }}>
+                <Button
+                    color="green"
+                    size="xl"
+                    radius="xl"
+                    href="/auth/spotify"
+                    onClick={() => { window.location.assign('/auth/spotify') }}
+                    role='button'
+                    name='login with spotify'
+                    title='Login with Spotify'
+                >
                     <Image src='/img/spotify_logo.png' className='SpotifyLogo' /> Login with Spotify
                 </Button>
             </Container>

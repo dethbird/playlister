@@ -162,7 +162,6 @@ describe('Player', () => {
         selectIsLiked
             .mockReturnValue(true);
         jest.spyOn(global, 'setTimeout');
-        jest.runAllTimers();
         render(
             <Provider store={store}>
                 <MantineProvider>
@@ -283,6 +282,5 @@ describe('Player', () => {
         fireEvent.focus(window);
         expect(getCurrentTrack).toHaveBeenCalledTimes(2);
     });
-
 });
 

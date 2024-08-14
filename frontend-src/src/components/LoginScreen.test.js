@@ -1,53 +1,54 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import MatchMediaMock from 'jest-matchmedia-mock';
 import {
     MantineProvider,
 } from '@mantine/core';
 import { store } from '../app/store';
-import Nav from './Nav';
+import LoginScreen from './LoginScreen';
 
 let matchMedia;
 
-describe('Nav', () => {
+describe('LoginScreen', () => {
 
     beforeAll(() => {
         matchMedia = new MatchMediaMock();
+        delete window.location;
+        window.location = { assign: jest.fn() };
     });
 
     afterEach(() => {
         matchMedia.clear();
     });
 
-    test('renders logged in when display name is present', () => {
-        const user = {
-            display_name: "Pizza",
-            images: [
-                { url: 'http://image' }
-            ]
-        }
+    test('renders a login button', () => {
+
         const { getByText } = render(
             <Provider store={store}>
                 <MantineProvider>
-                    <Nav spotifyUser={user} />
+                    <LoginScreen />
                 </MantineProvider>
             </Provider>
+
         );
 
-        expect(getByText(/Pizza/i)).toBeInTheDocument();
+        expect(getByText(/login with spotify/i)).toBeInTheDocument();
     });
 
-    test('does not render user details when no spotify user', async () => {
-        const { queryByText } = render(
+    test('clicking login button should set document location to /auth/spotify', () => {
+
+        render(
             <Provider store={store}>
                 <MantineProvider>
-                    <Nav spotifyUser={{}} />
+                    <LoginScreen />
                 </MantineProvider>
             </Provider>
         );
 
-        const userDetails = await queryByText(/Pizza/i);
-        expect(userDetails).toBeNull();
+        const button = screen.getByRole('button', { name: 'Login with Spotify' });
+        button.click();
+        expect(window.location.assign).toHaveBeenCalledWith('/auth/spotify');
     });
+
 });
