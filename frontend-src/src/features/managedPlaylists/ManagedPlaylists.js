@@ -47,6 +47,7 @@ export function ManagedPlaylists() {
   const playlists = useSelector(selectPlaylists);
   const status = useSelector(selectStatus);
 
+
   if (playlists.length < 1) {
     return (
       <>
@@ -63,11 +64,11 @@ export function ManagedPlaylists() {
   const renderItems = () => {
 
     if (status === 'rejected') {
-      return <div>Error...</div>;
+      return <div role='alert' aria-label="error">Error...</div>;
     }
 
-    if (['pending', 'idle'].includes(status) && !playlists) {
-      return <div aria-busy="true"></div>;
+    if (['pending', 'idle'].includes(status)) {
+      return <div role='alert' aria-busy="true"></div>;
     }
 
     return playlists.map(item => {
@@ -76,6 +77,7 @@ export function ManagedPlaylists() {
   }
 
   const handleDragEnd = event => {
+    console.log(event);
     const { active, over } = event;
     if (active.id !== over.id) {
       const items = active.data.current.sortable.items;
@@ -91,7 +93,7 @@ export function ManagedPlaylists() {
   return (
     <div className='ManagedPlaylists'>
       <Text tt='uppercase' ta='left' >Managed playlists</Text>
-      <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
+      <DndContext onDragEnd={handleDragEnd} sensors={sensors} role='list'>
         <SortableContext items={playlists}>
           {renderItems()}
         </SortableContext>

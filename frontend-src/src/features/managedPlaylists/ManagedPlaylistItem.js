@@ -124,7 +124,7 @@ export function ManagedPlaylistItem({ playlist }) {
 
     return (
         <Box ref={setNodeRef} style={style} {...attributes} {...listeners}>
-            <PaperStyled shadow="xs" p="xs" my="xs" className='ManagedPlaylistItem' >
+            <PaperStyled shadow="xs" p="xs" my="xs" role='li' className='ManagedPlaylistItem' >
                 {renderItem()}
             </PaperStyled>
         </Box>
