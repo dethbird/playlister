@@ -30,14 +30,14 @@ export function FavoritePlaylistItem({ playlist }) {
 
     const renderItem = () => {
         if (!meta) {
-            return <div aria-busy="true"></div>;
+            return <div role='alert' aria-busy="true"></div>;
         }
         return (
             <Grid>
                 <Grid.Col span={10}>
                     <Grid>
                         <Grid.Col span={{ base: 12, sm: 3 }}>
-                            <img alt="Playlist cover" src={meta.images[1] ? meta.images[1].url : meta.images[0].url} className='CoverArt' />
+                            <img alt="Playlist cover" data-testid='Playlist cover' src={meta.images[1] ? meta.images[1].url : meta.images[0].url} className='CoverArt' />
                         </Grid.Col>
                         <Grid.Col span={{ base: 12, sm: 9 }} >
                             <Anchor fw={500} size="lg" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
@@ -48,7 +48,7 @@ export function FavoritePlaylistItem({ playlist }) {
                 </Grid.Col>
                 <Grid.Col span={2}>
                     <Tooltip label="Add to Managed Playlists">
-                        <ActionIcon size='lg' aria-label="Add to Managed Playlists" onClick={() => dispatch(addFavoritePlaylistToManaged(playlist.spotify_playlist_id))}>
+                        <ActionIcon size='lg' role='button' aria-label="Add to Managed Playlists" onClick={() => dispatch(addFavoritePlaylistToManaged(playlist.spotify_playlist_id))}>
                             <IconPlus />
                         </ActionIcon>
                     </Tooltip>
@@ -63,4 +63,3 @@ export function FavoritePlaylistItem({ playlist }) {
         </PaperStyled>
     );
 }
-

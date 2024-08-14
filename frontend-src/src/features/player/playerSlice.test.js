@@ -1,5 +1,5 @@
 import playerReducer, {
-  increment
+  getCurrentTrack
 } from './playerSlice';
 
 describe('playerReducer', () => {
@@ -13,10 +13,5 @@ describe('playerReducer', () => {
   it('should handle initial state', () => {
     expect(playerReducer(undefined, { type: 'unknown' })).toEqual(initialState);
   });
-
-  // it('should handle increment', () => {
-  //   const actual = counterReducer(initialState, increment());
-  //   expect(actual.value).toEqual(4);
-  // });
 
 });

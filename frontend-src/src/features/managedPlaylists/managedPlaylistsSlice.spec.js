@@ -5,10 +5,7 @@ import counterReducer, {
 } from './managedPlaylistsSlice';
 
 describe('managedPlaylistSlice ', () => {
-  const initialState = {
-    value: 3,
-    status: 'idle',
-  };
+
   it('should handle initial state', () => {
     expect(counterReducer(undefined, { type: 'unknown' })).toEqual({
       playlists: [],
