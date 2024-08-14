@@ -8,7 +8,12 @@ export function PaperStyled(props) {
     const user = useSelector(selectUser);
 
     return (
-        <Paper withBorder bg={user.theme === 'light' ? '#FFFFFF' : '#1f1f1f'} {...props} >
+        <Paper
+            withBorder
+            bg={user.theme === 'light' ? '#FFFFFF' : '#1f1f1f'}
+            {...props}
+            data-testid='paper-styled'
+        >
             {props.children}
         </Paper>
     );
