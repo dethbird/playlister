@@ -20,7 +20,7 @@ export function SpotifyPlaylistItem({ playlist }) {
                 <Grid.Col span={10}>
                     <Grid>
                         <Grid.Col span={{ base: 12, sm: 3 }}>
-                            <img className='CoverArt' alt="Playlist cover" src={playlist.images[1] ? playlist.images[1].url : playlist.images[0].url} />
+                            <img className='CoverArt' data-testid="Playlist cover" alt="Playlist cover" src={playlist.images[1] ? playlist.images[1].url : playlist.images[0].url} />
                         </Grid.Col>
                         <Grid.Col span={{ base: 12, sm: 9 }}>
                             <Anchor fw={500} size="lg" href={playlist.uri} target="_blank" rel="noreferrer">{playlist.name}</Anchor>
@@ -40,4 +40,3 @@ export function SpotifyPlaylistItem({ playlist }) {
         </PaperStyled>
     );
 }
-

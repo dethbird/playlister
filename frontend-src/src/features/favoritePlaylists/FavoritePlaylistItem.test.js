@@ -25,7 +25,7 @@ jest.mock('../managedPlaylists/managedPlaylistsSlice', () => ({
 let mockPlaylist;
 let mockPlaylistMetadata;
 
-describe('ManagedPlaylistsNav', () => {
+describe('FavoritePlaylistItem', () => {
     beforeAll(() => {
         matchMedia = new MatchMediaMock();
         mockPlaylistMetadata = {
