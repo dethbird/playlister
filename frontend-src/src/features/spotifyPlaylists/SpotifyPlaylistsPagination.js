@@ -13,6 +13,10 @@ export function SpotifyPlaylistsPagination() {
 
     const dispatch = useDispatch();
 
+    if (!currentPage) {
+        return null;
+    }
+
     return (
         <Container justify='center'>
             <Pagination

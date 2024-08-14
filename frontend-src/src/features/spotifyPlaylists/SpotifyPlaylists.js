@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Modal, Title } from '@mantine/core';
+import { Container, getContrastColor, Modal, Title } from '@mantine/core';
 import {
     getSpotifyPlaylists,
     selectCurrentPage,
@@ -30,13 +30,8 @@ export function SpotifyPlaylists({ spotifyUser }) {
     }
 
     const renderItems = () => {
-
-        if (status === 'rejected') {
-            return <div>Error...</div>;
-        }
-
         if (['pending', 'idle'].includes(status) && !currentPage) {
-            return <div aria-busy="true"></div>;
+            return <div role='alert' aria-busy="true"></div>;
         }
 
         const userPlaylists = currentPage.items.filter(item => {
@@ -52,7 +47,7 @@ export function SpotifyPlaylists({ spotifyUser }) {
         <Modal
             opened={dialogIsOpen}
             onClose={() => { dispatch(toggleDialog()) }}
-            title={<Title order={4}>Your Spotify playlists</Title>}
+            title='Your Spotify playlists'
             padding='xl'
             fullScreen
         >
