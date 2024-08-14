@@ -72,6 +72,28 @@ describe('SpotifyPlaylistsTest', () => {
         matchMedia.clear();
     });
 
+    test('renders nothing if dialogIsOpen not true', async () => {
+        getSpotifyPlaylists
+            .mockReturnValue({ type: 'someAction' });
+        selectCurrentPage
+            .mockReturnValue(mockCurrentPage);
+        selectStatus
+            .mockReturnValue('pending');
+        selectdDialogIsOpen
+            .mockReturnValue(false);
+
+        render(
+            <Provider store={store}>
+                <MantineProvider>
+                    <SpotifyPlaylists spotifyUser={mockSpotifyUser} />
+                </MantineProvider>
+            </Provider>
+        );
+        const items = await screen.queryAllByRole('li');
+        expect(items.length).toBe(0);
+
+    });
+
     test('renders a busy state when status is pending', () => {
         getSpotifyPlaylists
             .mockReturnValue({ type: 'someAction' });
@@ -112,7 +134,6 @@ describe('SpotifyPlaylistsTest', () => {
             </Provider>
         );
         const items = await screen.queryAllByRole('li');
-        console.log(items);
         expect(items.length).toBe(2);
 
     });
