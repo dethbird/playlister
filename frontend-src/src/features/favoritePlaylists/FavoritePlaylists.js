@@ -32,16 +32,12 @@ export function FavoritePlaylists() {
 
     const renderItems = () => {
 
-        if (favoriteStatus === 'rejected') {
-            return <div>Error...</div>;
-        }
-
-        if (['pending', 'idle'].includes(favoriteStatus) && !favoritePlaylists) {
-            return <div aria-busy="true"></div>;
+        if (['pending', 'idle'].includes(favoriteStatus) && favoritePlaylists.length < 1) {
+            return <div role='alert' aria-busy="true"></div>;
         }
 
         return favoritePlaylists.map(item => {
-            return <FavoritePlaylistItem playlist={item} key={item.id}/>;
+            return <FavoritePlaylistItem playlist={item} key={item.id} role='li'/>;
         })
     }
 
@@ -49,9 +45,10 @@ export function FavoritePlaylists() {
         <Modal
             opened={favoriteDialogIsOpen}
             onClose={() => { dispatch(toggleFavoriteDialog()) }}
-            title={<Title order={4}>Your favorited playlists</Title>}
+            title="Your favorited playlists"
             padding='xl'
             fullScreen
+            arial-label='FavoritesModal'
         >
             <Container>{renderItems()}</Container>
         </Modal>
