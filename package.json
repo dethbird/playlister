@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "src/app.js",
   "scripts": {
-    "start": "node src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/start.js",
+    "test": "jest --detectOpenHandles --runInBand --watch"
   },
   "keywords": [],
   "author": "",
@@ -27,5 +27,24 @@
     "pug": "^3.0.3",
     "sequelize": "^6.37.3",
     "spotify-web-api-node": "^5.0.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  },
+  "jest": {
+    "testMatch": [
+      "<rootDir>/tests/unit/**/*.(test|spec).{js,jsx,ts,tsx}",
+      "<rootDir>/src/**/*.(test|spec).{js,jsx,ts,tsx}",
+      "!<rootDir>/frontend-src/**/*"
+    ],
+    "verbose": true,
+    "silent": false,
+    "collectCoverage": true,
+    "coverageDirectory": "coverage",
+    "coverageReporters": [
+      "html",
+      "text-summary"
+    ]
   }
 }
