@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, getContrastColor, Modal, Title } from '@mantine/core';
+import { Container, Modal } from '@mantine/core';
 import {
     getSpotifyPlaylists,
     selectCurrentPage,

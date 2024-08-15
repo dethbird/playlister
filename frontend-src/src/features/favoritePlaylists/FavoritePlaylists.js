@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Modal, Title } from '@mantine/core';
+import { Container, Modal } from '@mantine/core';
 import {
     getFavoritePlaylists,
     selectFavoriteStatus,

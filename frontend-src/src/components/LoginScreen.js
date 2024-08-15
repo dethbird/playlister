@@ -1,10 +1,11 @@
 import React from 'react';
 import { Button, Container, Grid, Image, Overlay, Text } from '@mantine/core';
 import classes from './LoginScreen.module.css';
+import { IconBorderRadius } from '@tabler/icons-react';
 
 function LoginScreen() {
     return (
-        <div className={classes.hero}>
+        <Container className={classes.hero} style={{ borderRadius: '15px'}} >
             <Overlay
                 gradient="linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, .55) 40%)"
                 opacity={1}
@@ -31,7 +32,7 @@ function LoginScreen() {
                     <Image src='/img/spotify_logo.png' className='SpotifyLogo' /> Login with Spotify
                 </Button>
             </Container>
-        </div>
+        </Container>
     );
 }
 
