@@ -25,7 +25,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test-coverage": "npm run test -- --coverage --coverageDirectory=coverage --coverageReporters=\"html\" --verbose",
+    "test-coverage": "npm run test -- --coverage --verbose",
+    "test-coverage-out": "npm run test -- --coverage --coverageDirectory=coverage --coverageReporters=\"html\" --verbose",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -48,6 +49,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "jest-matchmedia-mock": "^1.1.0"
+    "jest-matchmedia-mock": "^1.1.0",
+    "redux-mock-store": "^1.5.4"
   }
 }

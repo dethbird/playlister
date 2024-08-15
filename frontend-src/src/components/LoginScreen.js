@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Container, Grid, Image, Overlay, Text } from '@mantine/core';
 import classes from './LoginScreen.module.css';
-import { IconBorderRadius } from '@tabler/icons-react';
 
 function LoginScreen() {
     return (
