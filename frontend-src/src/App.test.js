@@ -4,7 +4,6 @@ import MatchMediaMock from 'jest-matchmedia-mock';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import { getCurrentTrack, selectStatus, selectCurrentTrack, selectIsPlaying } from './features/player/playerSlice';
-import { selectUser } from './features/user/userSlice';
 import App from './App';
 import { AppBody } from './App';
 import { MantineProvider, useMantineColorScheme } from '@mantine/core';
@@ -136,4 +135,3 @@ describe('App', () => {
   });
 
 });
-
