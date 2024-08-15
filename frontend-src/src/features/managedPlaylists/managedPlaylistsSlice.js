@@ -3,7 +3,7 @@ import { notifications } from '@mantine/notifications';
 import { apiRequest } from '../../app/apiConfig';
 import { selectCurrentTrack } from '../player/playerSlice';
 
-const initialState = {
+export const initialState = {
   playlists: [],
   playlistsMeta: {},
   favoriteDialogIsOpen: false,
@@ -236,8 +236,10 @@ export const toggleFavoritePlaylist = createAsyncThunk(
       body: JSON.stringify({ id: spotifyPlaylistId })
     });
     const data = await response.json();
-    dispatch(getManagedPlaylists());
-    dispatch(getFavoritePlaylists());
+    setTimeout(() => {
+      dispatch(getManagedPlaylists());
+      dispatch(getFavoritePlaylists());
+    }, 250);
     return data;
   }
 );
@@ -262,8 +264,10 @@ export const addFavoritePlaylistToManaged = createAsyncThunk(
       body: JSON.stringify({ id: spotifyPlaylistId })
     });
     const data = await response.json();
-    dispatch(managedPlaylistsSlice.actions.toggleFavoriteDialog());
-    dispatch(getManagedPlaylists());
+    setTimeout(() => {
+      dispatch(managedPlaylistsSlice.actions.toggleFavoriteDialog());
+      dispatch(getManagedPlaylists());
+  }, 250);
     return data;
   }
 );
@@ -289,7 +293,7 @@ export const managedPlaylistsSlice = createSlice({
       })
       .addCase(getManagedPlaylists.rejected, (state, action) => {
         state.status = 'rejected';
-        state.error = action.error.message;
+        state.error = action.error;
       })
       .addCase(getPlaylistMeta.fulfilled, (state, action) => {
         state.playlistsMeta[action.payload.id] = action.payload;
@@ -303,7 +307,7 @@ export const managedPlaylistsSlice = createSlice({
       })
       .addCase(getFavoritePlaylists.rejected, (state, action) => {
         state.favoriteStatus = 'rejected';
-        state.error = action.error.message;
+        state.error = action.error;
       });
   },
 });
