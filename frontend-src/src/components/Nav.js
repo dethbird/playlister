@@ -15,7 +15,7 @@ function Nav({ spotifyUser }) {
             <PaperStyled shadow="xs" p="xs" m="xs">
                 <Avatar src={spotifyUser.images[0].url} alt={spotifyUser.display_name} className='Avatar' />
                 <Text fw={500}>{spotifyUser.display_name}</Text>
-                <Anchor onClick={() => { dispatch(toggleTheme())}} title='Switch theme'>Switch theme</Anchor><br />
+                <Anchor role='button' arial-label='SwitchTheme' onClick={() => { dispatch(toggleTheme())}} title='Switch theme'>Switch theme</Anchor><br />
                 <Anchor href="/logout" title='Logout'>Logout</Anchor>
             </PaperStyled>
         );

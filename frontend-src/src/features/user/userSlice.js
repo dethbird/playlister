@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { apiRequest } from '../../app/apiConfig';
 
-const initialState = {
+export const initialState = {
     user: {},
     spotifyUser: {},
     status: 'idle',
@@ -33,7 +33,9 @@ export const toggleTheme = createAsyncThunk(
             method: 'PUT'
         });
         const data = await response.json();
-        dispatch(getUser());
+        setTimeout(() => {
+            dispatch(getUser());
+        }, 250);
         return data;
     }
 );
@@ -54,7 +56,7 @@ export const userSlice = createSlice({
             })
             .addCase(getSpotifyUser.rejected, (state, action) => {
                 state.status = 'rejected';
-                state.error = action.error.message;
+                state.error = action.error;
             })
             .addCase(getUser.fulfilled, (state, action) => {
                 state.user = action.payload;
