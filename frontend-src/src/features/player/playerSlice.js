@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { apiRequest } from '../../app/apiConfig';
 
-const initialState = {
+export const initialState = {
   currentTrack: {},
   isPlaying: false,
   isLiked: false,
@@ -104,6 +104,7 @@ export const playerSlice = createSlice({
       })
       .addCase(getCurrentTrack.rejected, (state, action) => {
         state.status = 'rejected';
+        state.error = action.error;
       })
       .addCase(play.fulfilled, (state, action) => {
         state.isPlaying = true;

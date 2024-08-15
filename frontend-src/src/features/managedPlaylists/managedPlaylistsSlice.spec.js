@@ -77,15 +77,7 @@ describe('managedPlaylistSlice ', () => {
   });
 
   it('should handle initial state', () => {
-    expect(managedPlaylistReducer(undefined, { type: 'unknown' })).toEqual({
-      playlists: [],
-      playlistsMeta: {},
-      favoriteDialogIsOpen: false,
-      favoritePlaylists: [],
-      status: 'idle',
-      favoriteStatus: 'idle',
-      error: null
-    });
+    expect(managedPlaylistReducer(undefined, { type: 'unknown' })).toEqual(initialState);
   });
 
   it('getManagedPlaylists pending then fulfilled', () => {
@@ -178,11 +170,6 @@ describe('managedPlaylistSlice ', () => {
 
     const store = mockStore({})
 
-    jest.mock('./managedPlaylistsSlice', (dummyAction) => ({
-      getManagedPlaylists: jest.fn().mockResolvedValueOnce(dummyAction)
-    }));
-
-
     const resp = new Response(JSON.stringify(dummyResponse), {
       status: 200,
       headers: { 'Content-type': 'application/json' }
@@ -207,11 +194,6 @@ describe('managedPlaylistSlice ', () => {
   it('togglePlaylistActive pending then fulfilled, and getManagedPlaylists was called', () => {
 
     const store = mockStore({})
-
-    jest.mock('./managedPlaylistsSlice', (dummyAction) => ({
-      getManagedPlaylists: jest.fn().mockResolvedValueOnce(dummyAction)
-    }));
-
 
     const resp = new Response(JSON.stringify(dummyResponse), {
       status: 200,
@@ -238,11 +220,6 @@ describe('managedPlaylistSlice ', () => {
 
     const store = mockStore({})
 
-    jest.mock('./managedPlaylistsSlice', (dummyAction) => ({
-      getManagedPlaylists: jest.fn().mockResolvedValueOnce(dummyAction)
-    }));
-
-
     const resp = new Response(JSON.stringify(dummyResponse), {
       status: 200,
       headers: { 'Content-type': 'application/json' }
@@ -267,11 +244,6 @@ describe('managedPlaylistSlice ', () => {
   it('invertActiveAll pending then fulfilled, and getManagedPlaylists was called', () => {
 
     const store = mockStore({})
-
-    jest.mock('./managedPlaylistsSlice', (dummyAction) => ({
-      getManagedPlaylists: jest.fn().mockResolvedValueOnce(dummyAction)
-    }));
-
 
     const resp = new Response(JSON.stringify(dummyResponse), {
       status: 200,
@@ -298,10 +270,6 @@ describe('managedPlaylistSlice ', () => {
 
     const store = mockStore({})
 
-    jest.mock('./managedPlaylistsSlice', (dummyAction) => ({
-      getManagedPlaylists: jest.fn().mockResolvedValueOnce(dummyAction)
-    }));
-
     const resp = new Response(JSON.stringify(dummyResponse), {
       status: 200,
       headers: { 'Content-type': 'application/json' }
@@ -326,10 +294,6 @@ describe('managedPlaylistSlice ', () => {
   it('addTrackToActive adds to active playlists, updates meta for active, and shows notification ', () => {
 
     const showSpy = jest.spyOn(notifications, 'show');
-
-    jest.mock('./managedPlaylistsSlice', (dummyAction) => ({
-      getPlaylistMeta: jest.fn().mockResolvedValue(dummyAction)
-    }));
 
     const store = mockStore(
       {
@@ -368,10 +332,6 @@ describe('managedPlaylistSlice ', () => {
   it('removeTrackFromActive adds to active playlists, updates meta for active, and shows notification ', () => {
 
     const showSpy = jest.spyOn(notifications, 'show');
-
-    jest.mock('./managedPlaylistsSlice', (dummyAction) => ({
-      getPlaylistMeta: jest.fn().mockResolvedValue(dummyAction)
-    }));
 
     const store = mockStore(
       {
@@ -545,12 +505,6 @@ describe('managedPlaylistSlice ', () => {
 
   it('addFavoritePlaylistToManaged pending and fulfilled, dispatch toggleDialog and getManagedPlaylists', () => {
 
-    jest.mock('./managedPlaylistsSlice', (dummyAction) => ({
-      getManagedPlaylists: jest.fn().mockResolvedValueOnce(dummyAction),
-      toggleFavoriteDialog: jest.fn().mockResolvedValueOnce(dummyAction),
-    }));
-
-
     const store = mockStore({});
 
     const resp = new Response(JSON.stringify(dummyResponse), {
@@ -602,7 +556,7 @@ describe('managedPlaylistSlice ', () => {
 
   it('getFavoritePlaylists.fulfilled', () => {
     const action = { type: getFavoritePlaylists.fulfilled, payload: mockPlaylistsResponse };
-    const expectedState = { ...initialState, favoriteStatus: 'fulfilled', playlists: mockPlaylistsResponse };
+    const expectedState = { ...initialState, favoriteStatus: 'fulfilled', favoritePlaylists: mockPlaylistsResponse };
     expect(managedPlaylistReducer(initialState, action)).toEqual(expectedState);
   });
 
