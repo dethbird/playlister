@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { apiRequest } from '../../app/apiConfig';
 import { getManagedPlaylists } from '../managedPlaylists/managedPlaylistsSlice';
 
-const initialState = {
+export const initialState = {
   currentPage: null,
   dialogIsOpen: false,
   status: 'idle',
@@ -31,8 +31,10 @@ export const addSpotifyPlaylistToManaged = createAsyncThunk(
       body: JSON.stringify({ id: spotifyPlaylistId })
     });
     const data = await response.json();
-    dispatch(spotifyPlaylistsSlice.actions.toggleDialog());
-    dispatch(getManagedPlaylists());
+    setTimeout(() => {
+      dispatch(spotifyPlaylistsSlice.actions.toggleDialog());
+      dispatch(getManagedPlaylists());
+    }, 250);
     return data;
   }
 );
@@ -57,7 +59,7 @@ export const spotifyPlaylistsSlice = createSlice({
       })
       .addCase(getSpotifyPlaylists.rejected, (state, action) => {
         state.status = 'rejected';
-        state.error = action.error.message;
+        state.error = action.error;
       });
   },
 });

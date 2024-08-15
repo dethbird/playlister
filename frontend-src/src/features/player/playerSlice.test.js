@@ -18,8 +18,6 @@ const middlewares = [thunk]
 const mockStore = configureStore(middlewares);
 
 const serviceError = 'internal service error';
-const dummyResponse = { pizza: 'party' };
-const dummyAction = { type: 'someAction' };
 
 let mockPlaylistMetadata;
 let mockPlaylistsResponse;
@@ -29,7 +27,7 @@ jest.mock('../../app/apiConfig', () => ({
   apiRequest: jest.fn(),
 }));
 
-describe('managedPlaylistSlice ', () => {
+describe('playerSlice ', () => {
 
   beforeEach(() => {
     jest.useFakeTimers();
