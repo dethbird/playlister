@@ -16,6 +16,7 @@ router.get('/spotify', (req, res) => {
         })
         .catch(err => {
             console.error('Error getting page of user spotify playlists:', err);
+            res.status(err.statusCode).json({ message: err.message });
         });
 
 });
@@ -32,6 +33,7 @@ router.get('/spotify/:id', (req, res) => {
         })
         .catch(err => {
             console.error('Error getting spotify playlist meta:', err);
+            res.status(err.statusCode).json({ message: err.message });
         });
 
 });
@@ -51,8 +53,16 @@ router.post('/spotify/:id/add-track', (req, res) => {
             [uri]
         ).then((data) => {
             res.json(data);
+        })
+            .catch(err => {
+                console.error('Error adding track to playlist:', err);
+                res.status(err.statusCode).json({ message: err.message });
+            });;
+    })
+        .catch(err => {
+            console.error('Error removing track from playlist:', err);
+            res.status(err.statusCode).json({ message: err.message });
         });
-    });
 
 });
 
@@ -67,6 +77,9 @@ router.delete('/spotify/:id/remove-track', (req, res) => {
         [{ uri }]
     ).then((data) => {
         res.json(data);
+    }).catch(err => {
+        console.error('Error removing track from playlist:', err);
+        res.status(err.statusCode).json({ message: err.message });
     });
 });
 
@@ -75,6 +88,7 @@ router.delete('/spotify/:id/remove-track', (req, res) => {
  * Add a Spotify playlist to user's managed playlists
  */
 router.post('/', (req, res) => {
+
     const { id } = req.body;
     Playlist.findOrCreate({
         where: {
@@ -87,7 +101,11 @@ router.post('/', (req, res) => {
         }
     }).then(playlist => {
         res.status(201).json(playlist);
-    });
+    }).
+        catch(err => {
+            console.error('Error adding playlist to manage:', err);
+            res.status(500).json({ message: err.message });
+        });
 
 });
 
@@ -109,7 +127,11 @@ router.get('/', (req, res) => {
         type: QueryTypes.SELECT,
     }).then(data => {
         res.json(data);
-    });
+    }).
+        catch(err => {
+            console.error('Error fetching user/s playlists:', err);
+            res.status(500).json({ message: err.message });
+        });
 });
 
 /**
@@ -124,6 +146,9 @@ router.delete('/:id', (req, res) => {
         }
     }).then(data => {
         res.status(204).json(data);
+    }).catch(err => {
+        console.error('Error deleting user/s playlists:', err);
+        res.status(500).json({ message: err.message });
     });
 
 });
@@ -133,47 +158,61 @@ router.delete('/:id', (req, res) => {
  */
 router.put('/:id/toggle-active', (req, res) => {
     const { id } = req.params;
-    Playlist.findByPk(id)
-        .then(playlist => {
-            playlist.active = playlist.active === 'Y' ? 'N' : 'Y';
-            Playlist.update({ active: playlist.active }, {
-                where: {
-                    id: id,
-                    user_id: req.user.user.id
-                },
-            }).then(() => {
-                res.json(playlist);
+    try {
+        Playlist.findByPk(id)
+            .then(playlist => {
+                playlist.active = playlist.active === 'Y' ? 'N' : 'Y';
+                Playlist.update({ active: playlist.active }, {
+                    where: {
+                        id: id,
+                        user_id: req.user.user.id
+                    },
+                }).then(() => {
+                    res.json(playlist);
+                }).catch(err => {
+                    console.error('Error updating user/s playlist:', err);
+                    res.status(500).json({ message: err.message });
+                });;
+            }).catch(err => {
+                console.error('Error finding user/s playlist:', err);
+                res.status(500).json({ message: err.message });
             });
-        });
-
+    } catch (err) {
+        console.error('Error toggle-active user/s playlist:', err);
+        res.status(500).json({ message: err.message });
+    }
 });
 
 /**
  * Set all user's managed playlists to active Y || N
  */
 router.put('/set-active-all', (req, res) => {
+
     const { active } = req.body;
 
     Playlist.update({ active }, {
         where: {
             user_id: req.user.user.id
         },
-    })
-        .then((data) => {
-            res.json(data);
-        });
+    }).then((data) => {
+
+        res.json(data);
+    }).catch(err => {
+        console.error('Error updating user/s playlist:', err);
+        res.status(500).json({ message: err.message });
+    });
 });
 
 /**
  * Invert all user's managed playlists to active Y || N
  */
 router.put('/invert-active-all', (req, res) => {
-    Playlist.findAll({
-        where: {
-            user_id: req.user.user.id
-        }
-    })
-        .then(playlists => {
+    try {
+        Playlist.findAll({
+            where: {
+                user_id: req.user.user.id
+            }
+        }).then(playlists => {
             playlists.forEach(playlist => {
                 const active = playlist.active === 'Y' ? 'N' : 'Y';
                 Playlist.update({ active }, {
@@ -181,12 +220,22 @@ router.put('/invert-active-all', (req, res) => {
                         id: playlist.id,
                         user_id: req.user.user.id
                     }
-                }).then(data => {
-                    // noop
-                })
+                }).catch(err => {
+                    console.error('Error updating user/s playlist:', err);
+                    res.status(500).json({ message: err.message });
+                });
             });
-            res.json({});
+        }).catch(err => {
+            console.error('Error finding user/s playlist:', err);
+            res.status(500).json({ message: err.message });
+        }).finally(() => {
+            res.json(true);
         });
+    } catch (err) {
+        console.error('Error invert-active-all user/s playlist:', err);
+        res.status(500).json({ message: err.message });
+    }
+
 });
 
 /**
@@ -194,12 +243,18 @@ router.put('/invert-active-all', (req, res) => {
  */
 router.put('/reorder', (req, res) => {
     const { ids } = req.body;
-    ids.forEach(async (id, index) => {
-        const playlist = await Playlist.findByPk(id);
-        playlist.sort_order = index;
-        await playlist.save();
-    });
-    res.json({});
+    try {
+        ids.forEach(async (id, index) => {
+            const playlist = await Playlist.findByPk(id);
+            console.log(playlist.sort_order);
+            playlist.sort_order = index;
+            await playlist.save();
+        });
+        res.json(true);
+    } catch (err) {
+        console.error('Error reordering user/s playlist:', err);
+        res.status(500).json({ message: err.message });
+    }
 });
 
 /**
@@ -208,29 +263,34 @@ router.put('/reorder', (req, res) => {
 router.put('/add-track-to-active', (req, res) => {
     const { uri } = req.body;
     const updated = [];
-    Playlist.findAll({
-        where: {
-            active: 'Y',
-            user_id: req.user.user.id
-        }
-    })
-        .then(playlists => {
-            playlists.forEach(playlist => {
-                spotifyApi.removeTracksFromPlaylist(
-                    playlist.spotify_playlist_id,
-                    [{ uri }]
-                ).then(() => {
-                    spotifyApi.addTracksToPlaylist(
+    try {
+        Playlist.findAll({
+            where: {
+                active: 'Y',
+                user_id: req.user.user.id
+            }
+        })
+            .then(playlists => {
+                playlists.forEach(playlist => {
+                    spotifyApi.removeTracksFromPlaylist(
                         playlist.spotify_playlist_id,
-                        [uri]
+                        [{ uri }]
                     ).then(() => {
-                        updated.push(playlist.spotify_playlist_id);
+                        spotifyApi.addTracksToPlaylist(
+                            playlist.spotify_playlist_id,
+                            [uri]
+                        ).then(() => {
+                            updated.push(playlist.spotify_playlist_id);
+                        });
                     });
                 });
+            }).finally(() => {
+                res.json(updated);
             });
-        }).finally(() => {
-            res.json(updated);
-        });
+    } catch (err) {
+        console.error('Error add-track-to-active user/s playlist:', err);
+        res.status(500).json({ message: err.message });
+    }
 });
 
 /**
@@ -239,24 +299,29 @@ router.put('/add-track-to-active', (req, res) => {
 router.put('/remove-track-from-active', (req, res) => {
     const { uri } = req.body;
     const updated = [];
-    Playlist.findAll({
-        where: {
-            active: 'Y',
-            user_id: req.user.user.id
-        }
-    })
-        .then(playlists => {
-            playlists.forEach(playlist => {
-                spotifyApi.removeTracksFromPlaylist(
-                    playlist.spotify_playlist_id,
-                    [{ uri }]
-                ).then(() => {
-                    updated.push(playlist.spotify_playlist_id);
+    try {
+        Playlist.findAll({
+            where: {
+                active: 'Y',
+                user_id: req.user.user.id
+            }
+        })
+            .then(playlists => {
+                playlists.forEach(playlist => {
+                    spotifyApi.removeTracksFromPlaylist(
+                        playlist.spotify_playlist_id,
+                        [{ uri }]
+                    ).then(() => {
+                        updated.push(playlist.spotify_playlist_id);
+                    });
                 });
+            }).finally(() => {
+                res.json(updated);
             });
-        }).finally(() => {
-            res.json(updated);
-        });
+    } catch (err) {
+        console.error('Error remove-track-from-active user/s playlist:', err);
+        res.status(500).json({ message: err.message });
+    }
 });
 
 /**
@@ -264,28 +329,33 @@ router.put('/remove-track-from-active', (req, res) => {
  */
 router.put('/favorite', (req, res) => {
     const { id } = req.body;
-    Favorite.findOne({
-        where: {
-            user_id: req.user.user.id,
-            spotify_playlist_id: id
-        }
-    }).then(favorite => {
-        if (!favorite) {
-            Favorite.create({
+    try {
+        Favorite.findOne({
+            where: {
                 user_id: req.user.user.id,
                 spotify_playlist_id: id
-            }).then(favorite => {
-                res.json(favorite);
-            });
-        } else {
-            Favorite.destroy({
-                where: {
+            }
+        }).then(favorite => {
+            if (!favorite) {
+                Favorite.create({
                     user_id: req.user.user.id,
                     spotify_playlist_id: id
-                }
-            }).then(data => res.json(data));
-        }
-    });
+                }).then(favorite => {
+                    res.json(favorite);
+                });
+            } else {
+                Favorite.destroy({
+                    where: {
+                        user_id: req.user.user.id,
+                        spotify_playlist_id: id
+                    }
+                }).then(data => res.json(data));
+            }
+        });
+    } catch (err) {
+        console.error('Error remove-track-from-active user/s playlist:', err);
+        res.status(500).json({ message: err.message });
+    }
 });
 
 /**

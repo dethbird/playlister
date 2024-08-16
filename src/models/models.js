@@ -87,25 +87,6 @@ const Favorite = sequelize.define(
         underscored: true
     },
 );
-
-// User.hasMany(Playlist, {
-//     onDelete: 'CASCADE'
-// });
-// Playlist.hasOne(Favorite, {
-//     onDelete: 'CASCADE'
-// });
-
 module.exports = {
     sequelize, User, Playlist, Favorite
 };
-
-// const newUser = User.create({spotify_user_id: 555});
-
-// const newPlaylist = Playlist.create({user_id: 555, spotify_playlist_id: "LDSJFLKDSBFLKSDBF"});
-// const newFavorite = Favorite.create({user_id: 555, spotify_playlist_id: "LDSJFLKDSBFLKSDBF"});
-
-// console.log(newUser);
-// console.log(newPlaylist);
-
-
-// Playlist.findAll().then( playlist => { console.log(playlist)});
