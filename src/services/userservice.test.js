@@ -2,7 +2,7 @@ const spotifyApi = require('../modules/spotifyApi');
 const { User } = require("../models/models");
 const userService = require('./userService');
 
-const { mockUser, mockSpotifyUser } = require('../../tests/mocks/contants');
+const { mockUser, mockSpotifyUser } = require('../../testutils/mocks/contants');
 
 jest.mock('../models/models');
 jest.mock('../modules/spotifyApi');

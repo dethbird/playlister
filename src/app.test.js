@@ -2,7 +2,7 @@ const request = require('supertest');
 const app = require('./app');
 const SpotifyStrategy = require('passport-spotify').Strategy;
 
-const { mockSessionUser } = require('../tests/mocks/contants');
+const { mockSessionUser } = require('../testutils/mocks/contants');
 
 // mock spotify strategy to set the session user
 jest.mock('passport-spotify', () => {
