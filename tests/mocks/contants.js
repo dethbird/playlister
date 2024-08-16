@@ -1,3 +1,4 @@
+const { resolve } = require("path");
 
 const mockUser = {
     theme: 'dark'

@@ -10,8 +10,8 @@ const RateLimit = require("express-rate-limit");
 const session = require("express-session");
 const SpotifyStrategy = require('passport-spotify').Strategy;
 
-const { User } = require('./models/models');
 const spotifyApi = require('./modules/spotifyApi');
+const { authenticateSpotifyUser } = require('./services/userService');
 
 const limiter = RateLimit({
     windowMs: 1 * 60 * 1000, // 1 minute
@@ -44,6 +44,7 @@ const requiredScopes = [
     'streaming'
 ];
 
+
 passport.use(
     new SpotifyStrategy(
         {
@@ -51,23 +52,7 @@ passport.use(
             clientSecret: process.env.SPOTIFY_SECRET,
             callbackURL: process.env.SPOTIFY_CALLBACK_URL
         },
-        function (accessToken, refreshToken, expires_in, profile, done) {
-            User.findOrCreate({
-                where: { spotify_user_id: profile.id }
-            }).then((user, userCreated) => {
-                spotifyApi.setAccessToken(accessToken);
-                spotifyApi.getMe()
-                    .then(data => {
-                        return done(null, { user: user[0], accessToken, spotifyUser: data.body });
-                    })
-                    .catch(err => {
-                        console.error('Error getting user profile:', err);
-                    });
-
-            }).catch(err => {
-                console.log(err);
-            });
-        }
+        authenticateSpotifyUser
     )
 );
 
@@ -115,6 +100,7 @@ app.get('/', (req, res) => {
     });
 });
 
+// health check
 app.get('/hello', (req, res) => {
     res.status(200).send({ message: 'Hello, World!' });
 });
@@ -126,11 +112,13 @@ app.get("/logout", (req, res) => {
 
 });
 
+// initiate oauth
 app.get('/auth/spotify', passport.authenticate('spotify', {
     scope: requiredScopes,
     showDialog: true
 }));
 
+// callback to get access token
 app.get(
     '/auth/spotify/callback',
     passport.authenticate('spotify', { failureRedirect: '/login' }),

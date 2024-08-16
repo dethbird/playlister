@@ -4,7 +4,8 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node src/start.js",
-    "test": "jest --detectOpenHandles --runInBand --watch"
+    "test": "jest --detectOpenHandles --runInBand --watch",
+    "test-coverage": "jest --detectOpenHandles --runInBand --watchAll"
   },
   "keywords": [],
   "author": "",
