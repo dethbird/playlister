@@ -1,5 +1,5 @@
 const path = require('path');
-require('dotenv').config({path: path.join(__dirname, '../.env')});
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const express = require('express');
 const app = express();
 const compression = require("compression");
@@ -99,12 +99,11 @@ passport.deserializeUser((user, done) => {
     done(null, user);
 });
 
-
 /**
  * Auth and view routes
  */
 app.get('/', (req, res) => {
-    console.log('USER', req.user);
+    console.log('USER', req.user)
     res.render('index', {
         title: 'Spotify Playlister',
         user: req.user,
@@ -118,7 +117,7 @@ app.get('/', (req, res) => {
 
 app.get('/hello', (req, res) => {
     res.status(200).send({ message: 'Hello, World!' });
-  });
+});
 
 app.get("/logout", (req, res) => {
     req.logout(() => {
