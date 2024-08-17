@@ -231,7 +231,6 @@ describe('PUT /:id/toggle-active', () => {
         const resp = await agent.put('/playlists/XXXX/toggle-active')
         expect(Playlist.findByPk).toHaveBeenCalledTimes(1);
         expect(Playlist.update).toHaveBeenCalledTimes(1);
-        console.log(resp.statusCode);
         expect(resp.body).toStrictEqual({ ...mockManagedPlaylist, active: 'N'});
     });
 

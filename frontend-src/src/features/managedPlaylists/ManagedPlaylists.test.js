@@ -56,27 +56,8 @@ describe('ManagedPlaylists', () => {
 
     afterEach(() => {
         matchMedia.clear();
+        jest.clearAllMocks();
     });
-
-    test('renders a busy state when status is pending', () => {
-        getManagedPlaylists
-            .mockReturnValue({ type: 'playlists/get' });
-        selectPlaylists
-            .mockReturnValue([{ id: 100 }]);
-        selectStatus
-            .mockReturnValue('pending');
-        render(
-            <Provider store={store}>
-                <MantineProvider>
-                    <ManagedPlaylists />
-                </MantineProvider>
-            </Provider>
-        );
-        const loader = screen.getByRole('alert', { busy: true });
-        expect(loader).toBeInTheDocument();
-
-    });
-
 
 
     test('renders an error when satus is rejected', () => {

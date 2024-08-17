@@ -48,6 +48,17 @@ export function ManagedPlaylists() {
   const status = useSelector(selectStatus);
 
 
+  const renderItems = () => {
+
+    if (status === 'rejected') {
+      return <div role='alert' aria-label="error">Error...</div>;
+    }
+
+    return playlists.map(item => {
+      return <ManagedPlaylistItem playlist={item} key={item.id} />;
+    })
+  }
+
   if (playlists.length < 1) {
     return (
       <>
@@ -61,23 +72,7 @@ export function ManagedPlaylists() {
     )
   }
 
-  const renderItems = () => {
-
-    if (status === 'rejected') {
-      return <div role='alert' aria-label="error">Error...</div>;
-    }
-
-    if (['pending', 'idle'].includes(status) && playlists.length < 1) {
-      return <div role='alert' aria-busy="true"></div>;
-    }
-
-    return playlists.map(item => {
-      return <ManagedPlaylistItem playlist={item} key={item.id} />;
-    })
-  }
-
   const handleDragEnd = event => {
-    console.log(event);
     const { active, over } = event;
     if (active.id !== over.id) {
       const items = active.data.current.sortable.items;

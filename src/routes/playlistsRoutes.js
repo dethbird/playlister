@@ -246,7 +246,6 @@ router.put('/reorder', (req, res) => {
     try {
         ids.forEach(async (id, index) => {
             const playlist = await Playlist.findByPk(id);
-            console.log(playlist.sort_order);
             playlist.sort_order = index;
             await playlist.save();
         });
