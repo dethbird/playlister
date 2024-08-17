@@ -74,7 +74,7 @@ export function ManagedPlaylistItem({ playlist }) {
                     </Grid>
                 </Grid.Col>
                 <Grid.Col span={5}>
-                    <Group grow justify="flex-end">
+                    <Group grow >
                         <Tooltip role='tooltip' label="Favorite / unfavorite">
                             <ActionIcon variant="light" aria-label="Favorite / Unfavorite" onClick={() => dispatch(toggleFavoritePlaylist(playlist.spotify_playlist_id))}>
                                 {playlist.favorited !== null ? <IconStarFilled data-testid='IconStarFilled'/> : <IconStar data-testid='IconStar' />}
@@ -85,15 +85,17 @@ export function ManagedPlaylistItem({ playlist }) {
                                 <IconCircleX />
                             </ActionIcon>
                         </Tooltip>
-                            <Switch
-                                role='switch'
-                                label='Active / inactive'
-                                checked={playlist.active === 'Y'}
-                                onChange={() => { dispatch(togglePlaylistActive(playlist.id)) }}
-                            />
+                        <Switch
+                            onLabel='Active'
+                            offLabel='Inactive'
+                            role='switch'
+                            size='lg'
+                            checked={playlist.active === 'Y'}
+                            onChange={() => { dispatch(togglePlaylistActive(playlist.id)) }}
+                        />
                     </Group>
-                    <br />
-                    <Group grow justify="flex-end" px={16}>
+                    <br style={{clear: 'both'}}/>
+                    <Group grow justify="flex-end" >
                         <Tooltip role='tooltip' label="Remove currently playing from this playlist">
                             <ActionIcon
                                 aria-label="Remove track"
