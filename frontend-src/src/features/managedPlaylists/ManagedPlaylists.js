@@ -67,7 +67,7 @@ export function ManagedPlaylists() {
       return <div role='alert' aria-label="error">Error...</div>;
     }
 
-    if (['pending', 'idle'].includes(status)) {
+    if (['pending', 'idle'].includes(status) && playlists.length < 1) {
       return <div role='alert' aria-busy="true"></div>;
     }
 
