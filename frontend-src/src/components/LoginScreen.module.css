@@ -1,8 +1,8 @@
 .hero {
     position: relative;
-    background-image: url(https://cdn.midjourney.com/46c61943-d1b3-42ea-bbf0-ca20117e6450/0_1.png);
+    background-image: url(https://cdn.midjourney.com/4a934183-2eba-4642-9e1e-eb93f98af2bc/0_0.png);
     background-size: cover;
-    background-position: center;
+    background-position: bottom;
     color: var(--mantine-color-white);
 }
 
@@ -11,7 +11,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    align-items: flex-start;
+    align-items: left;
     padding-bottom: calc(var(--mantine-spacing-xl) * 6);
     z-index: 1;
     position: relative;
