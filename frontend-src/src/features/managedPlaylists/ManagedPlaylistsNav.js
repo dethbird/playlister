@@ -6,6 +6,7 @@ import {
     IconCirclePlus,
     IconCircleX,
     IconStar,
+    IconStarFilled,
     IconToggleLeft,
     IconToggleRightFilled,
     IconTransfer,
@@ -50,7 +51,7 @@ export function ManagedPlaylistsNav() {
                     </Tooltip>
                     <Tooltip label="Favorite playlists">
                         <ActionIcon variant="light" role='button' aria-label="Favorite playlists" onClick={() => dispatch(toggleFavoriteDialog())} disabled={favoritePlaylists.length < 1}>
-                            <IconStar />
+                            {favoritePlaylists.length < 1 ? <IconStar /> : <IconStarFilled />}
                         </ActionIcon>
                     </Tooltip>
                     <Tooltip label="Activate all">
