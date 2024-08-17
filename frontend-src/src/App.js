@@ -46,7 +46,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-      dispatch(getUser());
+    dispatch(getUser());
   }, [dispatch]);
 
   const playerStatus = useSelector(selectStatus);
@@ -92,8 +92,8 @@ function App() {
         <Container>
           {renderBody()}
         </Container>
-        <Container p='xl' ta='center' fw={300}>
-          <footer>&copy; {new Date().getFullYear()} Playlister.</footer>
+        <Container p='xl' ta='center' fw={400}>
+          <footer >&copy; {new Date().getFullYear()} Playlister.</footer>
         </Container>
       </AppBody>
     </MantineProvider>
@@ -101,4 +101,3 @@ function App() {
 }
 
 export default App;
-

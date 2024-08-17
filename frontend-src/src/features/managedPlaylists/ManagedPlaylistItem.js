@@ -85,14 +85,12 @@ export function ManagedPlaylistItem({ playlist }) {
                                 <IconCircleX />
                             </ActionIcon>
                         </Tooltip>
-                        <Tooltip role='tooltip' label="Active / inactive">
                             <Switch
                                 role='switch'
                                 label='Active / inactive'
                                 checked={playlist.active === 'Y'}
                                 onChange={() => { dispatch(togglePlaylistActive(playlist.id)) }}
                             />
-                        </Tooltip>
                     </Group>
                     <br />
                     <Group grow justify="flex-end" px={16}>

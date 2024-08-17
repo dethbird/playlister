@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Alert, Container, Text } from '@mantine/core';
+import { Alert, Box, Container, Text } from '@mantine/core';
 import { IconBrandSpotify } from '@tabler/icons-react';
 import {
   DndContext,
@@ -86,13 +86,13 @@ export function ManagedPlaylists() {
   }
 
   return (
-    <div className='ManagedPlaylists'>
+    <Box className='ManagedPlaylists' mt='sm'>
       <Text tt='uppercase' ta='left' >Managed playlists</Text>
       <DndContext onDragEnd={handleDragEnd} sensors={sensors} role='list'>
         <SortableContext items={playlists}>
           {renderItems()}
         </SortableContext>
       </DndContext>
-    </div>
+    </Box>
   );
 }

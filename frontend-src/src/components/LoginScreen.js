@@ -4,7 +4,7 @@ import classes from './LoginScreen.module.css';
 
 function LoginScreen() {
     return (
-        <Container className={classes.hero} style={{ borderRadius: '15px'}} >
+        <Container className={classes.hero} style={{ borderRadius: '10px'}} >
             <Overlay
                 gradient="linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, .55) 40%)"
                 opacity={1}
@@ -17,7 +17,7 @@ function LoginScreen() {
                     </Grid.Col>
                 </Grid>
 
-                <Text p="md" fw={300}>Add / remove your currently playing track from multiple playlists at once.</Text>
+                <Text p="md" fw={400}>Add / remove your currently playing track from multiple playlists at once.</Text>
                 <Button
                     color="green"
                     size="xl"

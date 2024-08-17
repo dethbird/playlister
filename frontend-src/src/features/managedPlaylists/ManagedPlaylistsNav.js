@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ActionIcon, Group, Indicator, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Box, Group, Indicator, Text, Tooltip } from '@mantine/core';
 import {
     IconBrandSpotify,
     IconCirclePlus,
@@ -37,9 +37,9 @@ export function ManagedPlaylistsNav() {
     const dispatch = useDispatch();
 
     return (
-        <>
+        <Box mt='sm'>
             <Text tt='uppercase' ta='left'>Playlists</Text>
-            <PaperStyled shadow="xs" p="xs">
+            <PaperStyled shadow="xs" p="xs" mt='xs'>
                 <Group className='ManagedPlaylistsNav' grow justify="center">
                     <Tooltip label="Add a spotify playlist to manage">
                         <ActionIcon variant="light" role='button' aria-label="Add a spotify playlist to manage" onClick={() => dispatch(toggleDialog())} >
@@ -72,31 +72,33 @@ export function ManagedPlaylistsNav() {
                 </Group>
 
             </PaperStyled>
-            <Text tt='uppercase' ta='left'>Add / Remove currently playing</Text>
-            <PaperStyled shadow="xs" p="xs" >
-                <Group grow justify="center">
-                    <Tooltip label="Remove currently playing from active">
-                        <ActionIcon
-                            aria-label="Remove track from active"
-                            onClick={currentTrack.timestamp !== undefined ? () => dispatch(removeTrackFromActive(currentTrack.item.uri)) : null}
-                            disabled={currentTrack.timestamp === undefined || playlists.length < 1}
-                            color="red"
-                        >
-                            <IconCircleX />
-                        </ActionIcon>
-                    </Tooltip>
-                    <Tooltip label="Add currently playing to active">
-                        <ActionIcon
-                            aria-label="Add track to active"
-                            onClick={currentTrack.timestamp !== undefined ? () => dispatch(addTrackToActive(currentTrack.item.uri)) : null}
-                            disabled={currentTrack.timestamp === undefined || playlists.length < 1}
-                            color="green"
-                        >
-                            <IconCirclePlus />
-                        </ActionIcon>
-                    </Tooltip>
-                </Group>
-            </PaperStyled>
-        </>
+            <Box mt='sm'>
+                <Text tt='uppercase' ta='left'>Add / Remove currently playing</Text>
+                <PaperStyled shadow="xs" p="xs" mt='xs' >
+                    <Group grow justify="center">
+                        <Tooltip label="Remove currently playing from active">
+                            <ActionIcon
+                                aria-label="Remove track from active"
+                                onClick={currentTrack.timestamp !== undefined ? () => dispatch(removeTrackFromActive(currentTrack.item.uri)) : null}
+                                disabled={currentTrack.timestamp === undefined || playlists.length < 1}
+                                color="red"
+                            >
+                                <IconCircleX />
+                            </ActionIcon>
+                        </Tooltip>
+                        <Tooltip label="Add currently playing to active">
+                            <ActionIcon
+                                aria-label="Add track to active"
+                                onClick={currentTrack.timestamp !== undefined ? () => dispatch(addTrackToActive(currentTrack.item.uri)) : null}
+                                disabled={currentTrack.timestamp === undefined || playlists.length < 1}
+                                color="green"
+                            >
+                                <IconCirclePlus />
+                            </ActionIcon>
+                        </Tooltip>
+                    </Group>
+                </PaperStyled>
+            </Box>
+        </Box>
     );
 }

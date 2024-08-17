@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ActionIcon, Alert, Card, Container, Group, Image, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Alert, Box, Card, Container, Group, Image, Text, Tooltip } from '@mantine/core';
 import {
   IconPlayerTrackPrev,
   IconPlayerTrackNext,
@@ -80,10 +80,11 @@ export function Player() {
   const buttonStyle = { width: '70%', height: '70%' };
 
   return (
-    <div className="Player">
+    <Box className="Player" mt='sm'>
       <Text tt='uppercase' ta='left'>Currently Playing</Text>
       <Card
         className='CurrentlyPlaying'
+        mt='xs'
         shadow="sm"
         padding="xl"
         margin="sm"
@@ -99,10 +100,10 @@ export function Player() {
             fit="cover"
           />
           <div className="AlbumInfo">
-            <Text fw={700}>{currentTrack.item.name}</Text>
-            <Text fw={500}>{currentTrack.item.album.name}</Text>
-            <Text fw={300}>{currentTrack.item.artists[0].name}</Text>
-            <Text fw={100}>{currentTrack.item.album.release_date}</Text>
+            <Text fw={800}>{currentTrack.item.name}</Text>
+            <Text fw={600}>{currentTrack.item.album.name}</Text>
+            <Text fw={500}>{currentTrack.item.artists[0].name}</Text>
+            <Text fw={300}>{currentTrack.item.album.release_date}</Text>
           </div>
         </Card.Section>
         <footer>
@@ -131,6 +132,6 @@ export function Player() {
           </Group>
         </footer>
       </Card>
-    </div>
+    </Box>
   );
 }
