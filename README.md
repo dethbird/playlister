@@ -1,7 +1,17 @@
+# Initialize
+
 Copy shadow.env to .env and fill in credential
 
-## Frontend
 
-In `/frontend-src`, run `npm build` to build the production build.
+# Build
 
-Then in `/deploy-tools` run `node deploy.js` to copy the fresh assets to `/public`.
+In project root
+
+```bash
+sh build.sh
+```
+This will do the following:
+
+    - build `frontend-src` project
+    - run deploy-tools and move the buit static assets into the `/publc` dir from `/src` where the express app is server
+    - build the express app
