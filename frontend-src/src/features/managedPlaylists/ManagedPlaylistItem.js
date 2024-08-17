@@ -61,23 +61,23 @@ export function ManagedPlaylistItem({ playlist }) {
         }
         return (
             <Grid>
-                <Grid.Col span={7}>
+                <Grid.Col span={5}>
                     <Grid>
-                        <Grid.Col span={{ base: 12, sm: 3 }}>
-                            <img className='CoverArt' data-testid='Playlist cover' alt="Playlist cover" src={meta.images[1] ? meta.images[1].url : meta.images[0].url } />
+                        <Grid.Col span={{ base: 12, sm: 4 }}>
+                            <img className='CoverArt' data-testid='Playlist cover' alt="Playlist cover" src={meta.images[1] ? meta.images[1].url : meta.images[0].url} />
                         </Grid.Col>
-                        <Grid.Col span={{ base: 12, sm: 9 }} className='PlaylistDetails' >
+                        <Grid.Col span={{ base: 12, sm: 8 }} className='PlaylistDetails' >
                             <Anchor fw={500} size="lg" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
                             <br />
                             <IconMusic className='Notes' size={16} /><Text size='sm'>{meta.tracks.total} tracks</Text>
                         </Grid.Col>
                     </Grid>
                 </Grid.Col>
-                <Grid.Col span={5}>
+                <Grid.Col span={7}>
                     <Group grow >
                         <Tooltip role='tooltip' label="Favorite / unfavorite">
                             <ActionIcon variant="light" aria-label="Favorite / Unfavorite" onClick={() => dispatch(toggleFavoritePlaylist(playlist.spotify_playlist_id))}>
-                                {playlist.favorited !== null ? <IconStarFilled data-testid='IconStarFilled'/> : <IconStar data-testid='IconStar' />}
+                                {playlist.favorited !== null ? <IconStarFilled data-testid='IconStarFilled' /> : <IconStar data-testid='IconStar' />}
                             </ActionIcon>
                         </Tooltip>
                         <Tooltip role='tooltip' label="Remove from managed">
@@ -86,15 +86,16 @@ export function ManagedPlaylistItem({ playlist }) {
                             </ActionIcon>
                         </Tooltip>
                         <Switch
-                            onLabel='Active'
-                            offLabel='Inactive'
+                            mr={0}
+                            onLabel='active'
+                            offLabel='inactive'
                             role='switch'
                             size='lg'
                             checked={playlist.active === 'Y'}
                             onChange={() => { dispatch(togglePlaylistActive(playlist.id)) }}
                         />
                     </Group>
-                    <br style={{clear: 'both'}}/>
+                    <br style={{ clear: 'both' }} />
                     <Group grow justify="flex-end" >
                         <Tooltip role='tooltip' label="Remove currently playing from this playlist">
                             <ActionIcon
