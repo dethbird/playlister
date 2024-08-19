@@ -39,7 +39,7 @@ function Nav({ spotifyUser }) {
 
     return (
         <Grid className='Nav'>
-            <Grid.Col span={{ base: 3, xs: 2 }}>
+            <Grid.Col span={{ base: 3, xs: 2 }} >
                 <Image src='/img/logo.001.png' />
             </Grid.Col>
             <Grid.Col offset={{ base: 3, xs: 6, sm: 7 }} span={{ base: 6, xs: 4, sm: 3 }}>
