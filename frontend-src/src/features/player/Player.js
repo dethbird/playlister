@@ -100,8 +100,8 @@ export function Player() {
           />
           <div className={classes.AlbumInfo}>
             <Text fw={800}>{currentTrack.item.name}</Text>
-            <Text fw={600}>{currentTrack.item.album.name}</Text>
-            <Text fw={500}>{currentTrack.item.artists[0].name}</Text>
+            <Text fw={600}>{currentTrack.item.artists[0].name}</Text>
+            <Text fw={500}>{currentTrack.item.album.name}</Text>
             <Text fw={300}>{currentTrack.item.album.release_date}</Text>
           </div>
         </Card.Section>
