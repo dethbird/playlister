@@ -12,7 +12,7 @@ function LoginScreen() {
             />
             <Container shadow="xl" m="xs" p="xs" className={classes.container} size="lg">
                 <Box ta='center'>
-                    <Image src='/img/logo.001.png' h={{ base: 300 }} display='inline-block' w='auto' className='AppLogo' my='xs' />
+                    <Image src='/img/logo.login.png' h={{ base: 300 }} display='inline-block' w='auto' className='AppLogo' my='xs' />
                     <Text pt='lg' fw={700} size='xl'>Add  / remove the currently playing track from multiple playlists at once.</Text>
                     <Text pt='md' pb='md' fw={300} >A new way of interacting with Spotify.</Text>
                     <Button
