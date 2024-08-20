@@ -86,7 +86,7 @@ export function ManagedPlaylists() {
   }
 
   return (
-    <Box className='ManagedPlaylists' mt='sm'>
+    <Box className='ManagedPlaylists' mt='xs'>
       <Text tt='uppercase' ta='left' >Managed playlists</Text>
       <DndContext onDragEnd={handleDragEnd} sensors={sensors} role='list'>
         <SortableContext items={playlists}>

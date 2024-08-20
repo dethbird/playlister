@@ -37,42 +37,9 @@ export function ManagedPlaylistsNav() {
     const dispatch = useDispatch();
 
     return (
-        <Box mt='sm'>
-            <Text tt='uppercase' ta='left'>Playlists</Text>
-            <PaperStyled shadow="xs" p="xs" mt='xs'>
-                <Group className='ManagedPlaylistsNav' grow justify="center">
-                    <Tooltip label="Add a spotify playlist to manage">
-                        <ActionIcon variant="light" role='button' aria-label="Add a spotify playlist to manage" onClick={() => dispatch(toggleDialog())} >
+        <>
 
-                            <Indicator inline processing color="red" size={8} offset={4} disabled={playlists.length > 0}>
-                                <IconBrandSpotify />
-                            </Indicator>
-                        </ActionIcon>
-                    </Tooltip>
-                    <Tooltip label="Favorite playlists">
-                        <ActionIcon variant="light" role='button' aria-label="Favorite playlists" onClick={() => dispatch(toggleFavoriteDialog())} disabled={favoritePlaylists.length < 1}>
-                            {favoritePlaylists.length < 1 ? <IconStar /> : <IconStarFilled />}
-                        </ActionIcon>
-                    </Tooltip>
-                    <Tooltip label="Activate all">
-                        <ActionIcon variant="light" role='button' aria-label="Activate all" onClick={() => dispatch(setActiveAll('Y'))} disabled={playlists.length < 1}>
-                            <IconToggleRightFilled />
-                        </ActionIcon>
-                    </Tooltip>
-                    <Tooltip label="Deactivate all">
-                        <ActionIcon variant="light" role='button' aria-label="Dectivate all" onClick={() => dispatch(setActiveAll('N'))} disabled={playlists.length < 1}>
-                            <IconToggleLeft />
-                        </ActionIcon>
-                    </Tooltip>
-                    <Tooltip label="Invert active">
-                        <ActionIcon variant="light" role='button' aria-label="Invert active" onClick={() => dispatch(invertActiveAll())} disabled={playlists.length < 1}>
-                            <IconTransfer />
-                        </ActionIcon>
-                    </Tooltip>
-                </Group>
-
-            </PaperStyled>
-            <Box mt='sm'>
+            <Box mt='xs'>
                 <Text tt='uppercase' ta='left'>Add / Remove currently playing</Text>
                 <PaperStyled shadow="xs" p="xs" mt='xs' >
                     <Group grow justify="center">
@@ -99,6 +66,43 @@ export function ManagedPlaylistsNav() {
                     </Group>
                 </PaperStyled>
             </Box>
-        </Box>
+            <Box mt='xs'>
+                <Text tt='uppercase' ta='left'>Playlists</Text>
+                <PaperStyled shadow="xs" p="xs" mt='xs'>
+                    <Group className='ManagedPlaylistsNav' grow justify="center">
+                        <Tooltip label="Add a spotify playlist to manage">
+                            <ActionIcon variant="light" role='button' aria-label="Add a spotify playlist to manage" onClick={() => dispatch(toggleDialog())} >
+
+                                <Indicator inline processing color="red" size={8} offset={4} disabled={playlists.length > 0}>
+                                    <IconBrandSpotify />
+                                </Indicator>
+                            </ActionIcon>
+                        </Tooltip>
+                        <Tooltip label="Favorite playlists">
+                            <ActionIcon variant="light" role='button' aria-label="Favorite playlists" onClick={() => dispatch(toggleFavoriteDialog())} disabled={favoritePlaylists.length < 1}>
+                                {favoritePlaylists.length < 1 ? <IconStar /> : <IconStarFilled />}
+                            </ActionIcon>
+                        </Tooltip>
+                        <Tooltip label="Activate all">
+                            <ActionIcon variant="light" role='button' aria-label="Activate all" onClick={() => dispatch(setActiveAll('Y'))} disabled={playlists.length < 1}>
+                                <IconToggleRightFilled />
+                            </ActionIcon>
+                        </Tooltip>
+                        <Tooltip label="Deactivate all">
+                            <ActionIcon variant="light" role='button' aria-label="Dectivate all" onClick={() => dispatch(setActiveAll('N'))} disabled={playlists.length < 1}>
+                                <IconToggleLeft />
+                            </ActionIcon>
+                        </Tooltip>
+                        <Tooltip label="Invert active">
+                            <ActionIcon variant="light" role='button' aria-label="Invert active" onClick={() => dispatch(invertActiveAll())} disabled={playlists.length < 1}>
+                                <IconTransfer />
+                            </ActionIcon>
+                        </Tooltip>
+                    </Group>
+
+                </PaperStyled>
+
+            </Box>
+        </>
     );
 }

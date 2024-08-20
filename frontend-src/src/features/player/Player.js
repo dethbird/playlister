@@ -80,14 +80,12 @@ export function Player() {
   const buttonStyle = { width: '70%', height: '70%' };
 
   return (
-    <Box className="Player" mt='sm'>
+    <Box className="Player" mt='xs'>
       <Text tt='uppercase' ta='left'>Currently Playing</Text>
       <Card
         className='CurrentlyPlaying'
         mt='xs'
         shadow="sm"
-        padding="xl"
-        margin="sm"
         withBorder
       >
         <Card.Section>
