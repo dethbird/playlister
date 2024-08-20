@@ -5,12 +5,12 @@
   margin-top: 1rem;
   height: 100%;
 }
-.Player .AlbumArt {
+.AlbumArt {
   float:left;
   margin-right: 10px;
   padding: 5px;
 }
-.Player .AlbumInfo {
+.AlbumInfo {
   margin: 0px;
   text-align: left;
 }

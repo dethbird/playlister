@@ -19,18 +19,16 @@ function Nav({ spotifyUser }) {
             return null;
         }
         return (
-            <PaperStyled shadow="xs" p="xs" m="xs">
+            <PaperStyled shadow="xs" p="xs" my="xs">
                 <Stack
                     align="stretch"
                     justify="flex-start"
                     gap="xs">
                     <Box>
-                        <Avatar src={spotifyUser.images[0].url} alt={spotifyUser.display_name} size={ {base: 6, sm: 14, md: 16} } className='Avatar' />
+                        <Avatar src={spotifyUser.images[0].url} alt={spotifyUser.display_name} size={ {base: 6, sm: 14, md: 16} } className='Avatar' display='inline-block' />
                         <Text fw={500} >{spotifyUser.display_name}</Text>
-                        <Anchor href="/logout" title='Logout'>Logout <IconLogout style={iconStyle}/></Anchor>
-                    </Box>
-                    <Box>
                         <Anchor role='button' arial-label='SwitchTheme' onClick={() => { dispatch(toggleTheme()) }} title='Switch theme'>Switch theme <IconSwitchHorizontal style={iconStyle}/></Anchor><br />
+                        <Anchor href="/logout" title='Logout'>Logout <IconLogout style={iconStyle}/></Anchor>
                     </Box>
                 </Stack>
             </PaperStyled>
@@ -42,7 +40,7 @@ function Nav({ spotifyUser }) {
             <Grid.Col span={{ base: 3, xs: 2 }} >
                 <Image src='/img/logo.001.png' />
             </Grid.Col>
-            <Grid.Col offset={{ base: 3, xs: 6, sm: 7 }} span={{ base: 6, xs: 4, sm: 3 }}>
+            <Grid.Col offset={{ base: 2, xs: 5, sm: 7 }} span={{ base: 7, xs: 5, sm: 3 }}>
                 {renderSpotifyUser()}
             </Grid.Col>
 

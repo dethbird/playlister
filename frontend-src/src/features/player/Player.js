@@ -18,6 +18,7 @@ import {
   selectStatus
 } from './playerSlice';
 import { LikeButton } from './LikeButton';
+import classes from './Player.module.css';
 
 let refreshTimer;
 
@@ -56,18 +57,18 @@ export function Player() {
     return <div role='alert' aria-busy="true"></div>;
   }
 
-  const sectionTitle = <Text tt='uppercase' ta='left'>Currently Playing</Text>;
+  const sectionTitle = <Text tt='uppercase' ta='left' visibleFrom="xs">Currently Playing</Text>;
 
   if (Object.keys(currentTrack).length === 0) {
     return (
-      <>
+      <Box className={classes.Player} mt='xs'>
         {sectionTitle}
-        <Container m='xl'>
+        <Container mt='xs'>
           <Alert variant="light" color="grape" title="Nothing is playing" icon={<IconPlayerPlay />}>
             Play something on Spotify on any of your devices then check back here.
           </Alert>
         </Container>
-      </>
+      </Box>
     )
   }
 
@@ -80,8 +81,8 @@ export function Player() {
   const buttonStyle = { width: '70%', height: '70%' };
 
   return (
-    <Box className="Player" mt='xs'>
-      <Text tt='uppercase' ta='left'>Currently Playing</Text>
+    <Box className={classes.Player} mt='xs'>
+      {sectionTitle}
       <Card
         className='CurrentlyPlaying'
         mt='xs'
@@ -92,12 +93,12 @@ export function Player() {
           <Image
             radius="md"
             src={currentTrack.item.album.images[1].url}
-            className="AlbumArt"
+            className={classes.AlbumArt}
             w={150}
             h="auto"
             fit="cover"
           />
-          <div className="AlbumInfo">
+          <div className={classes.AlbumInfo}>
             <Text fw={800}>{currentTrack.item.name}</Text>
             <Text fw={600}>{currentTrack.item.album.name}</Text>
             <Text fw={500}>{currentTrack.item.artists[0].name}</Text>
@@ -105,7 +106,7 @@ export function Player() {
           </div>
         </Card.Section>
         <footer>
-          <Group className="PlayerControls" grow justify="center">
+          <Group className={classes.PlayerControls} grow justify="center">
             <LikeButton trackId={currentTrack.item.id} />
             <Tooltip label="Play">
               <ActionIcon variant="light" role='button' name="Play" aria-label="Play" onClick={() => dispatch(play())} disabled={isPlaying}>
