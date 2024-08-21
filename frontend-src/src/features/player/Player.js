@@ -105,7 +105,7 @@ export function Player() {
             <Text fw={800}>{currentTrack.item.name}</Text>
             <Text fw={600}>{currentTrack.item.artists[0].name}</Text>
             <Text fw={500}>{currentTrack.item.album.name}</Text>
-            <Text fw={300}>{dayjs(currentTrack.item.album.release_date).format('YYYY MMMM, DD')}</Text>
+            <Text fw={300}>{dayjs(currentTrack.item.album.release_date).format('YYYY, MMMM DD')}</Text>
           </div>
         </Card.Section>
         <footer>
