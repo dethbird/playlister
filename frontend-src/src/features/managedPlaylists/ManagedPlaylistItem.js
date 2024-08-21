@@ -87,8 +87,6 @@ export function ManagedPlaylistItem({ playlist }) {
                         </Tooltip>
                         <Switch
                             mr={0}
-                            onLabel='active'
-                            offLabel='inactive'
                             role='switch'
                             size='lg'
                             checked={playlist.active === 'Y'}
