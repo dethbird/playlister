@@ -15,7 +15,7 @@ if (process.env.REACT_APP_ENVIRONMENT === 'development') {
 
 export const apiRequest = async (path, options) => {
     const response = await fetch(apiBaseUrl + path, options);
-    if (!response.ok) {
+    if (!response.ok && path !== '/me') {
         window.location.assign('/logout?error=sessionTimeout');
     } else {
         return response;
