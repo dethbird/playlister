@@ -13,6 +13,12 @@ if (process.env.REACT_APP_ENVIRONMENT === 'development') {
     // window.spotifyUser = {};
 }
 
-export const apiRequest = (path, options) => {
-    return fetch(apiBaseUrl + path, options);
+export const apiRequest = async (path, options) => {
+    const response = await fetch(apiBaseUrl + path, options);
+    if (!response.ok) {
+        window.location.assign('/logout?error=sessionTimeout');
+    } else {
+        return response;
+    }
+
 }
