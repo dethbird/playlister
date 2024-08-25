@@ -14,6 +14,7 @@ import {
 import { Notifications } from '@mantine/notifications';
 import { Player } from './features/player/Player';
 import About from './pages/About';
+import Guide from './pages/Guide';
 import Pp from './pages/Pp';
 import Tos from './pages/Tos';
 import Footer from './components/Footer';
@@ -72,6 +73,7 @@ function App() {
         <Routes>
           <Route path="/" element={window.spotifyUser.display_name ? <Dashboard /> : <LoginScreen />} />
           <Route path="/about" element={<About />} />
+          <Route path="/guide" element={<Guide />} />
           <Route path="/tos" element={<Tos />} />
           <Route path="/pp" element={<Pp />} />
         </Routes>
