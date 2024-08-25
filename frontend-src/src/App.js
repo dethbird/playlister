@@ -57,11 +57,7 @@ function App() {
   const playerStatus = useSelector(selectStatus);
 
   const renderBody = () => {
-    if (!window.spotifyUser.display_name) {
-      return (
-        <LoginScreen />
-      );
-    } else if (playerStatus === 'rejected') {
+    if (playerStatus === 'rejected') {
       // This is for potential server errors. Either Spotify token or session expired
       return (
         <Container size='md' m='xl' p='xl'>
@@ -74,7 +70,7 @@ function App() {
     } else {
       return (
         <Routes>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={window.spotifyUser.display_name ? <Dashboard /> : <LoginScreen />} />
           <Route path="/about" element={<About />} />
           <Route path="/tos" element={<Tos />} />
           <Route path="/pp" element={<Pp />} />
