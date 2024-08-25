@@ -100,6 +100,59 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/about', (req, res) => {
+    console.log('USER', req.user)
+    res.render('index', {
+        title: 'Spotify Playlister',
+        user: req.user,
+        spotifyUserJson: req.user ? JSON.stringify({
+            id: req.user.spotifyUser.id,
+            display_name: req.user.spotifyUser.display_name,
+            images: req.user.spotifyUser.images
+        }) : '{}'
+    });
+});
+
+app.get('/guide', (req, res) => {
+    console.log('USER', req.user)
+    res.render('index', {
+        title: 'Spotify Playlister',
+        user: req.user,
+        spotifyUserJson: req.user ? JSON.stringify({
+            id: req.user.spotifyUser.id,
+            display_name: req.user.spotifyUser.display_name,
+            images: req.user.spotifyUser.images
+        }) : '{}'
+    });
+});
+
+app.get('/tos', (req, res) => {
+    console.log('USER', req.user)
+    res.render('index', {
+        title: 'Spotify Playlister',
+        user: req.user,
+        spotifyUserJson: req.user ? JSON.stringify({
+            id: req.user.spotifyUser.id,
+            display_name: req.user.spotifyUser.display_name,
+            images: req.user.spotifyUser.images
+        }) : '{}'
+    });
+});
+
+
+app.get('/pp', (req, res) => {
+    console.log('USER', req.user)
+    res.render('index', {
+        title: 'Spotify Playlister',
+        user: req.user,
+        spotifyUserJson: req.user ? JSON.stringify({
+            id: req.user.spotifyUser.id,
+            display_name: req.user.spotifyUser.display_name,
+            images: req.user.spotifyUser.images
+        }) : '{}'
+    });
+});
+
 // health check
 app.get('/hello', (req, res) => {
     res.status(200).send({ message: 'Hello, World!' });
