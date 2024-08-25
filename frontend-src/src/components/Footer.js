@@ -7,7 +7,7 @@ function Footer() {
         <Container p='xl' ta='center' fw={400}>
             <footer >
                 <Box>
-                <Link to="/">Dash</Link> | <Link to="/about">About</Link> | <Link to="/tos">Terms of Service</Link> | <Link to="/pp">Privacy Policy</Link>
+                <Link to="/">Dash</Link> | <Link to="/about">About</Link> | <Link to="/guide">Guide</Link> | <Link to="/tos">Terms of Service</Link> | <Link to="/pp">Privacy Policy</Link>
                 </Box>
                 <Box>&copy; {new Date().getFullYear()} Playlister.</Box>
             </footer>
