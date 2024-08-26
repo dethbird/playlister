@@ -20,7 +20,6 @@ function LoginScreen() {
                         color="green"
                         size="xl"
                         radius="xl"
-                        href="/auth/spotify"
                         onClick={() => { window.location.assign('/auth/spotify') }}
                         role='button'
                         name='login with spotify'
