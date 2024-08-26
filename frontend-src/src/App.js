@@ -56,6 +56,7 @@ function App() {
   }, [dispatch]);
 
   const playerStatus = useSelector(selectStatus);
+  const user = useSelector(selectUser);
 
   const renderBody = () => {
     if (playerStatus === 'rejected') {
@@ -68,10 +69,22 @@ function App() {
           </Alert>
         </Container>
       );
+    } else if (!window.spotifyUser.display_name) {
+      return (
+        <LoginScreen />
+      )
+    } else if (user.tos_signed === 'N') {
+      return (
+        <Tos signed='N'/>
+      )
+    } else if (user.pp_signed === 'N') {
+      return (
+        <Pp signed='N'/>
+      )
     } else {
       return (
         <Routes>
-          <Route path="/" element={window.spotifyUser.display_name ? <Dashboard /> : <LoginScreen />} />
+          <Route path="/" element={<Dashboard />} />
           <Route path="/about" element={<About />} />
           <Route path="/guide" element={<Guide />} />
           <Route path="/tos" element={<Tos />} />

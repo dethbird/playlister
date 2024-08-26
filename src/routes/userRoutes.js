@@ -52,5 +52,46 @@ router.put('/toggle-theme', async (req, res) => {
         });
 });
 
+router.put('/sign-tos', async (req, res) => {
+
+    User.findByPk(req.user.user.id)
+        .then(user => {
+            user.tos_signed = 'Y';
+            user.save()
+                .then(data => {
+                    res.json(data);
+                })
+                .catch(err => {
+                    console.error('Error signing TOS:', err);
+                    res.status(500).json({ message: err.message });
+                });
+        })
+        .catch(err => {
+            console.error('Error finding user to sign TOS:', err);
+            res.status(404).json({ message: err.message });
+        });
+});
+
+router.put('/sign-pp', async (req, res) => {
+
+    User.findByPk(req.user.user.id)
+        .then(user => {
+            user.pp_signed = 'Y';
+            user.save()
+                .then(data => {
+                    res.json(data);
+                })
+                .catch(err => {
+                    console.error('Error signing PP:', err);
+                    res.status(500).json({ message: err.message });
+                });
+        })
+        .catch(err => {
+            console.error('Error finding user to sign PP:', err);
+            res.status(404).json({ message: err.message });
+        });
+});
+
+
 
 module.exports = router;

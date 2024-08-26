@@ -40,6 +40,35 @@ export const toggleTheme = createAsyncThunk(
     }
 );
 
+export const signTos = createAsyncThunk(
+    'user/signTos',
+    async (_, {dispatch}) => {
+        const response = await apiRequest('/me/sign-tos', {
+            method: 'PUT'
+        });
+        const data = await response.json();
+        setTimeout(() => {
+            dispatch(getUser());
+        }, 250);
+        return data;
+    }
+);
+
+export const signPP = createAsyncThunk(
+    'user/signPP',
+    async (_, {dispatch}) => {
+        const response = await apiRequest('/me/sign-pp', {
+            method: 'PUT'
+        });
+        const data = await response.json();
+        setTimeout(() => {
+            dispatch(getUser());
+        }, 250);
+        return data;
+    }
+);
+
+
 
 export const userSlice = createSlice({
     name: 'user',

@@ -1,7 +1,10 @@
 import React from 'react';
-import { Container, Text, Title } from '@mantine/core';
+import { Button, Container, Image, Text, Title } from '@mantine/core';
+import { useDispatch } from 'react-redux';
+import { signPP } from '../features/user/userSlice';
 
-function Pp() {
+function Pp({ signed }) {
+    const dispatch = useDispatch();
     return (
         <Container p='xl' ta='left' fw={400} >
             <Title>Privacy Policy</Title>
@@ -47,6 +50,19 @@ function Pp() {
             <Title order={2} pb='md'>8. Contact Us</Title>
 
             <Text>If you have any questions or concerns about this Privacy Policy, please contact us at <a href='mailto:rishi@playlister.love'>rishi@playlister.love</a>.</Text>
+
+            { signed === 'N' ? <Container py='xl' ta='center'><Button
+                className='LoginButton'
+                color="green"
+                size="xl"
+                radius="xl"
+                onClick={() => { dispatch(signPP()) }}
+                role='button'
+                name='Agree to PP'
+                title='Agree to PP'
+            >
+                Got it <Image src='/img/spotify_logo.png' className='SpotifyLogo' />
+            </Button></Container> : null }
         </Container>
     );
 }

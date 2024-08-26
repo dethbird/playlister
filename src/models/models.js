@@ -21,6 +21,16 @@ const User = sequelize.define(
             allowNull: false,
             defaultValue: 'dark'
         },
+        tos_signed: {
+            type: DataTypes.ENUM('Y', 'N'),
+            allowNull: false,
+            defaultValue: 'N'
+        },
+        pp_signed: {
+            type: DataTypes.ENUM('Y', 'N'),
+            allowNull: false,
+            defaultValue: 'N'
+        },
     },
     {
         tableName: 'user',
