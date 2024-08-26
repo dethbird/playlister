@@ -71,15 +71,21 @@ function App() {
       );
     } else if (!window.spotifyUser.display_name) {
       return (
-        <LoginScreen />
+        <Routes>
+          <Route path="/" element={<LoginScreen />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/guide" element={<Guide />} />
+          <Route path="/tos" element={<Tos />} />
+          <Route path="/pp" element={<Pp />} />
+        </Routes>
       )
     } else if (user.tos_signed === 'N') {
       return (
-        <Tos signed='N'/>
+        <Tos signed='N' />
       )
     } else if (user.pp_signed === 'N') {
       return (
-        <Pp signed='N'/>
+        <Pp signed='N' />
       )
     } else {
       return (
