@@ -214,7 +214,7 @@ describe('ManagedPlaylistItem', () => {
                 </MantineProvider>
             </Provider>
         );
-        const button = screen.getByRole('switch', { name: "Active / inactive" });
+        const button = screen.getByTestId('activation-switch');
         button.click();
         expect(togglePlaylistActive).toHaveBeenCalledTimes(1);
         expect(togglePlaylistActive).toHaveBeenCalledWith(mockPlaylist.id);

@@ -88,6 +88,7 @@ export function ManagedPlaylistItem({ playlist }) {
                         <Switch
                             mr={0}
                             role='switch'
+                            data-testid='activation-switch'
                             size='lg'
                             checked={playlist.active === 'Y'}
                             onChange={() => { dispatch(togglePlaylistActive(playlist.id)) }}
