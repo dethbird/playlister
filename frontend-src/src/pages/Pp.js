@@ -64,6 +64,7 @@ function Pp({ signed }) {
                 role='button'
                 name='Agree to PP'
                 title='Agree to PP'
+                data-testid='signpp-button'
             >
                 Got it <Image src='/img/spotify_logo.png' className='SpotifyLogo' />
             </Button></Container> : null}

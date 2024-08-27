@@ -108,6 +108,7 @@ function Tos({ signed }) {
                 role='button'
                 name='Agree to TOS'
                 title='Agree to TOS'
+                data-testid='signtos-button'
             >
                 Agree <Image src='/img/spotify_logo.png' className='SpotifyLogo' />
             </Button></Container> : null}
