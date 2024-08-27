@@ -6,7 +6,7 @@ function About() {
         <Container p='xl' ta='left' fw={400} >
             <Title pb='md'>Meet the Developers</Title>
 
-            <Image src='/img/about.jpg' display='inline-block' style={{float: 'left'}} h={540} w='auto'pr='xl'/>
+            <Image src='/img/about.jpg' display='inline-block' style={{float: 'left'}} h={540} w='auto' pr='xl'/>
 
             <Text pb='sm' fw={300}>there’s just the one. the one with the glasses. well two i guess, Johnny was in the office.</Text>
 

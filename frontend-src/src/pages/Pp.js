@@ -4,6 +4,10 @@ import { useDispatch } from 'react-redux';
 import { signPP } from '../features/user/userSlice';
 
 function Pp({ signed }) {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
     const dispatch = useDispatch();
     return (
         <Container p='xl' ta='left' fw={400} >
@@ -51,7 +55,7 @@ function Pp({ signed }) {
 
             <Text>If you have any questions or concerns about this Privacy Policy, please contact us at <a href='mailto:rishi@playlister.love'>rishi@playlister.love</a>.</Text>
 
-            { signed === 'N' ? <Container py='xl' ta='center'><Button
+            {signed === 'N' ? <Container py='xl' ta='center'><Button
                 className='LoginButton'
                 color="green"
                 size="xl"
@@ -62,7 +66,7 @@ function Pp({ signed }) {
                 title='Agree to PP'
             >
                 Got it <Image src='/img/spotify_logo.png' className='SpotifyLogo' />
-            </Button></Container> : null }
+            </Button></Container> : null}
         </Container>
     );
 }

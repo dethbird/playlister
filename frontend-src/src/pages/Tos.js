@@ -4,6 +4,10 @@ import { useDispatch } from 'react-redux';
 import { signTos } from '../features/user/userSlice';
 
 function Tos({ signed }) {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
     const dispatch = useDispatch();
     return (
         <Container p='xl' ta='left' fw={400} >
@@ -95,7 +99,7 @@ function Tos({ signed }) {
 
             <Text>If you have any questions or concerns about these Terms, please contact us at <a href='mailto:rishi@playlister.love'>rishi@playlister.love</a>.</Text>
 
-            { signed === 'N' ? <Container py='xl' ta='center'><Button
+            {signed === 'N' ? <Container py='xl' ta='center'><Button
                 className='LoginButton'
                 color="green"
                 size="xl"
@@ -106,7 +110,7 @@ function Tos({ signed }) {
                 title='Agree to TOS'
             >
                 Agree <Image src='/img/spotify_logo.png' className='SpotifyLogo' />
-            </Button></Container> : null }
+            </Button></Container> : null}
 
         </Container>
     );
