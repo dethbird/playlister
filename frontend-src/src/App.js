@@ -14,7 +14,7 @@ import {
 import { Notifications } from '@mantine/notifications';
 import { Player } from './features/player/Player';
 import About from './pages/About';
-import Guide from './pages/Guide';
+import HowTo from './pages/HowTo';
 import Pp from './pages/Pp';
 import Tos from './pages/Tos';
 import Footer from './components/Footer';
@@ -73,8 +73,8 @@ function App() {
       return (
         <Routes>
           <Route path="/" element={<LoginScreen />} />
+          <Route path="/howto" element={<HowTo />} />
           <Route path="/about" element={<About />} />
-          <Route path="/guide" element={<Guide />} />
           <Route path="/tos" element={<Tos />} />
           <Route path="/pp" element={<Pp />} />
         </Routes>
@@ -91,8 +91,8 @@ function App() {
       return (
         <Routes>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/howto" element={<HowTo />} />
           <Route path="/about" element={<About />} />
-          <Route path="/guide" element={<Guide />} />
           <Route path="/tos" element={<Tos />} />
           <Route path="/pp" element={<Pp />} />
         </Routes>

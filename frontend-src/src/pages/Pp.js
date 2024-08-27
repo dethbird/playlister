@@ -7,7 +7,7 @@ function Pp({ signed }) {
     const dispatch = useDispatch();
     return (
         <Container p='xl' ta='left' fw={400} >
-            <Title>Privacy Policy</Title>
+            <Title pb='md'>Privacy Policy</Title>
             <Title order={2} py='md'>1. Introduction</Title>
 
             Welcome to Playlister! Your privacy is important to us. This Privacy Policy outlines how we handle information when you use our app ("Playlister," "we," "us," or "our"). By using Playlister, you agree to the practices described in this policy.

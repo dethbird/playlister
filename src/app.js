@@ -113,7 +113,7 @@ app.get('/about', (req, res) => {
     });
 });
 
-app.get('/guide', (req, res) => {
+app.get('/howto', (req, res) => {
     console.log('USER', req.user)
     res.render('index', {
         title: 'Spotify Playlister',
