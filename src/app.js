@@ -168,7 +168,7 @@ app.get("/logout", (req, res) => {
 // initiate oauth
 app.get('/auth/spotify', passport.authenticate('spotify', {
     scope: requiredScopes,
-    showDialog: true
+    // showDialog: true
 }));
 
 // callback to get access token
