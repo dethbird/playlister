@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Image, Text, Title } from '@mantine/core';
+import { Box, Container, Image, Text, Title } from '@mantine/core';
 
 function HowTo() {
     window.scrollTo({
@@ -16,9 +16,13 @@ function HowTo() {
             <Text>Like when: playing your Discover Weekly or Release Radar playlist (for example), you can pluck just the songs you like and put them in your correct playlists.</Text>
             <Title order={2} py='md'>Getting Started:</Title>
             <Text pb='md'>On first login, the app will ask you to select some of your playlists from Spotify, using the Spotify button as seen here:</Text>
-            <Image src='/img/playlister_first_time.jpg' w='100%' h='auto' />
+            <Box ta='center'>
+                <Image src='/img/playlister_first_time.jpg' w='75%' h='auto' display='inline-block' />
+            </Box>
             <Text py='md'>You also need to play a track on Spotify from any of your devices. Once you do that, the add and remove buttons will light up.</Text>
-            <Image src='/img/playlister_working.jpg' w='100%' h='auto' />
+            <Box ta='center'>
+                <Image src='/img/playlister_working.jpg' w='75%' h='auto' display='inline-block' />
+            </Box>
             <Text py='md'>You can now add / remove the currently playing track from all active playlists (the purple switches) or individually at the playlist level.</Text>
             <Text py='md'>That's it! Your playlists will hopefully thank you.</Text>
             <Text py='md'>If you have any questions please contact us at <a href='mailto:rishi@playlister.love'>rishi@playlister.love</a>.</Text>
