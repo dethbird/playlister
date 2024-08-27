@@ -7,7 +7,9 @@ import userReducer, {
     initialState,
     getUser,
     getSpotifyUser,
-    toggleTheme
+    toggleTheme,
+    signTos,
+    signPP
 } from './userSlice';
 // import { getManagedPlaylists } from '../managedPlaylists/managedPlaylistsSlice';
 
@@ -50,7 +52,7 @@ describe('userSlice ', () => {
         apiRequest
             .mockResolvedValueOnce(promise);
 
-        store.dispatch(getUser({ limit: 25, offset: 0 }))
+        store.dispatch(getUser())
             .then(() => {
                 const actionsDispatched = store.getActions();
                 expect(actionsDispatched[0].type).toEqual(getUser.pending.type);
@@ -74,7 +76,7 @@ describe('userSlice ', () => {
         apiRequest
             .mockResolvedValueOnce(promise);
 
-        store.dispatch(getSpotifyUser({ limit: 25, offset: 0 }))
+        store.dispatch(getSpotifyUser())
             .then(() => {
                 const actionsDispatched = store.getActions();
                 expect(actionsDispatched[0].type).toEqual(getSpotifyUser.pending.type);
@@ -83,6 +85,59 @@ describe('userSlice ', () => {
             });
 
     });
+
+    it('signTos pending then fulfilled', () => {
+
+        const store = mockStore({})
+
+        const resp = new Response(JSON.stringify({}), {
+            status: 200,
+            headers: { 'Content-type': 'application/json' }
+        });
+
+        const promise = new Promise(resolve => resolve(resp));
+
+        apiRequest
+            .mockResolvedValueOnce(promise);
+
+        store.dispatch(signTos())
+            .then(() => {
+                jest.advanceTimersByTime(1250);
+                const actionsDispatched = store.getActions();
+                expect(actionsDispatched[0].type).toEqual(signTos.pending.type);
+                expect(actionsDispatched[1].type).toEqual(signTos.fulfilled.type);
+                expect(actionsDispatched[1].payload).toEqual({});
+                expect(actionsDispatched[2].type).toEqual(getUser.pending.type);
+            });
+
+    });
+
+    it('signPP pending then fulfilled', () => {
+
+        const store = mockStore({})
+
+        const resp = new Response(JSON.stringify({}), {
+            status: 200,
+            headers: { 'Content-type': 'application/json' }
+        });
+
+        const promise = new Promise(resolve => resolve(resp));
+
+        apiRequest
+            .mockResolvedValueOnce(promise);
+
+        store.dispatch(signPP())
+            .then(() => {
+                jest.advanceTimersByTime(1250);
+                const actionsDispatched = store.getActions();
+                expect(actionsDispatched[0].type).toEqual(signPP.pending.type);
+                expect(actionsDispatched[1].type).toEqual(signPP.fulfilled.type);
+                expect(actionsDispatched[1].payload).toEqual({});
+                expect(actionsDispatched[2].type).toEqual(getUser.pending.type);
+            });
+
+    });
+
 
     it('toggleTheme pending then fulfilled', () => {
 
@@ -98,7 +153,7 @@ describe('userSlice ', () => {
         apiRequest
             .mockResolvedValueOnce(promise);
 
-        store.dispatch(toggleTheme({ limit: 25, offset: 0 }))
+        store.dispatch(toggleTheme())
             .then(() => {
                 jest.advanceTimersByTime(1250);
                 const actionsDispatched = store.getActions();

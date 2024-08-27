@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import MatchMediaMock from 'jest-matchmedia-mock';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
@@ -7,6 +7,7 @@ import { getCurrentTrack, selectStatus, selectCurrentTrack, selectIsPlaying } fr
 import App from './App';
 import { AppBody } from './App';
 import { MantineProvider, useMantineColorScheme } from '@mantine/core';
+// import { getUser, signTos, selectUser } from './features/user/userSlice';
 
 let matchMedia;
 const spotifyUser = {
@@ -23,6 +24,11 @@ jest.mock('./features/player/playerSlice', () => ({
   selectIsPlaying: jest.fn(),
   getCurrentTrack: jest.fn()
 }));
+
+// jest.mock('./features/user/userSlice', () => ({
+//   selectUser: jest.fn(),
+//   signTos: jest.fn()
+// }));
 
 jest.mock('@mantine/core', () => ({
   ...jest.requireActual('@mantine/core'),
@@ -110,6 +116,38 @@ describe('App', () => {
     expect(getByText(/©/i)).toBeInTheDocument();
   });
 
+  // test('renders the TOS page when user.tos_signed is N', () => {
+  //   useMantineColorScheme.mockReturnValue({
+  //     colorScheme: 'light',
+  //     toggleColorScheme: jest.fn(),
+  //     setColorScheme: jest.fn()
+  //   });
+
+  //   jest.mock('./features/user/userSlice', () => ({
+  //     selectUser: jest.fn().mockReturnValue({ theme: 'dark', tos_signed: 'N' })
+  //   }));
+  //   // selectUser.mockReturnValue({ theme: 'dark', tos_signed: 'N' });
+  //   selectStatus
+  //     .mockReturnValue('fulfilled');
+  //   selectCurrentTrack
+  //     .mockReturnValue({});
+  //   selectIsPlaying
+  //     .mockReturnValue(false);
+  //   getCurrentTrack
+  //     .mockReturnValue({ type: 'player/getCurrentTrack' });
+
+
+  //   const { getByText } = render(
+  //     <Provider store={store}>
+  //       <App />
+  //     </Provider>
+  //   );
+  //   expect(getByText(/You must be at least 13 years old/i)).toBeInTheDocument();
+  //   // const button = screen.getByRole('button', { name: 'Agree to TOS' });
+  //   // button.click();
+  //   // expect(signTos).toHaveBeenCalled();
+  // });
+
   test('sets the user theme when user is loaded', () => {
 
     useMantineColorScheme.mockReturnValue({
@@ -117,10 +155,6 @@ describe('App', () => {
       toggleColorScheme: jest.fn(),
       setColorScheme: jest.fn()
     });
-
-    jest.mock('./features/user/userSlice', () => ({
-      selectUser: jest.fn().mockReturnValue({ theme: 'dark' })
-    }));
 
     render(
       <Provider store={store}>
@@ -133,5 +167,6 @@ describe('App', () => {
     const { setColorScheme } = useMantineColorScheme();
     expect(setColorScheme).toHaveBeenCalledTimes(1);
   });
+
 
 });
