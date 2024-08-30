@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { ActionIcon, Anchor, Grid, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Anchor, Grid, Image, Text, Tooltip } from '@mantine/core';
 import {
     IconMusic,
     IconPlus
@@ -17,19 +17,26 @@ export function SpotifyPlaylistItem({ playlist }) {
     return (
         <PaperStyled className='SpotifyPlaylistItem' withBorder shadow="xs" p="xs" my="xs" role='li'>
             <Grid>
-                <Grid.Col span={10}>
+                <Grid.Col span={{ base: 9}}>
                     <Grid>
-                        <Grid.Col span={{ base: 12, sm: 3 }}>
-                            <img className='CoverArt' data-testid="Playlist cover" alt="Playlist cover" src={playlist.images[1] ? playlist.images[1].url : playlist.images[0].url} />
+                        <Grid.Col span={{ base: 3 }}>
+                            <Image
+                                className='CoverArt'
+                                data-testid='Playlist cover'
+                                alt="Playlist cover"
+                                src={playlist.images[1] ? playlist.images[1].url : playlist.images[0].url}
+                                mah={{ base: 66, xs: 80 }}
+                                w='auto'
+                            />
                         </Grid.Col>
-                        <Grid.Col span={{ base: 12, sm: 9 }}>
-                            <Anchor fw={500} size="lg" href={playlist.uri} target="_blank" rel="noreferrer">{playlist.name}</Anchor>
-                            <p>{playlist.description}</p>
-                            <IconMusic className='Notes' size={16} /><Text size='sm'>{playlist.tracks.total} tracks</Text>
+                        <Grid.Col span={{ base: 9 }}>
+                            <Anchor fw={500} size="xl" href={playlist.uri} target="_blank" rel="noreferrer">{playlist.name}</Anchor>
+                            <br />
+                            <IconMusic className='Notes' size={20} /><Text size='md'>{playlist.tracks.total} tracks</Text>
                         </Grid.Col>
                     </Grid>
                 </Grid.Col>
-                <Grid.Col span={2}>
+                <Grid.Col span={{ base: 3 }} ta='right'>
                     <Tooltip label="Add to Managed Playlists">
                         <ActionIcon size='lg' aria-label="Add to Managed Playlists" onClick={() => dispatch(addSpotifyPlaylistToManaged(playlist.id))}>
                             <IconPlus />

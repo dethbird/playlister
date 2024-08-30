@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ActionIcon, Anchor, Grid, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Anchor, Grid, Image, Text, Tooltip } from '@mantine/core';
 import {
     IconMusic,
     IconPlus
@@ -34,19 +34,26 @@ export function FavoritePlaylistItem({ playlist }) {
         }
         return (
             <Grid>
-                <Grid.Col span={10}>
+                <Grid.Col span={{ base: 9 }}>
                     <Grid>
-                        <Grid.Col span={{ base: 12, sm: 3 }}>
-                            <img alt="Playlist cover" data-testid='Playlist cover' src={meta.images[1] ? meta.images[1].url : meta.images[0].url} className='CoverArt' />
+                        <Grid.Col span={{ base: 3 }}>
+                            <Image
+                                className='CoverArt'
+                                data-testid='Playlist cover'
+                                alt="Playlist cover"
+                                src={meta.images[1] ? meta.images[1].url : meta.images[0].url}
+                                mah={{ base: 66, xs: 80 }}
+                                w='auto'
+                            />
                         </Grid.Col>
-                        <Grid.Col span={{ base: 12, sm: 9 }} >
-                            <Anchor fw={500} size="lg" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
-                            <p>{meta.description}</p>
-                            <IconMusic className='Notes' size={16} /><Text size='sm'>{meta.tracks.total} tracks</Text>
+                        <Grid.Col span={{ base: 9 }} className='PlaylistDetails' >
+                            <Anchor fw={500} size="xl" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
+                            <br />
+                            <IconMusic className='Notes' size={20} /><Text size='md'>{meta.tracks.total} tracks</Text>
                         </Grid.Col>
                     </Grid>
                 </Grid.Col>
-                <Grid.Col span={2}>
+                <Grid.Col span={{ base: 3 }} ta='right'>
                     <Tooltip label="Add to Managed Playlists">
                         <ActionIcon size='lg' role='button' aria-label="Add to Managed Playlists" onClick={() => dispatch(addFavoritePlaylistToManaged(playlist.spotify_playlist_id))}>
                             <IconPlus />
@@ -58,7 +65,7 @@ export function FavoritePlaylistItem({ playlist }) {
     }
 
     return (
-        <PaperStyled className='FavoritePlaylistItem' withBorder shadow="xs" p="xs" my="xs"  role='li' >
+        <PaperStyled className='FavoritePlaylistItem' withBorder shadow="xs" p="xs" my="xs" role='li' >
             {renderItem()}
         </PaperStyled>
     );

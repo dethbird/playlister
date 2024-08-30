@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ActionIcon, Anchor, Box, Grid, Group, Switch, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Anchor, Box, Grid, Group, Image, Switch, Text, Tooltip } from '@mantine/core';
 import {
     IconCirclePlus,
     IconCircleX,
@@ -61,19 +61,26 @@ export function ManagedPlaylistItem({ playlist }) {
         }
         return (
             <Grid>
-                <Grid.Col span={5}>
+                <Grid.Col span={{base: 12, xs: 6}}>
                     <Grid>
-                        <Grid.Col span={{ base: 12, sm: 4 }}>
-                            <img className='CoverArt' data-testid='Playlist cover' alt="Playlist cover" src={meta.images[1] ? meta.images[1].url : meta.images[0].url} />
+                        <Grid.Col span={{ base: 3 }}>
+                            <Image
+                                className='CoverArt'
+                                data-testid='Playlist cover'
+                                alt="Playlist cover"
+                                src={meta.images[1] ? meta.images[1].url : meta.images[0].url}
+                                mah={{base: 66, xs: 80}}
+                                w='auto'
+                            />
                         </Grid.Col>
-                        <Grid.Col span={{ base: 12, sm: 8 }} className='PlaylistDetails' >
-                            <Anchor fw={500} size="lg" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
+                        <Grid.Col span={{ base: 9 }} className='PlaylistDetails' >
+                            <Anchor fw={500} size="xl" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
                             <br />
-                            <IconMusic className='Notes' size={16} /><Text size='sm'>{meta.tracks.total} tracks</Text>
+                            <IconMusic className='Notes' size={20} /><Text size='md'>{meta.tracks.total} tracks</Text>
                         </Grid.Col>
                     </Grid>
                 </Grid.Col>
-                <Grid.Col span={7}>
+                <Grid.Col span={{base: 12, xs: 6}}>
                     <Group grow >
                         <Tooltip role='tooltip' label="Favorite / unfavorite">
                             <ActionIcon variant="light" aria-label="Favorite / Unfavorite" onClick={() => dispatch(toggleFavoritePlaylist(playlist.spotify_playlist_id))}>
