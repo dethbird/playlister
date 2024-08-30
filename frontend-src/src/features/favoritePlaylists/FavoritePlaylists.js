@@ -46,7 +46,7 @@ export function FavoritePlaylists() {
             opened={favoriteDialogIsOpen}
             onClose={() => { dispatch(toggleFavoriteDialog()) }}
             title="Your favorited playlists"
-            padding='xl'
+            padding='xs'
             fullScreen
             arial-label='FavoritesModal'
         >

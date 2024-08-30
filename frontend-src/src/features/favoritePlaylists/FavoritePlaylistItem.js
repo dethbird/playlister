@@ -34,7 +34,7 @@ export function FavoritePlaylistItem({ playlist }) {
         }
         return (
             <Grid>
-                <Grid.Col span={{ base: 9 }}>
+                <Grid.Col span={{ base: 10 }}>
                     <Grid>
                         <Grid.Col span={{ base: 3 }}>
                             <Image
@@ -42,7 +42,7 @@ export function FavoritePlaylistItem({ playlist }) {
                                 data-testid='Playlist cover'
                                 alt="Playlist cover"
                                 src={meta.images[1] ? meta.images[1].url : meta.images[0].url}
-                                mah={{ base: 66, xs: 80 }}
+                                mah={{ base: 50, xs: 80 }}
                                 w='auto'
                             />
                         </Grid.Col>
@@ -53,7 +53,7 @@ export function FavoritePlaylistItem({ playlist }) {
                         </Grid.Col>
                     </Grid>
                 </Grid.Col>
-                <Grid.Col span={{ base: 3 }} ta='right'>
+                <Grid.Col span={{ base: 2 }} ta='right'>
                     <Tooltip label="Add to Managed Playlists">
                         <ActionIcon size='lg' role='button' aria-label="Add to Managed Playlists" onClick={() => dispatch(addFavoritePlaylistToManaged(playlist.spotify_playlist_id))}>
                             <IconPlus />

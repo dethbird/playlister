@@ -48,7 +48,7 @@ export function SpotifyPlaylists({ spotifyUser }) {
             opened={dialogIsOpen}
             onClose={() => { dispatch(toggleDialog()) }}
             title='Your Spotify playlists'
-            padding='xl'
+            padding='xs'
             fullScreen
         >
             <Container>

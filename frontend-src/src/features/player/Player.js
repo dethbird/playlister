@@ -107,7 +107,7 @@ export function Player() {
           </div>
         </Card.Section>
         <footer>
-          <Group className={classes.PlayerControls} grow justify="center" pt='xs'>
+          <Group className={classes.PlayerControls} grow justify="center" pt='xs'  >
             <LikeButton trackId={currentTrack.item.id} />
             <Tooltip label="Play">
               <ActionIcon variant="light" role='button' name="Play" aria-label="Play" onClick={() => dispatch(play())} disabled={isPlaying}>
