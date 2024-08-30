@@ -22,8 +22,6 @@ export function LikeButton({ trackId }) {
     dispatch(liked(trackId));
   }, [dispatch, trackId]);
 
-  const iconStyle = { width: '70%', height: '70%' };
-
   return (
     <Tooltip label="Like / Unlike">
       <ActionIcon
@@ -34,7 +32,7 @@ export function LikeButton({ trackId }) {
         color='pink'
         variant='light'
       >
-        {isLiked ? <IconHeartFilled style={iconStyle} /> : <IconHeart style={iconStyle} />}
+        {isLiked ? <IconHeartFilled /> : <IconHeart />}
       </ActionIcon>
     </Tooltip>
   );

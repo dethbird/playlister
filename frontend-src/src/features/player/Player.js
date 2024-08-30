@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ActionIcon, Alert, Box, Card, Container, Group, Image, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Alert, Box, Card, Container, Group, Image, Text, Title, Tooltip } from '@mantine/core';
 import {
   IconPlayerTrackPrev,
   IconPlayerTrackNext,
@@ -81,8 +81,6 @@ export function Player() {
     refreshTimer = setTimeout(() => { dispatch(getCurrentTrack()) }, refreshIn);
   }
 
-  const buttonStyle = { width: '70%', height: '70%' };
-
   return (
     <Box className={classes.Player} mt='xs'>
       {sectionTitle}
@@ -102,8 +100,8 @@ export function Player() {
             fit="cover"
           />
           <div className={classes.AlbumInfo}>
-            <Text fw={800}>{currentTrack.item.name}</Text>
-            <Text fw={600}>{currentTrack.item.artists[0].name}</Text>
+            <Title order={4}>{currentTrack.item.name}</Title>
+            <Text fw={800}>{currentTrack.item.artists[0].name}</Text>
             <Text fw={500}>{currentTrack.item.album.name}</Text>
             <Text fw={300}>{dayjs(currentTrack.item.album.release_date).format('YYYY, MMMM DD')}</Text>
           </div>
@@ -113,22 +111,22 @@ export function Player() {
             <LikeButton trackId={currentTrack.item.id} />
             <Tooltip label="Play">
               <ActionIcon variant="light" role='button' name="Play" aria-label="Play" onClick={() => dispatch(play())} disabled={isPlaying}>
-                <IconPlayerPlay style={buttonStyle} />
+                <IconPlayerPlay />
               </ActionIcon>
             </Tooltip>
             <Tooltip label="Pause">
               <ActionIcon variant="light" role='button' name="Pause" aria-label="Pause" onClick={() => dispatch(pause())} disabled={!isPlaying}>
-                <IconPlayerPause style={buttonStyle} />
+                <IconPlayerPause />
               </ActionIcon>
             </Tooltip>
             <Tooltip label="Previous">
               <ActionIcon variant="light" role='button' name="Previous Track" aria-label="Previous Track" onClick={() => dispatch(previous())}>
-                <IconPlayerTrackPrev style={buttonStyle} />
+                <IconPlayerTrackPrev />
               </ActionIcon>
             </Tooltip>
             <Tooltip label="Next">
               <ActionIcon variant="light" role='button' name="Next Track" aria-label="Next Track" onClick={() => dispatch(next())}>
-                <IconPlayerTrackNext style={buttonStyle} />
+                <IconPlayerTrackNext />
               </ActionIcon>
             </Tooltip>
           </Group>
