@@ -16,6 +16,12 @@ export const getSpotifyPlaylists = createAsyncThunk(
   async ({ limit, offset }) => {
     const response = await apiRequest(`/playlists/spotify?limit=${limit}&offset=${offset}`);
     const data = await response.json();
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }, 250);
     return data;
   }
 );

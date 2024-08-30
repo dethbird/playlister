@@ -17,9 +17,6 @@ function Nav({ spotifyUser }) {
     const iconStyle = { width: '16px', height: '16px', verticalAlign: 'middle' };
 
     const renderSpotifyUser = () => {
-        if (!spotifyUser.display_name) {
-            return null;
-        }
         return (
             <PaperStyled shadow="xs" p="xs" my="xs">
                 <Stack
@@ -36,6 +33,10 @@ function Nav({ spotifyUser }) {
             </PaperStyled>
         );
     };
+
+    if (!spotifyUser.display_name) {
+        return null;
+    }
 
     return (
         <Grid className='Nav'>
