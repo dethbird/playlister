@@ -28,7 +28,7 @@ SESSION_TIMEOUT=300000000
 
 SPOTIFY_KEY=""
 SPOTIFY_SECRET=""
-SPOTIFY_CALLBACK_URL="https://linuxvm:8001/auth/spotify/callback"
+SPOTIFY_CALLBACK_URL="http://playlistervm:8001/auth/spotify/callback"
 
 DB_USER=""
 DB_PASSWORD=""
