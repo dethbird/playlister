@@ -35,3 +35,25 @@ npm run start
 ```
 
 This will start a fakely functioning app talking to a mock API at localhost:3001 or other specified port (other than 3001, as that is the API).
+
+## Testing
+
+To run the tests in watch mode, simply run
+```bash
+npm run test
+```
+
+To output a coverage report to `/coverage`, use
+```bash
+npm run test-coverage-out
+```
+
+To view the output locally, scp the coverage report to your host machine (example):
+
+```bash
+cd ~/Documents
+rm -rf frontend-coverage
+scp -r vm@playlistervm:/home/vm/code/playlister/frontend-src/coverage ~/Documents/frontend-coverage
+```
+
+Then double click `index.html` in `~/Documents/frontend-covergage`.
