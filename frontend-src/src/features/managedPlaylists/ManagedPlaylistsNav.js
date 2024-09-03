@@ -49,6 +49,7 @@ export function ManagedPlaylistsNav() {
                                 onClick={currentTrack.timestamp !== undefined ? () => dispatch(removeTrackFromActive(currentTrack.item.uri)) : null}
                                 disabled={currentTrack.timestamp === undefined || playlists.length < 1}
                                 color="red"
+                                p='lg'
                             >
                                 <IconCircleX />
                             </ActionIcon>
@@ -59,6 +60,7 @@ export function ManagedPlaylistsNav() {
                                 onClick={currentTrack.timestamp !== undefined ? () => dispatch(addTrackToActive(currentTrack.item.uri)) : null}
                                 disabled={currentTrack.timestamp === undefined || playlists.length < 1}
                                 color="green"
+                                p='lg'
                             >
                                 <IconCirclePlus />
                             </ActionIcon>

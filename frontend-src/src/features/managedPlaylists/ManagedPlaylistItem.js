@@ -63,7 +63,7 @@ export function ManagedPlaylistItem({ playlist }) {
             <Grid>
                 <Grid.Col span={{base: 12, xs: 6}}>
                     <Grid>
-                        <Grid.Col span={{ base: 3 }}>
+                        <Grid.Col span={{ base: 3, xs: 4, sm: 3 }}>
                             <Image
                                 className='CoverArt'
                                 data-testid='Playlist cover'
@@ -73,7 +73,7 @@ export function ManagedPlaylistItem({ playlist }) {
                                 w='auto'
                             />
                         </Grid.Col>
-                        <Grid.Col span={{ base: 9 }} className='PlaylistDetails' >
+                        <Grid.Col span={{ base: 9, xs: 8, sm: 9 }} className='PlaylistDetails' >
                             <Anchor fw={500} size="xl" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
                             <br />
                             <IconMusic className='Notes' size={20} /><Text size='md'>{meta.tracks.total} tracks</Text>
