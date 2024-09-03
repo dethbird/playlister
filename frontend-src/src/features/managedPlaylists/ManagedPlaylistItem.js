@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ActionIcon, Anchor, Box, Grid, Group, Image, Switch, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Anchor, Box, Grid, Group, Image, Switch, Text, Tooltip, useMantineColorScheme } from '@mantine/core';
 import {
     IconCirclePlus,
     IconCircleX,
@@ -22,7 +22,7 @@ import {
 } from './managedPlaylistsSlice';
 import {
     selectCurrentTrack
-} from '../player/playerSlice'
+} from '../player/playerSlice';
 import { theme } from '../../app/theme';
 
 
@@ -40,6 +40,8 @@ export function ManagedPlaylistItem({ playlist }) {
         transform: CSS.Transform.toString(transform),
         transition,
     };
+
+    const { colorScheme } = useMantineColorScheme();
 
     const currentTrack = useSelector(selectCurrentTrack);
 
@@ -63,7 +65,7 @@ export function ManagedPlaylistItem({ playlist }) {
         }
         return (
             <Grid>
-                <Grid.Col span={{base: 12, xs: 6}}>
+                <Grid.Col span={{ base: 12, xs: 6 }}>
                     <Grid>
                         <Grid.Col span={{ base: 3, xs: 4, sm: 3 }}>
                             <Image
@@ -71,18 +73,18 @@ export function ManagedPlaylistItem({ playlist }) {
                                 data-testid='Playlist cover'
                                 alt="Playlist cover"
                                 src={meta.images[1] ? meta.images[1].url : meta.images[0].url}
-                                mah={{base: 66, xs: 80}}
+                                mah={{ base: 66, xs: 80 }}
                                 w='auto'
                             />
                         </Grid.Col>
                         <Grid.Col span={{ base: 9, xs: 8, sm: 9 }} className='PlaylistDetails' >
-                            <Anchor c={theme.colors['pale-purple'][2]} fw={500} size="lg" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
+                            <Anchor td='none' c={theme.colors['pale-purple'][colorScheme === 'light' ? 3 : 2]} fw={500} size="lg" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
                             <br />
                             <IconMusic className='Notes' size={20} /><Text size='md'>{meta.tracks.total} tracks</Text>
                         </Grid.Col>
                     </Grid>
                 </Grid.Col>
-                <Grid.Col span={{base: 12, xs: 6}}>
+                <Grid.Col span={{ base: 12, xs: 6 }}>
                     <Group grow >
                         <Tooltip role='tooltip' label="Favorite / unfavorite">
                             <ActionIcon variant="light" aria-label="Favorite / Unfavorite" onClick={() => dispatch(toggleFavoritePlaylist(playlist.spotify_playlist_id))}>

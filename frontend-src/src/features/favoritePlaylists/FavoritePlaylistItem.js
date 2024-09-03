@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ActionIcon, Anchor, Grid, Image, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Anchor, Grid, Image, Text, Tooltip, useMantineColorScheme } from '@mantine/core';
 import {
     IconMusic,
     IconPlus
@@ -22,6 +22,8 @@ export function FavoritePlaylistItem({ playlist }) {
             meta = playlistMeta[playlist.spotify_playlist_id];
         }
     }
+
+    const { colorScheme } = useMantineColorScheme();
 
     const dispatch = useDispatch();
 
@@ -48,7 +50,7 @@ export function FavoritePlaylistItem({ playlist }) {
                             />
                         </Grid.Col>
                         <Grid.Col span={{ base: 9 }} className='PlaylistDetails' >
-                            <Anchor c={theme.colors['pale-purple'][2]} fw={500} size="lg" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
+                            <Anchor td='none'  c={theme.colors['pale-purple'][colorScheme === 'light' ? 3 : 2]} fw={500} size="lg" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
                             <br />
                             <IconMusic className='Notes' size={20} /><Text size='md'>{meta.tracks.total} tracks</Text>
                         </Grid.Col>

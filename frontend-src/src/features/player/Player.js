@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ActionIcon, Alert, Box, Card, Container, Group, Image, Text, Title, Tooltip } from '@mantine/core';
+import { ActionIcon, Alert, Anchor, Box, Card, Container, Group, Image, Text, Tooltip, useMantineColorScheme } from '@mantine/core';
 import {
   IconPlayerTrackPrev,
   IconPlayerTrackNext,
@@ -19,9 +19,9 @@ import {
 } from './playerSlice';
 import { LikeButton } from './LikeButton';
 import classes from './Player.module.css';
+import { theme } from '../../app/theme';
 
 const dayjs = require('dayjs');
-
 
 let refreshTimer;
 
@@ -32,6 +32,8 @@ export function Player() {
   const status = useSelector(selectStatus);
 
   const dispatch = useDispatch();
+
+  const { colorScheme } = useMantineColorScheme();
 
   useEffect(() => {
     dispatch(getCurrentTrack());
@@ -100,10 +102,12 @@ export function Player() {
             fit="cover"
           />
           <div className={classes.AlbumInfo}>
-            <Title order={4}>{currentTrack.item.name}</Title>
-            <Text fw={800}>{currentTrack.item.artists[0].name}</Text>
-            <Text fw={500}>{currentTrack.item.album.name}</Text>
-            <Text fw={300}>{dayjs(currentTrack.item.album.release_date).format('YYYY, MMMM DD')}</Text>
+            <Anchor c={theme.colors['pale-purple'][colorScheme === 'light' ? 4 : 1]} td='none' fw={700} size="xl" href={currentTrack.item.uri} target="_blank" rel="noreferrer">{currentTrack.item.name}</Anchor>
+            <br />
+            <Anchor c={theme.colors['pale-purple'][colorScheme === 'light' ? 3 : 2]} td='none' fw={500} size="lg" href={currentTrack.item.artists[0].uri} target="_blank" rel="noreferrer">{currentTrack.item.artists[0].name}</Anchor>
+            <br />
+            <Anchor c={theme.colors['pale-purple'][colorScheme === 'light' ? 3 : 3]} td='none' fw={400} size="md" href={currentTrack.item.album.uri} target="_blank" rel="noreferrer">{currentTrack.item.album.name}</Anchor>
+            <Text size='sm' pt='xs' fw={300}>{dayjs(currentTrack.item.album.release_date).format('YYYY, MMMM DD')}</Text>
           </div>
         </Card.Section>
         <footer>

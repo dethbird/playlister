@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { ActionIcon, Anchor, Grid, Image, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Anchor, Grid, Image, Text, Tooltip, useMantineColorScheme } from '@mantine/core';
 import {
     IconMusic,
     IconPlus
@@ -14,6 +14,8 @@ import { theme } from '../../app/theme';
 export function SpotifyPlaylistItem({ playlist }) {
 
     const dispatch = useDispatch();
+
+    const { colorScheme } = useMantineColorScheme();
 
     return (
         <PaperStyled className='SpotifyPlaylistItem' withBorder shadow="xs" p="xs" my="xs" role='li'>
@@ -31,7 +33,7 @@ export function SpotifyPlaylistItem({ playlist }) {
                             />
                         </Grid.Col>
                         <Grid.Col span={{ base: 9 }}>
-                            <Anchor c={theme.colors['pale-purple'][2]} fw={500} size="lg" href={playlist.uri} target="_blank" rel="noreferrer">{playlist.name}</Anchor>
+                            <Anchor td='none' c={theme.colors['pale-purple'][colorScheme === 'light' ? 3 : 2]} fw={500} size="lg" href={playlist.uri} target="_blank" rel="noreferrer">{playlist.name}</Anchor>
                             <br />
                             <IconMusic className='Notes' size={20} /><Text size='md'>{playlist.tracks.total} tracks</Text>
                         </Grid.Col>
