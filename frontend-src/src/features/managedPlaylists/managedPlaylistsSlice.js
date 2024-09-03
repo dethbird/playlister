@@ -1,7 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { apiRequest } from '../../app/apiConfig';
 import { selectCurrentTrack } from '../player/playerSlice';
+import { theme } from '../../app/theme';
 
 export const initialState = {
   playlists: [],
@@ -14,12 +16,14 @@ export const initialState = {
 };
 
 const trackAddedNotification = {
-  message: 'Track added',
-  color: 'green'
+  message: <Title order={5} style={{ color: 'white' }}>Track added</Title>,
+  color: 'green',
+  style: { backgroundColor: theme.colors.green[7] },
 };
 const trackRemovedNotification = {
-  message: 'Track removed',
-  color: 'red'
+  message: <Title order={5} style={{ color: 'white' }}>Track removed</Title>,
+  color: 'red',
+  style: { backgroundColor: theme.colors.red[7] },
 };
 
 export const getManagedPlaylists = createAsyncThunk(
@@ -267,7 +271,7 @@ export const addFavoritePlaylistToManaged = createAsyncThunk(
     setTimeout(() => {
       dispatch(managedPlaylistsSlice.actions.toggleFavoriteDialog());
       dispatch(getManagedPlaylists());
-  }, 250);
+    }, 250);
     return data;
   }
 );
