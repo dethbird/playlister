@@ -11,6 +11,7 @@ import {
     selectPlaylistsMeta,
     addFavoritePlaylistToManaged
 } from '../managedPlaylists/managedPlaylistsSlice';
+import { theme } from '../../app/theme';
 
 export function FavoritePlaylistItem({ playlist }) {
 
@@ -47,7 +48,7 @@ export function FavoritePlaylistItem({ playlist }) {
                             />
                         </Grid.Col>
                         <Grid.Col span={{ base: 9 }} className='PlaylistDetails' >
-                            <Anchor fw={500} size="xl" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
+                            <Anchor c={theme.colors['pale-purple'][2]} fw={500} size="lg" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
                             <br />
                             <IconMusic className='Notes' size={20} /><Text size='md'>{meta.tracks.total} tracks</Text>
                         </Grid.Col>

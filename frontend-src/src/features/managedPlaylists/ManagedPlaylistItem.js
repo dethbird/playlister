@@ -23,6 +23,8 @@ import {
 import {
     selectCurrentTrack
 } from '../player/playerSlice'
+import { theme } from '../../app/theme';
+
 
 export function ManagedPlaylistItem({ playlist }) {
 
@@ -74,7 +76,7 @@ export function ManagedPlaylistItem({ playlist }) {
                             />
                         </Grid.Col>
                         <Grid.Col span={{ base: 9, xs: 8, sm: 9 }} className='PlaylistDetails' >
-                            <Anchor fw={500} size="xl" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
+                            <Anchor c={theme.colors['pale-purple'][2]} fw={500} size="lg" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
                             <br />
                             <IconMusic className='Notes' size={20} /><Text size='md'>{meta.tracks.total} tracks</Text>
                         </Grid.Col>

@@ -9,6 +9,7 @@ import { PaperStyled } from '../../components/PaperStyled';
 import {
     addSpotifyPlaylistToManaged,
 } from './spotifyPlaylistsSlice';
+import { theme } from '../../app/theme';
 
 export function SpotifyPlaylistItem({ playlist }) {
 
@@ -30,7 +31,7 @@ export function SpotifyPlaylistItem({ playlist }) {
                             />
                         </Grid.Col>
                         <Grid.Col span={{ base: 9 }}>
-                            <Anchor fw={500} size="xl" href={playlist.uri} target="_blank" rel="noreferrer">{playlist.name}</Anchor>
+                            <Anchor c={theme.colors['pale-purple'][2]} fw={500} size="lg" href={playlist.uri} target="_blank" rel="noreferrer">{playlist.name}</Anchor>
                             <br />
                             <IconMusic className='Notes' size={20} /><Text size='md'>{playlist.tracks.total} tracks</Text>
                         </Grid.Col>
