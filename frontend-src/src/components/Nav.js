@@ -27,7 +27,7 @@ function Nav({ spotifyUser }) {
                     justify="flex-start"
                     gap="xs">
                     <Box>
-                        <Avatar src={spotifyUser.images[0].url} alt={spotifyUser.display_name} size={{ base: 6, sm: 14, md: 16 }} className='Avatar' display='inline-block' />
+                        <Avatar src={spotifyUser.images[0].url} alt={spotifyUser.display_name} h={{ base: 32 }} w='auto' className='Avatar' display='inline-block' />
                         <Text fw={500} >{spotifyUser.display_name}</Text>
                         <Anchor role='button' arial-label='SwitchTheme' onClick={() => { dispatch(toggleTheme()) }} title='Switch theme'>Switch theme <IconSwitchHorizontal style={iconStyle} /></Anchor><br />
                         <Anchor href="/logout" title='Logout'>Logout <IconLogout style={iconStyle} /></Anchor>
@@ -40,7 +40,7 @@ function Nav({ spotifyUser }) {
     return (
         <Grid className='Nav'>
             <Grid.Col span={{ base: 3, xs: 2 }} >
-                <Link to="/"><Image src='/img/logo.001.png' /></Link>
+                <Link to="/"><Image src='/img/logo.001.png' h={{base: 100}} w='auto'/></Link>
             </Grid.Col>
             <Grid.Col offset={{ base: 2, xs: 5, sm: 7 }} span={{ base: 7, xs: 5, sm: 3 }}>
                 {renderSpotifyUser()}
