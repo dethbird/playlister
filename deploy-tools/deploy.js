@@ -1,4 +1,5 @@
 const fs = require('fs');
+const fse = require('fs-extra');
 
 const buildDir = '../frontend-src/build';
 
@@ -25,16 +26,25 @@ const clearDir = dir => {
     files.forEach(file => {
         const filePath = dir + file;
         const stat = fs.lstatSync(filePath);
-        if(!stat.isDirectory()){
+        if (!stat.isDirectory()) {
             console.log('deleting: ' + filePath);
             fs.unlinkSync(filePath);
         }
     })
 }
 
+// Clear static assets
 clearDir('../public/js/');
 clearDir('../public/css/');
+clearDir('../public/img/');
 
+
+// Copy over all images
+fse.copy(buildDir + '/img', '../public/img/')
+    .then(() => console.log('Image directory copied successfully!'))
+    .catch(err => console.error('Error copying image directory:', err));
+
+// Copy manifest.json entries
 fs.readFile(`${buildDir}/asset-manifest.json`, 'utf8', (err, data) => {
     if (err) {
         console.error('Error reading file:', err);
@@ -42,8 +52,8 @@ fs.readFile(`${buildDir}/asset-manifest.json`, 'utf8', (err, data) => {
     }
     try {
         const jsonData = JSON.parse(data);
-        // console.log(jsonData);
 
+        // Copy the main assets
         copyAsset(buildDir + jsonData['files']['main.css'], '../public/css/main.css');
         copyAsset(buildDir + jsonData['files']['main.js'], '../public/js/main.js');
 
@@ -64,3 +74,5 @@ fs.readFile(`${buildDir}/asset-manifest.json`, 'utf8', (err, data) => {
         console.error('Error parsing JSON:', parseErr);
     }
 });
+
+
