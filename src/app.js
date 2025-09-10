@@ -59,7 +59,7 @@ passport.use(
 app.use(
     session({
         secret: process.env.SESSION_SECRET,
-        cookie: { maxAge: process.env.SESSION_MAXAGE, secure: false },
+        cookie: { maxAge: Number(process.env.SESSION_MAXAGE), secure: false },
         saveUninitialized: false,
         resave: false,
         // store, // use a persistent store like connect-mongo
