@@ -1,5 +1,4 @@
-import React from 'react';
-import { Box, Container, Image, Text, Title } from '@mantine/core';
+import { Container, Text, Title } from '@mantine/core';
 
 function HowTo() {
     window.scrollTo({
