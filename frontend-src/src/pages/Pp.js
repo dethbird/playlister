@@ -1,5 +1,4 @@
-import React from 'react';
-import { Button, Container, Image, Text, Title } from '@mantine/core';
+import { Button, Container, Text, Title } from '@mantine/core';
 import { useDispatch } from 'react-redux';
 import { signPP } from '../features/user/userSlice';
 
@@ -66,7 +65,7 @@ function Pp({ signed }) {
                 title='Agree to PP'
                 data-testid='signpp-button'
             >
-                Got it <Image src='/img/spotify_logo.png' className='SpotifyLogo' />
+                Got it
             </Button></Container> : null}
         </Container>
     );

@@ -10,7 +10,7 @@ if (process.env.REACT_APP_ENVIRONMENT === 'development') {
         ]
     }
     // not logged in:
-    // window.spotifyUser = {};
+    window.spotifyUser = {};
 }
 
 export const apiRequest = async (path, options) => {

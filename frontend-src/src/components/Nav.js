@@ -41,7 +41,7 @@ function Nav({ spotifyUser }) {
     return (
         <Grid className='Nav'>
             <Grid.Col span={{ base: 3, xs: 2 }} >
-                <Link to="/"><Image src='/img/logo.001.png' h={{base: 105}} w='auto'/></Link>
+                <Link to="/"><Image src='/img/logo.001.png' h='auto' w={{ base: 150, xs: 250, sm: 350 }} pt={25} /></Link>
             </Grid.Col>
             <Grid.Col offset={{ base: 2, xs: 5, sm: 7 }} span={{ base: 7, xs: 5, sm: 3 }}>
                 {renderSpotifyUser()}

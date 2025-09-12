@@ -1,5 +1,4 @@
-import React from 'react';
-import { Button, Container, Image, Text, Title } from '@mantine/core';
+import { Button, Container, Text, Title } from '@mantine/core';
 import { useDispatch } from 'react-redux';
 import { signTos } from '../features/user/userSlice';
 
@@ -110,7 +109,7 @@ function Tos({ signed }) {
                 title='Agree to TOS'
                 data-testid='signtos-button'
             >
-                Agree <Image src='/img/spotify_logo.png' className='SpotifyLogo' />
+                Agree
             </Button></Container> : null}
 
         </Container>
