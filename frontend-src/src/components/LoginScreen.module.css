@@ -1,6 +1,6 @@
 .hero {
     position: relative;
-    background-image: url(https://cdn.midjourney.com/23595c31-9295-400d-b054-c3912f21a7c3/0_0.png);
+    background-image: url("https://playlister.love/img/login-bg.jpg");
     background-size: cover;
     background-position: bottom;
     color: var(--mantine-color-white);
