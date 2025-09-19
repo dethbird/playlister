@@ -1,7 +1,9 @@
 const { resolve } = require("path");
 
 const mockUser = {
-    theme: 'dark'
+    theme: 'dark',
+    tos_signed: 'N',
+    pp_signed: 'N'
 };;
 
 const mockSpotifyUser = {

@@ -13,36 +13,85 @@ describe('authenticateSpotifyUser', () => {
         jest.clearAllMocks();
     });
 
-    it('successfully authenticates', async () => {
+    it('successfully authenticates and calls done with user data', async () => {
         const mockDone = jest.fn();
-        User.findOrCreate.mockResolvedValueOnce([mockUser]);
+        const mockAccessToken = 'test-access-token';
+        const mockRefreshToken = 'test-refresh-token';
+        const mockExpiresIn = 3600;
+        const mockProfile = { id: 'spotify-user-123' };
+        
+        User.findOrCreate.mockResolvedValueOnce([mockUser, false]);
         spotifyApi.getMe.mockResolvedValueOnce({ body: mockSpotifyUser });
-        await userService.authenticateSpotifyUser('XXX', 'YYY', 555, mockSpotifyUser, mockDone);
+        
+        await userService.authenticateSpotifyUser(mockAccessToken, mockRefreshToken, mockExpiresIn, mockProfile, mockDone);
 
         expect(User.findOrCreate).toHaveBeenCalledTimes(1);
+        expect(User.findOrCreate).toHaveBeenCalledWith({
+            where: { spotify_user_id: mockProfile.id }
+        });
         expect(spotifyApi.setAccessToken).toHaveBeenCalledTimes(1);
+        expect(spotifyApi.setAccessToken).toHaveBeenCalledWith(mockAccessToken);
         expect(spotifyApi.getMe).toHaveBeenCalledTimes(1);
-        /** @todo  this is happening right at return and is not registering */
-        // expect(mockDone).toHaveBeenCalledTimes(1);
+        expect(mockDone).toHaveBeenCalledTimes(1);
+        expect(mockDone).toHaveBeenCalledWith(null, { 
+            user: mockUser, 
+            accessToken: mockAccessToken, 
+            spotifyUser: mockSpotifyUser 
+        });
     });
-    it('catches error with User.findOrCreate()', async () => {
+
+    it('handles User.findOrCreate error and calls done with error', async () => {
         const mockDone = jest.fn();
-        User.findOrCreate.mockRejectedValue(new Error('Find or create failed'));
-        spotifyApi.getMe.mockResolvedValueOnce({ body: mockSpotifyUser });
-        await userService.authenticateSpotifyUser('XXX', 'YYY', 555, mockSpotifyUser, mockDone);
+        const mockError = new Error('Find or create failed');
+        const mockProfile = { id: 'spotify-user-123' };
+        
+        User.findOrCreate.mockRejectedValueOnce(mockError);
+        
+        await userService.authenticateSpotifyUser('XXX', 'YYY', 555, mockProfile, mockDone);
 
         expect(User.findOrCreate).toHaveBeenCalledTimes(1);
         expect(spotifyApi.setAccessToken).toHaveBeenCalledTimes(0);
         expect(spotifyApi.getMe).toHaveBeenCalledTimes(0);
+        expect(mockDone).toHaveBeenCalledTimes(1);
+        expect(mockDone).toHaveBeenCalledWith(mockError);
     });
-    it('catches error with spotifyApi.getMe()', async () => {
+
+    it('handles spotifyApi.getMe error and calls done with error', async () => {
         const mockDone = jest.fn();
-        User.findOrCreate.mockResolvedValueOnce([mockUser]);
-        spotifyApi.getMe.mockRejectedValue(new Error('Fetch /me failed'));
-        await userService.authenticateSpotifyUser('XXX', 'YYY', 555, mockSpotifyUser, mockDone);
+        const mockError = new Error('Fetch /me failed');
+        const mockProfile = { id: 'spotify-user-123' };
+        
+        User.findOrCreate.mockResolvedValueOnce([mockUser, false]);
+        spotifyApi.getMe.mockRejectedValueOnce(mockError);
+        
+        await userService.authenticateSpotifyUser('XXX', 'YYY', 555, mockProfile, mockDone);
 
         expect(User.findOrCreate).toHaveBeenCalledTimes(1);
         expect(spotifyApi.setAccessToken).toHaveBeenCalledTimes(1);
         expect(spotifyApi.getMe).toHaveBeenCalledTimes(1);
+        expect(mockDone).toHaveBeenCalledTimes(1);
+        expect(mockDone).toHaveBeenCalledWith(mockError);
+    });
+
+    it('successfully authenticates when user is created for first time', async () => {
+        const mockDone = jest.fn();
+        const mockAccessToken = 'new-user-token';
+        const mockProfile = { id: 'new-spotify-user-456' };
+        
+        // Mock findOrCreate returning user and true (user was created)
+        User.findOrCreate.mockResolvedValueOnce([mockUser, true]);
+        spotifyApi.getMe.mockResolvedValueOnce({ body: mockSpotifyUser });
+        
+        await userService.authenticateSpotifyUser(mockAccessToken, 'refresh', 7200, mockProfile, mockDone);
+
+        expect(User.findOrCreate).toHaveBeenCalledWith({
+            where: { spotify_user_id: mockProfile.id }
+        });
+        expect(spotifyApi.setAccessToken).toHaveBeenCalledWith(mockAccessToken);
+        expect(mockDone).toHaveBeenCalledWith(null, { 
+            user: mockUser, 
+            accessToken: mockAccessToken, 
+            spotifyUser: mockSpotifyUser 
+        });
     });
 })

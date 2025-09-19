@@ -47,6 +47,6 @@ describe('GET /', () => {
 
         const renderSpy = jest.spyOn(app.response, 'render');
         const response = await agent.get('/');
-        expect(renderSpy).toHaveBeenCalledWith('index', { "_locals": {}, "spotifyUserJson": "{\"id\":\"1267654234\",\"display_name\":\"David Coldplay\",\"images\":[{\"url\":\"https://i.scdn.co/image/ab67757000003b82bfe4a87bb89364982a8ea74d\"}]}", "title": "Spotify Playlister", "user": { "accessToken": "XXXX", "spotifyUser": { "display_name": "David Coldplay", "id": "1267654234", "images": [{ "url": "https://i.scdn.co/image/ab67757000003b82bfe4a87bb89364982a8ea74d" }] }, "user": { "theme": "dark" } } });
+        expect(renderSpy).toHaveBeenCalledWith('index', { "_locals": {}, "spotifyUserJson": "{\"id\":\"1267654234\",\"display_name\":\"David Coldplay\",\"images\":[{\"url\":\"https://i.scdn.co/image/ab67757000003b82bfe4a87bb89364982a8ea74d\"}]}", "title": "Spotify Playlister", "user": { "accessToken": "XXXX", "spotifyUser": { "display_name": "David Coldplay", "id": "1267654234", "images": [{ "url": "https://i.scdn.co/image/ab67757000003b82bfe4a87bb89364982a8ea74d" }] }, "user": { "theme": "dark", "tos_signed": "N", "pp_signed": "N" } } });
     });
 });

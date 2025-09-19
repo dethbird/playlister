@@ -154,29 +154,40 @@ router.delete('/:id', (req, res) => {
 });
 
 /**
- * Remove a user's managed playlists
+ * Toggle a managed playlist's active status
  */
-router.put('/:id/toggle-active', (req, res) => {
+router.put('/:id/toggle-active', async (req, res) => {
     const { id } = req.params;
     try {
-        Playlist.findByPk(id)
-            .then(playlist => {
-                playlist.active = playlist.active === 'Y' ? 'N' : 'Y';
-                Playlist.update({ active: playlist.active }, {
-                    where: {
-                        id: id,
-                        user_id: req.user.user.id
-                    },
-                }).then(() => {
-                    res.json(playlist);
-                }).catch(err => {
-                    console.error('Error updating user/s playlist:', err);
-                    res.status(500).json({ message: err.message });
-                });;
-            }).catch(err => {
-                console.error('Error finding user/s playlist:', err);
-                res.status(500).json({ message: err.message });
-            });
+        // First find the playlist and ensure it belongs to the user
+        const playlist = await Playlist.findOne({
+            where: {
+                id: id,
+                user_id: req.user.user.id
+            }
+        });
+
+        if (!playlist) {
+            return res.status(404).json({ message: 'Playlist not found or access denied' });
+        }
+
+        // Toggle the active status
+        const newActiveStatus = playlist.active === 'Y' ? 'N' : 'Y';
+        
+        // Update the playlist
+        await Playlist.update(
+            { active: newActiveStatus }, 
+            {
+                where: {
+                    id: id,
+                    user_id: req.user.user.id
+                }
+            }
+        );
+
+        // Update the playlist object to return the new status
+        playlist.active = newActiveStatus;
+        res.json(playlist);
     } catch (err) {
         console.error('Error toggle-active user/s playlist:', err);
         res.status(500).json({ message: err.message });
@@ -206,49 +217,49 @@ router.put('/set-active-all', (req, res) => {
 /**
  * Invert all user's managed playlists to active Y || N
  */
-router.put('/invert-active-all', (req, res) => {
+router.put('/invert-active-all', async (req, res) => {
     try {
-        Playlist.findAll({
+        const playlists = await Playlist.findAll({
             where: {
                 user_id: req.user.user.id
             }
-        }).then(playlists => {
-            playlists.forEach(playlist => {
-                const active = playlist.active === 'Y' ? 'N' : 'Y';
-                Playlist.update({ active }, {
-                    where: {
-                        id: playlist.id,
-                        user_id: req.user.user.id
-                    }
-                }).catch(err => {
-                    console.error('Error updating user/s playlist:', err);
-                    res.status(500).json({ message: err.message });
-                });
-            });
-        }).catch(err => {
-            console.error('Error finding user/s playlist:', err);
-            res.status(500).json({ message: err.message });
-        }).finally(() => {
-            res.json(true);
         });
+
+        // Use Promise.all to wait for all updates to complete
+        const updatePromises = playlists.map(playlist => {
+            const active = playlist.active === 'Y' ? 'N' : 'Y';
+            return Playlist.update({ active }, {
+                where: {
+                    id: playlist.id,
+                    user_id: req.user.user.id
+                }
+            });
+        });
+
+        await Promise.all(updatePromises);
+        res.json(true);
     } catch (err) {
         console.error('Error invert-active-all user/s playlist:', err);
         res.status(500).json({ message: err.message });
     }
-
 });
 
 /**
  * Reorder playlists based on order of ids passed in
  */
-router.put('/reorder', (req, res) => {
+router.put('/reorder', async (req, res) => {
     const { ids } = req.body;
     try {
-        ids.forEach(async (id, index) => {
+        // Use Promise.all to wait for all updates to complete
+        const updatePromises = ids.map(async (id, index) => {
             const playlist = await Playlist.findByPk(id);
-            playlist.sort_order = index;
-            await playlist.save();
+            if (playlist) {
+                playlist.sort_order = index;
+                return await playlist.save();
+            }
         });
+        
+        await Promise.all(updatePromises);
         res.json(true);
     } catch (err) {
         console.error('Error reordering user/s playlist:', err);
@@ -259,33 +270,41 @@ router.put('/reorder', (req, res) => {
 /**
  * Add a track to active managed playlists
  */
-router.put('/add-track-to-active', (req, res) => {
+router.put('/add-track-to-active', async (req, res) => {
     const { uri } = req.body;
-    const updated = [];
     try {
-        Playlist.findAll({
+        const playlists = await Playlist.findAll({
             where: {
                 active: 'Y',
                 user_id: req.user.user.id
             }
-        })
-            .then(playlists => {
-                playlists.forEach(playlist => {
-                    spotifyApi.removeTracksFromPlaylist(
-                        playlist.spotify_playlist_id,
-                        [{ uri }]
-                    ).then(() => {
-                        spotifyApi.addTracksToPlaylist(
-                            playlist.spotify_playlist_id,
-                            [uri]
-                        ).then(() => {
-                            updated.push(playlist.spotify_playlist_id);
-                        });
-                    });
-                });
-            }).finally(() => {
-                res.json(updated);
-            });
+        });
+
+        // Use Promise.all to wait for all Spotify API operations to complete
+        const updatePromises = playlists.map(async (playlist) => {
+            try {
+                // Remove track first, then add it (to move it to the end)
+                await spotifyApi.removeTracksFromPlaylist(
+                    playlist.spotify_playlist_id,
+                    [{ uri }]
+                );
+                await spotifyApi.addTracksToPlaylist(
+                    playlist.spotify_playlist_id,
+                    [uri]
+                );
+                return playlist.spotify_playlist_id;
+            } catch (spotifyError) {
+                console.error(`Error updating playlist ${playlist.spotify_playlist_id}:`, spotifyError);
+                // Return null for failed operations, filter them out later
+                return null;
+            }
+        });
+
+        const results = await Promise.all(updatePromises);
+        // Filter out failed operations (null values)
+        const updated = results.filter(id => id !== null);
+        
+        res.json(updated);
     } catch (err) {
         console.error('Error add-track-to-active user/s playlist:', err);
         res.status(500).json({ message: err.message });
@@ -295,28 +314,36 @@ router.put('/add-track-to-active', (req, res) => {
 /**
  * Remove a track from active managed playlists
  */
-router.put('/remove-track-from-active', (req, res) => {
+router.put('/remove-track-from-active', async (req, res) => {
     const { uri } = req.body;
-    const updated = [];
     try {
-        Playlist.findAll({
+        const playlists = await Playlist.findAll({
             where: {
                 active: 'Y',
                 user_id: req.user.user.id
             }
-        })
-            .then(playlists => {
-                playlists.forEach(playlist => {
-                    spotifyApi.removeTracksFromPlaylist(
-                        playlist.spotify_playlist_id,
-                        [{ uri }]
-                    ).then(() => {
-                        updated.push(playlist.spotify_playlist_id);
-                    });
-                });
-            }).finally(() => {
-                res.json(updated);
-            });
+        });
+
+        // Use Promise.all to wait for all Spotify API operations to complete
+        const updatePromises = playlists.map(async (playlist) => {
+            try {
+                await spotifyApi.removeTracksFromPlaylist(
+                    playlist.spotify_playlist_id,
+                    [{ uri }]
+                );
+                return playlist.spotify_playlist_id;
+            } catch (spotifyError) {
+                console.error(`Error removing track from playlist ${playlist.spotify_playlist_id}:`, spotifyError);
+                // Return null for failed operations, filter them out later
+                return null;
+            }
+        });
+
+        const results = await Promise.all(updatePromises);
+        // Filter out failed operations (null values)
+        const updated = results.filter(id => id !== null);
+        
+        res.json(updated);
     } catch (err) {
         console.error('Error remove-track-from-active user/s playlist:', err);
         res.status(500).json({ message: err.message });
@@ -326,33 +353,35 @@ router.put('/remove-track-from-active', (req, res) => {
 /**
  * Toggle a managed playlist as favorite
  */
-router.put('/favorite', (req, res) => {
+router.put('/favorite', async (req, res) => {
     const { id } = req.body;
     try {
-        Favorite.findOne({
+        const favorite = await Favorite.findOne({
             where: {
                 user_id: req.user.user.id,
                 spotify_playlist_id: id
             }
-        }).then(favorite => {
-            if (!favorite) {
-                Favorite.create({
+        });
+
+        if (!favorite) {
+            // Create new favorite
+            const newFavorite = await Favorite.create({
+                user_id: req.user.user.id,
+                spotify_playlist_id: id
+            });
+            res.json(newFavorite);
+        } else {
+            // Remove existing favorite
+            const result = await Favorite.destroy({
+                where: {
                     user_id: req.user.user.id,
                     spotify_playlist_id: id
-                }).then(favorite => {
-                    res.json(favorite);
-                });
-            } else {
-                Favorite.destroy({
-                    where: {
-                        user_id: req.user.user.id,
-                        spotify_playlist_id: id
-                    }
-                }).then(data => res.json(data));
-            }
-        });
+                }
+            });
+            res.json(result);
+        }
     } catch (err) {
-        console.error('Error remove-track-from-active user/s playlist:', err);
+        console.error('Error toggling playlist favorite status:', err);
         res.status(500).json({ message: err.message });
     }
 });

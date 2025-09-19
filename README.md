@@ -154,9 +154,9 @@ To view the output locally, `scp` the coverage report to your host machine from 
 Using a terminal on Windows:
 
 ```bash
-cd ~/Documents
-rm -rf backend-coverage
-scp -r code@playlister:/home/code/playlister/coverage ~/Documents/backend-coverage
+cd ~/Documents \
+& rm -rf backend-coverage \
+& scp -r code@playlister:/home/code/playlister/coverage ~/Documents/backend-coverage
 ```
 
 Then double click `index.html` in `~/Documents/backend-covergage` on your machine.
@@ -185,9 +185,9 @@ npm run test-coverage
 Pull onto your Windows machine:
 
 ```bash
-cd ~/Documents
-rm -rf frontend-coverage
-scp -r code@playlister:/home/code/playlister/frontend-src/coverage/* ~/Documents/frontend-coverage
+cd ~/Documents \
+& rm -rf frontend-coverage \
+& scp -r code@playlister:/home/code/playlister/frontend-src/coverage/* ~/Documents/frontend-coverage
 ```
 
 
