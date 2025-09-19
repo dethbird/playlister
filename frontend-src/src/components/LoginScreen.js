@@ -3,8 +3,9 @@ import { Box, Button, Container, Image, Overlay, Text } from '@mantine/core';
 import classes from './LoginScreen.module.css';
 
 function LoginScreen() {
+    const bgUrl = '/img/login-bg.jpg';
     return (
-        <Container className={classes.hero} p='lg' mt='sm'>
+        <Container className={classes.hero} p='lg' mt='sm' style={{ '--login-bg': `url(${bgUrl})` }}>
             <Overlay
                 gradient="linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, .55) 40%)"
                 opacity={1}

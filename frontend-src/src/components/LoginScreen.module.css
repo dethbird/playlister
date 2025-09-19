@@ -1,6 +1,7 @@
 .hero {
     position: relative;
-    background-image: url("https://playlister.love/img/login-bg.jpg");
+    /* background-image provided via inline CSS variable --login-bg from the component */
+    background-image: var(--login-bg);
     background-size: cover;
     background-position: bottom;
     color: var(--mantine-color-white);
