@@ -44,7 +44,6 @@ const requiredScopes = [
     'streaming'
 ];
 
-
 passport.use(
     new SpotifyStrategy(
         {
@@ -166,9 +165,14 @@ app.get("/logout", (req, res) => {
 });
 
 // initiate oauth
+const shouldShowDialog = () => {
+    const cb = process.env.SPOTIFY_CALLBACK_URL || '';
+    return cb.startsWith('http://');
+};
+
 app.get('/auth/spotify', passport.authenticate('spotify', {
     scope: requiredScopes,
-    showDialog: true
+    showDialog: shouldShowDialog()
 }));
 
 // callback to get access token
