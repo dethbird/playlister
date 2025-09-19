@@ -62,13 +62,13 @@ cd playlister
 sh build.sh
 ```
 
-#### 🛠️ build.sh
+#### build.sh
 
 Does the following:
 
-- 📦 Build `frontend-src` project into a single bundle (`main.js` and `main.css`).
-- 📂 Run `/deploy-tools` and move the built frontend static assets into the `/public` directory, where the express app server is setup to serve static files from.
-- 🔨 Build the Express app.
+- Build `frontend-src` project into a single bundle (`main.js` and `main.css`).
+- Run `/deploy-tools` and move the built frontend static assets into the `/public` directory, where the express app server is setup to serve static files from.
+- Build the Express app.
 
 ### 🐘 Database
 
@@ -175,12 +175,10 @@ Type `a` to run then watch all tests.
 
 #### Coverage
 
-​	`@todo` coverage doesn't seem to be outputting ---------
-
 To output a coverage report to `/coverage`, use
 
 ```bash
-npm run test-coverage 
+npm run test-coverage
 # will begin watch mode but also output report
 ```
 
@@ -189,7 +187,7 @@ Pull onto your Windows machine:
 ```bash
 cd ~/Documents
 rm -rf frontend-coverage
-scp -r code@playlister:/home/code/playlister/frontend-src/coverage/lcov-report ~/Documents/frontend-coverage
+scp -r code@playlister:/home/code/playlister/frontend-src/coverage/* ~/Documents/frontend-coverage
 ```
 
 

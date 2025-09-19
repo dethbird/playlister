@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import MatchMediaMock from 'jest-matchmedia-mock';
 import {
     MantineProvider,
@@ -36,11 +37,13 @@ describe('Nav', () => {
         selectUser
             .mockReturnValue({ theme: 'light'});
         const { getByText } = render(
-            <Provider store={store}>
-                <MantineProvider>
-                    <Nav spotifyUser={spotifyUser} />
-                </MantineProvider>
-            </Provider>
+            <MemoryRouter>
+                <Provider store={store}>
+                    <MantineProvider>
+                        <Nav spotifyUser={spotifyUser} />
+                    </MantineProvider>
+                </Provider>
+            </MemoryRouter>
         );
 
         expect(getByText(/Pizza/i)).toBeInTheDocument();
@@ -58,25 +61,29 @@ describe('Nav', () => {
         toggleTheme
             .mockReturnValue({ type: 'someAction' });
         render(
-            <Provider store={store}>
-                <MantineProvider>
-                    <Nav spotifyUser={spotifyUser} />
-                </MantineProvider>
-            </Provider>
+            <MemoryRouter>
+                <Provider store={store}>
+                    <MantineProvider>
+                        <Nav spotifyUser={spotifyUser} />
+                    </MantineProvider>
+                </Provider>
+            </MemoryRouter>
         );
 
         const button = screen.getByRole('button', { name: "Switch theme" });
-        button.click();
+        fireEvent.click(button);
         expect(toggleTheme).toHaveBeenCalledTimes(1);
     });
 
     test('does not render user details when no spotify user', async () => {
         const { queryByText } = render(
-            <Provider store={store}>
-                <MantineProvider>
-                    <Nav spotifyUser={{}} />
-                </MantineProvider>
-            </Provider>
+            <MemoryRouter>
+                <Provider store={store}>
+                    <MantineProvider>
+                        <Nav spotifyUser={{}} />
+                    </MantineProvider>
+                </Provider>
+            </MemoryRouter>
         );
 
         const userDetails = await queryByText(/Pizza/i);

@@ -31,7 +31,7 @@ describe('HowTo Page', () => {
 
         );
 
-        expect(getByText(/Your playlists will hopefully thank you/i)).toBeInTheDocument();
+        expect(getByText(/There’s no trick to using Playlister/i)).toBeInTheDocument();
     });
 
 });
