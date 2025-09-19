@@ -1,81 +1,174 @@
-# Playlister Backend
+# ![](assets/img/playlister.love-logo.png)
 
-The backend is a Node / Express app using Passport.js to authenticate via Spotify.
+# Playlister 🎵
 
-The Express app serves not only as the Oauth endpoints, and the React app (/fontend-src) injection point, but also the application's API as a wrapper to Spotify's API.
+A lightweight playlist management app for Spotify.  
+Quickly add or remove the currently playing track across multiple playlists.
 
-It uses router delegation to break the routes into relevant domains.
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-18.x-green.svg)](https://nodejs.org/)
+[![Postgres](https://img.shields.io/badge/Postgres-14.x-blue.svg)](https://www.postgresql.org/)
 
-Persistence happens using a Postgres database.
+---
 
-## Development Quickstart
+## ✨ Features
+- Add/remove songs from multiple playlists with one click
+- React frontend + Express backend, Postgres persistence
+- Secure OAuth flow with Spotify
+- Works with your personal Spotify account
 
-### Setup
+---
 
-- Create an app on Spotify Developers and note the client id and secret, and add an `/auth/spotify/callback` callback url to your localhost in the settings.
-- Create a `postgres` DB and run `/database/init.sql` to intiialize the schema.
-- Checkout the repo
+## 🚀 Getting Started
 
-### Configure
+### Prerequisites
+- [Node.js](https://nodejs.org/) 18+
+- [Postgres](https://www.postgresql.org/) 14.X
+- A [Spotify Developer Account](https://developer.spotify.com/dashboard/)
 
-Copy `shadow.env` to `.env` and fill in credentials specific to your instance.
+### Servername
 
-```bash
-PORT=8001
+For the purposes of this guide, we will assume that you are running this in an Ubuntu VM (virtual) with:
 
-SESSION_SECRET=""
-SESSION_TIMEOUT=300000000
+**Host:** `playlister` 
 
-SPOTIFY_KEY=""
-SPOTIFY_SECRET=""
-SPOTIFY_CALLBACK_URL="http://playlistervm:8001/auth/spotify/callback"
+**User:** `code`
 
-DB_USER=""
-DB_PASSWORD=""
-DB_HOST=""
-DB_NAME=""
+**IP:** 127.0.0.1
+
+### Create app on Spotify Developer
+
+https://developer.spotify.com
+
+Make sure you add your OAuth callback URL. 
+
+**NOTE:** Spotify requires that callback URLs are secure. More on that in the "Mock SSL" section below.
+
+Example:
+
+```2
+https://127.0.0.1:8001/auth/spotify/callback
 ```
 
-### Build
-
-In project root
+### Installation
 
 ```bash
+# Clone the repo
+git clone git@github.com:dethbird/playlister.git
+cd playlister
+
+# Run build.sh
 sh build.sh
 ```
 
-This will do the following:
+#### build.sh
 
-    - build `frontend-src` project into a single bundle (`main.js` and `main.css`).
-    - run `/deploy-tools` and move the built frontend static assets into the `/publc` dir, where the express app is server is setup to serve static files from
-    - build the express app
+Does the following:
 
-### Run
+- Build `frontend-src` project into a single bundle (`main.js` and `main.css`).
+- Run `/deploy-tools` and move the built frontend static assets into the `/publc` directory, where the express app server is setup to serve static files from.
+- Build the Express app.
+
+### Database
+
+Import DDL into Postgres
+
+### Environment Variables
+
+Copy `shadow.env` to `.env` and add your values.
+
+### Start Server
 
 ```bash
 npm run start
 ```
 
-This will begin the development server.
+This will start the server on `localhost`at the port in `.env`. 
+
+### Mock SSL
+
+In order for OAuth authentication with Spotify to work, your machine must see your Express server as running on SSL (https).
+
+#### Windows
+
+On Windows, this can be done in PowerShell with the command:
+
+```
+ssh -fNL 127.0.0.1:8001:playlister:8001 code@playlister
+```
+
+After entering your SSH password for your local server, your Windows machine will now see `http://127.0.0.1:8001` as being SSL secured.
+
+It will look like it's hanging but that means it's "on".
+
+### Login with Spotify
+
+Go to http://playlister:8001 and authorize your own Spotify app, and begin using Playlister.
+
+
 
 ## Testing
 
-To run the tests in watch mode, simply run
+### Backend Tests
+
+In repo root `/`
+
+#### Watch
+
+Run in watch mode:
+
 ```bash
 npm run test
 ```
 
+#### Coverage
+
 To output a coverage report to `/coverage`, use
+
 ```bash
 npm run test-coverage
 ```
 
-To view the output locally, scp the coverage report to your host machine (example):
+To view the output locally, `scp` the coverage report to your host machine from your server.
+
+Using a terminal on Windows:
 
 ```bash
 cd ~/Documents
 rm -rf backend-coverage
-scp -r vm@playlistervm:/home/vm/code/playlister/coverage ~/Documents/backend-coverage
+scp -r code@playlister:/home/code/playlister/coverage ~/Documents/backend-coverage
 ```
 
-Then double click `index.html` in `~/Documents/backend-covergage`.
+Then double click `index.html` in `~/Documents/backend-covergage` on your machine.
+
+### Frontend Tests
+
+In `/frontent-src`
+
+#### Watch
+
+```bash
+npm run test
+```
+
+Type `a` to run then watch all tests.
+
+#### Coverage
+
+​	`@todo` coverage doesn't seem to be outputting ---------
+
+To output a coverage report to `/coverage`, use
+
+```bash
+npm run test-coverage 
+# will begin watch mode but also output report
+```
+
+Pull onto your Windows machine:
+
+```bash
+cd ~/Documents
+rm -rf frontend-coverage
+scp -r code@playlister:/home/code/playlister/frontend-src/coverage/lcov-report ~/Documents/frontend-coverage
+```
+
