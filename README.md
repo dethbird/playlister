@@ -26,7 +26,7 @@ Quickly add or remove the currently playing track across multiple playlists.
 - [Postgres](https://www.postgresql.org/) 14.X
 - A [Spotify Developer Account](https://developer.spotify.com/dashboard/)
 
-### Servername
+### Server
 
 For the purposes of this guide, we will assume that you are running this in an Ubuntu VM (virtual) with:
 
@@ -36,17 +36,17 @@ For the purposes of this guide, we will assume that you are running this in an U
 
 **IP:** 127.0.0.1
 
-### Create app on Spotify Developer
+**Port:** 8001 (default in `.env`)
+
+### Spotify Developer App
 
 https://developer.spotify.com
 
-Make sure you add your OAuth callback URL. 
+**NOTE:** Spotify requires that OAuth callback URLs are secure. More on that in the "Mock SSL" section below.
 
-**NOTE:** Spotify requires that callback URLs are secure. More on that in the "Mock SSL" section below.
+This is all you need for your server with attributes above.
 
-Example:
-
-```2
+```bash
 https://127.0.0.1:8001/auth/spotify/callback
 ```
 
@@ -104,8 +104,6 @@ It will look like it's hanging but that means it's "on".
 ### Login with Spotify
 
 Go to http://playlister:8001 and authorize your own Spotify app, and begin using Playlister.
-
-
 
 ## Testing
 
