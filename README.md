@@ -1,5 +1,4 @@
-# ![](assets/img/playlister.love-logo.png)
-
+![](assets/img/playlister.love-logo.png)
 
 
 # Playlister 🎵
@@ -161,6 +160,8 @@ cd ~/Documents \
 
 Then double click `index.html` in `~/Documents/backend-covergage` on your machine.
 
+![](assets/img/code-coverage-backend.jpg)
+
 ### Frontend Tests
 
 In `/frontend-src`
@@ -189,8 +190,7 @@ cd ~/Documents \
 & rm -rf frontend-coverage \
 & scp -r code@playlister:/home/code/playlister/frontend-src/coverage/* ~/Documents/frontend-coverage
 ```
-
-
+![](assets/img/code-coverage-frontend.jpg)
 
 ## 🛠 Contributing
 
