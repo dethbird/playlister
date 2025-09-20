@@ -89,4 +89,68 @@ describe('Nav', () => {
         const userDetails = await queryByText(/Pizza/i);
         expect(userDetails).toBeNull();
     });
+
+    test('renders user with default avatar when user has no images', () => {
+        const spotifyUserWithoutImages = {
+            display_name: "UserWithoutImages",
+            images: []
+        };
+        selectUser
+            .mockReturnValue({ theme: 'light'});
+        
+        const { getByText, container } = render(
+            <MemoryRouter>
+                <Provider store={store}>
+                    <MantineProvider>
+                        <Nav spotifyUser={spotifyUserWithoutImages} />
+                    </MantineProvider>
+                </Provider>
+            </MemoryRouter>
+        );
+
+        // Check that the user's display name is rendered
+        expect(getByText(/UserWithoutImages/i)).toBeInTheDocument();
+        
+        // Check that the Avatar component is present but has no src attribute (or null)
+        const avatar = container.querySelector('.Avatar');
+        expect(avatar).toBeInTheDocument();
+        
+        // The Avatar should not have an image source when images array is empty
+        const img = avatar.querySelector('img');
+        if (img) {
+            expect(img.src).toBe('');
+        }
+    });
+
+    test('renders user with default avatar when images property is undefined', () => {
+        const spotifyUserNoImagesProperty = {
+            display_name: "UserNoImagesProperty"
+            // images property is completely missing
+        };
+        selectUser
+            .mockReturnValue({ theme: 'light'});
+        
+        const { getByText, container } = render(
+            <MemoryRouter>
+                <Provider store={store}>
+                    <MantineProvider>
+                        <Nav spotifyUser={spotifyUserNoImagesProperty} />
+                    </MantineProvider>
+                </Provider>
+            </MemoryRouter>
+        );
+
+        // Check that the user's display name is rendered
+        expect(getByText(/UserNoImagesProperty/i)).toBeInTheDocument();
+        
+        // Check that the Avatar component is present but has no src attribute (or null)
+        const avatar = container.querySelector('.Avatar');
+        expect(avatar).toBeInTheDocument();
+        
+        // The Avatar should not have an image source when images property is missing
+        const img = avatar.querySelector('img');
+        if (img) {
+            expect(img.src).toBe('');
+        }
+    });
 });

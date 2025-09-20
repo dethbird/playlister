@@ -24,7 +24,7 @@ function Nav({ spotifyUser }) {
                     justify="flex-start"
                     gap="xs">
                     <Box>
-                        <Avatar src={spotifyUser.images[0].url} alt={spotifyUser.display_name} h={{ base: 32 }} w='auto' className='Avatar' display='inline-block' />
+                        <Avatar src={spotifyUser.images && spotifyUser.images.length > 0 ? spotifyUser.images[0].url : null} alt={spotifyUser.display_name} h={{ base: 32 }} w='auto' className='Avatar' display='inline-block' />
                         <Text fw={500} >{spotifyUser.display_name}</Text>
                         <Anchor role='button' arial-label='SwitchTheme' onClick={() => { dispatch(toggleTheme()) }} title='Switch theme'>Switch theme <IconSwitchHorizontal style={iconStyle} /></Anchor><br />
                         <Anchor href="/logout" title='Logout'>Logout <IconLogout style={iconStyle} /></Anchor>
