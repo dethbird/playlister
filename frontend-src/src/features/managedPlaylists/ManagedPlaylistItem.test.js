@@ -324,4 +324,94 @@ describe('ManagedPlaylistItem', () => {
 
     });
 
+    test('renders CD icon fallback when meta images array is empty', () => {
+        const metadataWithoutImages = {
+            'XXX': {
+                images: [],
+                tracks: { total: 100 }
+            }
+        };
+        
+        selectCurrentTrack
+            .mockReturnValue(mockTrack);
+        selectPlaylistsMeta
+            .mockReturnValue(metadataWithoutImages);
+        getPlaylistMeta
+            .mockReturnValue({ type: 'playlists/getMeta' });
+
+        render(
+            <Provider store={store}>
+                <MantineProvider>
+                    <ManagedPlaylistItem playlist={mockPlaylist} />
+                </MantineProvider>
+            </Provider>
+        );
+        
+        const fallbackIcon = screen.getByTestId('Playlist cover fallback');
+        expect(fallbackIcon).toBeInTheDocument();
+        
+        // Verify that no regular playlist cover image is present
+        expect(screen.queryByTestId('Playlist cover')).not.toBeInTheDocument();
+    });
+
+    test('renders CD icon fallback when meta images property is null', () => {
+        const metadataWithNullImages = {
+            'XXX': {
+                images: null,
+                tracks: { total: 100 }
+            }
+        };
+        
+        selectCurrentTrack
+            .mockReturnValue(mockTrack);
+        selectPlaylistsMeta
+            .mockReturnValue(metadataWithNullImages);
+        getPlaylistMeta
+            .mockReturnValue({ type: 'playlists/getMeta' });
+
+        render(
+            <Provider store={store}>
+                <MantineProvider>
+                    <ManagedPlaylistItem playlist={mockPlaylist} />
+                </MantineProvider>
+            </Provider>
+        );
+        
+        const fallbackIcon = screen.getByTestId('Playlist cover fallback');
+        expect(fallbackIcon).toBeInTheDocument();
+        
+        // Verify that no regular playlist cover image is present
+        expect(screen.queryByTestId('Playlist cover')).not.toBeInTheDocument();
+    });
+
+    test('renders CD icon fallback when meta images property is undefined', () => {
+        const metadataWithUndefinedImages = {
+            'XXX': {
+                tracks: { total: 100 }
+                // images property is missing
+            }
+        };
+        
+        selectCurrentTrack
+            .mockReturnValue(mockTrack);
+        selectPlaylistsMeta
+            .mockReturnValue(metadataWithUndefinedImages);
+        getPlaylistMeta
+            .mockReturnValue({ type: 'playlists/getMeta' });
+
+        render(
+            <Provider store={store}>
+                <MantineProvider>
+                    <ManagedPlaylistItem playlist={mockPlaylist} />
+                </MantineProvider>
+            </Provider>
+        );
+        
+        const fallbackIcon = screen.getByTestId('Playlist cover fallback');
+        expect(fallbackIcon).toBeInTheDocument();
+        
+        // Verify that no regular playlist cover image is present
+        expect(screen.queryByTestId('Playlist cover')).not.toBeInTheDocument();
+    });
+
 });

@@ -107,5 +107,78 @@ describe('SpotifyPlaylistItem', () => {
 
     });
 
+    test('renders CD icon fallback when images array is empty', () => {
+        const playlistWithoutImages = {
+            ...mockSpotifyPlaylist,
+            images: []
+        };
+        
+        addSpotifyPlaylistToManaged
+            .mockReturnValue({ type: 'someAction' });
+
+        render(
+            <Provider store={store}>
+                <MantineProvider>
+                    <SpotifyPlaylistItem playlist={playlistWithoutImages} />
+                </MantineProvider>
+            </Provider>
+        );
+        
+        const fallbackIcon = screen.getByTestId('Playlist cover fallback');
+        expect(fallbackIcon).toBeInTheDocument();
+        
+        // Verify that no regular playlist cover image is present
+        expect(screen.queryByTestId('Playlist cover')).not.toBeInTheDocument();
+    });
+
+    test('renders CD icon fallback when images property is null', () => {
+        const playlistWithNullImages = {
+            ...mockSpotifyPlaylist,
+            images: null
+        };
+        
+        addSpotifyPlaylistToManaged
+            .mockReturnValue({ type: 'someAction' });
+
+        render(
+            <Provider store={store}>
+                <MantineProvider>
+                    <SpotifyPlaylistItem playlist={playlistWithNullImages} />
+                </MantineProvider>
+            </Provider>
+        );
+        
+        const fallbackIcon = screen.getByTestId('Playlist cover fallback');
+        expect(fallbackIcon).toBeInTheDocument();
+        
+        // Verify that no regular playlist cover image is present
+        expect(screen.queryByTestId('Playlist cover')).not.toBeInTheDocument();
+    });
+
+    test('renders CD icon fallback when images property is undefined', () => {
+        const playlistWithUndefinedImages = {
+            id: 'XXX',
+            tracks: { total: 100 }
+            // images property is missing
+        };
+        
+        addSpotifyPlaylistToManaged
+            .mockReturnValue({ type: 'someAction' });
+
+        render(
+            <Provider store={store}>
+                <MantineProvider>
+                    <SpotifyPlaylistItem playlist={playlistWithUndefinedImages} />
+                </MantineProvider>
+            </Provider>
+        );
+        
+        const fallbackIcon = screen.getByTestId('Playlist cover fallback');
+        expect(fallbackIcon).toBeInTheDocument();
+        
+        // Verify that no regular playlist cover image is present
+        expect(screen.queryByTestId('Playlist cover')).not.toBeInTheDocument();
+    });
+
 
 });

@@ -3,7 +3,8 @@ import { useDispatch } from 'react-redux';
 import { ActionIcon, Anchor, Grid, Image, Text, Tooltip, useMantineColorScheme } from '@mantine/core';
 import {
     IconMusic,
-    IconPlus
+    IconPlus,
+    IconDisc
 } from '@tabler/icons-react';
 import { PaperStyled } from '../../components/PaperStyled';
 import {
@@ -23,14 +24,23 @@ export function SpotifyPlaylistItem({ playlist }) {
                 <Grid.Col span={{ base: 10}}>
                     <Grid>
                         <Grid.Col span={{ base: 3 }}>
-                            <Image
-                                className='CoverArt'
-                                data-testid='Playlist cover'
-                                alt="Playlist cover"
-                                src={playlist.images[1] ? playlist.images[1].url : playlist.images[0].url}
-                                mah={{ base: 50, xs: 80 }}
-                                w='auto'
-                            />
+                            {playlist.images && playlist.images.length > 0 ? (
+                                <Image
+                                    className='CoverArt'
+                                    data-testid='Playlist cover'
+                                    alt="Playlist cover"
+                                    src={playlist.images[1] ? playlist.images[1].url : playlist.images[0].url}
+                                    mah={{ base: 50, xs: 80 }}
+                                    w='auto'
+                                />
+                            ) : (
+                                <IconDisc
+                                    size={50}
+                                    className='CoverArt'
+                                    data-testid='Playlist cover fallback'
+                                    style={{ maxHeight: '50px', width: 'auto' }}
+                                />
+                            )}
                         </Grid.Col>
                         <Grid.Col span={{ base: 9 }}>
                             <Anchor td='none' c={theme.colors['pale-purple'][colorScheme === 'light' ? 3 : 2]} fw={500} size="lg" href={playlist.uri} target="_blank" rel="noreferrer">{playlist.name}</Anchor>

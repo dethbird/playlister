@@ -4,6 +4,7 @@ import { ActionIcon, Anchor, Box, Grid, Group, Image, Switch, Text, Tooltip, use
 import {
     IconCirclePlus,
     IconCircleX,
+    IconDisc,
     IconMusic,
     IconStar,
     IconStarFilled
@@ -68,14 +69,23 @@ export function ManagedPlaylistItem({ playlist }) {
                 <Grid.Col span={{ base: 12, xs: 6 }}>
                     <Grid>
                         <Grid.Col span={{ base: 3, xs: 4, sm: 3 }}>
-                            <Image
-                                className='CoverArt'
-                                data-testid='Playlist cover'
-                                alt="Playlist cover"
-                                src={meta.images[1] ? meta.images[1].url : meta.images[0].url}
-                                mah={{ base: 66, xs: 80 }}
-                                w='auto'
-                            />
+                            {meta.images && meta.images.length > 0 ? (
+                                <Image
+                                    className='CoverArt'
+                                    data-testid='Playlist cover'
+                                    alt="Playlist cover"
+                                    src={meta.images[1] ? meta.images[1].url : meta.images[0].url}
+                                    mah={{ base: 66, xs: 80 }}
+                                    w='auto'
+                                />
+                            ) : (
+                                <IconDisc
+                                    size={66}
+                                    className='CoverArt'
+                                    data-testid='Playlist cover fallback'
+                                    style={{ maxHeight: '66px', width: 'auto' }}
+                                />
+                            )}
                         </Grid.Col>
                         <Grid.Col span={{ base: 9, xs: 8, sm: 9 }} className='PlaylistDetails' >
                             <Anchor td='none' c={theme.colors['pale-purple'][colorScheme === 'light' ? 3 : 2]} fw={500} size="lg" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>
