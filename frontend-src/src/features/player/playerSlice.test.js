@@ -135,17 +135,28 @@ describe('playerSlice ', () => {
 
   it('previous pending then fulfilled, then get current track', () => {
 
-    const store = mockStore({})
+    const store = mockStore({
+      player: {
+        currentTrack: { item: { id: 'track1' } }
+      }
+    })
 
     const resp = new Response(JSON.stringify({}), {
       status: 200,
       headers: { 'Content-type': 'application/json' }
     });
 
+    const getCurrentTrackResp = new Response(JSON.stringify({ item: { id: 'track2' } }), {
+      status: 200,
+      headers: { 'Content-type': 'application/json' }
+    });
+
     const promise = new Promise(resolve => resolve(resp));
+    const getCurrentTrackPromise = new Promise(resolve => resolve(getCurrentTrackResp));
 
     apiRequest
-      .mockResolvedValueOnce(promise);
+      .mockResolvedValueOnce(promise)
+      .mockResolvedValueOnce(getCurrentTrackPromise);
 
     store.dispatch(previous())
       .then(() => {
@@ -162,17 +173,28 @@ describe('playerSlice ', () => {
 
   it('next pending then fulfilled, then get current track', () => {
 
-    const store = mockStore({})
+    const store = mockStore({
+      player: {
+        currentTrack: { item: { id: 'track1' } }
+      }
+    })
 
     const resp = new Response(JSON.stringify({}), {
       status: 200,
       headers: { 'Content-type': 'application/json' }
     });
 
+    const getCurrentTrackResp = new Response(JSON.stringify({ item: { id: 'track2' } }), {
+      status: 200,
+      headers: { 'Content-type': 'application/json' }
+    });
+
     const promise = new Promise(resolve => resolve(resp));
+    const getCurrentTrackPromise = new Promise(resolve => resolve(getCurrentTrackResp));
 
     apiRequest
-      .mockResolvedValueOnce(promise);
+      .mockResolvedValueOnce(promise)
+      .mockResolvedValueOnce(getCurrentTrackPromise);
 
     store.dispatch(next())
       .then(() => {
@@ -184,6 +206,72 @@ describe('playerSlice ', () => {
         expect(actionsDispatched[2].type).toEqual(getCurrentTrack.pending.type);
       });
 
+  });
+
+  it('next with retry logic - includes current track state', () => {
+    const store = mockStore({
+      player: {
+        currentTrack: { item: { id: 'track1' } }
+      }
+    });
+
+    const nextResp = new Response(JSON.stringify({}), {
+      status: 200,
+      headers: { 'Content-type': 'application/json' }
+    });
+
+    const getCurrentTrackResp = new Response(JSON.stringify({ item: { id: 'track2' } }), {
+      status: 200,
+      headers: { 'Content-type': 'application/json' }
+    });
+
+    apiRequest
+      .mockResolvedValueOnce(Promise.resolve(nextResp))
+      .mockResolvedValueOnce(Promise.resolve(getCurrentTrackResp));
+
+    store.dispatch(next()).then(() => {
+      jest.advanceTimersByTime(1250);
+      
+      const actions = store.getActions();
+      expect(actions[0].type).toEqual(next.pending.type);
+      expect(actions[1].type).toEqual(next.fulfilled.type);
+      
+      // Should trigger getCurrentTrack due to retry logic
+      expect(actions.filter(a => a.type === getCurrentTrack.pending.type).length).toBeGreaterThan(0);
+    });
+  });
+
+  it('previous with retry logic - includes current track state', () => {
+    const store = mockStore({
+      player: {
+        currentTrack: { item: { id: 'track1' } }
+      }
+    });
+
+    const prevResp = new Response(JSON.stringify({}), {
+      status: 200,
+      headers: { 'Content-type': 'application/json' }
+    });
+
+    const getCurrentTrackResp = new Response(JSON.stringify({ item: { id: 'track2' } }), {
+      status: 200,
+      headers: { 'Content-type': 'application/json' }
+    });
+
+    apiRequest
+      .mockResolvedValueOnce(Promise.resolve(prevResp))
+      .mockResolvedValueOnce(Promise.resolve(getCurrentTrackResp));
+
+    store.dispatch(previous()).then(() => {
+      jest.advanceTimersByTime(1250);
+      
+      const actions = store.getActions();
+      expect(actions[0].type).toEqual(previous.pending.type);
+      expect(actions[1].type).toEqual(previous.fulfilled.type);
+      
+      // Should trigger getCurrentTrack due to retry logic
+      expect(actions.filter(a => a.type === getCurrentTrack.pending.type).length).toBeGreaterThan(0);
+    });
   });
 
 

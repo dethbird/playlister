@@ -38,20 +38,54 @@ export const pause = createAsyncThunk(
 
 export const previous = createAsyncThunk(
   'player/previous',
-  async (_, { dispatch }) => {
+  async (_, { dispatch, getState }) => {
+    const currentTrack = getState().player.currentTrack;
+    const currentTrackId = currentTrack?.item?.id;
+    
     const response = await apiRequest('/player/previous', { method: 'POST' });
     const data = await response.json();
-    setTimeout(() => { dispatch(getCurrentTrack()) }, 250);
+    
+    // Retry logic to ensure track actually changed
+    const checkForTrackChange = async (retries = 0) => {
+      if (retries >= 5) return; // Max 5 retries (5 seconds)
+      
+      await dispatch(getCurrentTrack());
+      const newState = getState();
+      const newTrackId = newState.player.currentTrack?.item?.id;
+      
+      if (newTrackId === currentTrackId && retries < 5) {
+        setTimeout(() => checkForTrackChange(retries + 1), 1000);
+      }
+    };
+    
+    setTimeout(() => checkForTrackChange(), 1000);
     return data;
   }
 );
 
 export const next = createAsyncThunk(
   'player/next',
-  async (_, { dispatch }) => {
+  async (_, { dispatch, getState }) => {
+    const currentTrack = getState().player.currentTrack;
+    const currentTrackId = currentTrack?.item?.id;
+    
     const response = await apiRequest('/player/next', { method: 'POST' });
     const data = await response.json();
-    setTimeout(() => { dispatch(getCurrentTrack()) }, 250);
+    
+    // Retry logic to ensure track actually changed
+    const checkForTrackChange = async (retries = 0) => {
+      if (retries >= 5) return; // Max 5 retries (5 seconds)
+      
+      await dispatch(getCurrentTrack());
+      const newState = getState();
+      const newTrackId = newState.player.currentTrack?.item?.id;
+      
+      if (newTrackId === currentTrackId && retries < 5) {
+        setTimeout(() => checkForTrackChange(retries + 1), 1000);
+      }
+    };
+    
+    setTimeout(() => checkForTrackChange(), 1000);
     return data;
   }
 );
