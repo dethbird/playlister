@@ -146,6 +146,70 @@ describe('FavoritePlaylistItem', () => {
 
     });
 
+    test('renders CD ROM icon when playlist has no images', () => {
+        const mockPlaylistMetadataNoImages = {
+            'XXX': {
+                images: null,
+                tracks: {
+                    total: 100
+                }
+            }
+        };
+        
+        selectPlaylistsMeta
+            .mockReturnValue(mockPlaylistMetadataNoImages);
+        getPlaylistMeta
+            .mockReturnValue({ type: 'someAction' });
+
+        const { container } = render(
+            <Provider store={store}>
+                <MantineProvider>
+                    <FavoritePlaylistItem playlist={mockPlaylist} />
+                </MantineProvider>
+            </Provider>
+        );
+        
+        // Should not find the playlist cover image
+        const image = screen.queryByTestId('Playlist cover');
+        expect(image).not.toBeInTheDocument();
+        
+        // Should find the CD ROM icon (IconDisc) - look for the SVG element
+        const cdIcon = container.querySelector('svg.tabler-icon-disc');
+        expect(cdIcon).toBeInTheDocument();
+    });
+
+    test('renders CD ROM icon when playlist has empty images array', () => {
+        const mockPlaylistMetadataEmptyImages = {
+            'XXX': {
+                images: [],
+                tracks: {
+                    total: 100
+                }
+            }
+        };
+        
+        selectPlaylistsMeta
+            .mockReturnValue(mockPlaylistMetadataEmptyImages);
+        getPlaylistMeta
+            .mockReturnValue({ type: 'someAction' });
+
+        const { container } = render(
+            <Provider store={store}>
+                <MantineProvider>
+                    <FavoritePlaylistItem playlist={mockPlaylist} />
+                </MantineProvider>
+            </Provider>
+        );
+        
+        // Should not find the playlist cover image
+        const image = screen.queryByTestId('Playlist cover');
+        expect(image).not.toBeInTheDocument();
+        
+        // Should find the CD ROM icon (IconDisc) - look for the SVG element
+        const cdIcon = container.querySelector('svg.tabler-icon-disc');
+        expect(cdIcon).toBeInTheDocument();
+    });
+
 
 
 });

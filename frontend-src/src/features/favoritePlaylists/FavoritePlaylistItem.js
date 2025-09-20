@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ActionIcon, Anchor, Grid, Image, Text, Tooltip, useMantineColorScheme } from '@mantine/core';
 import {
     IconMusic,
-    IconPlus
+    IconPlus,
+    IconDisc
 } from '@tabler/icons-react';
 import { PaperStyled } from '../../components/PaperStyled';
 import {
@@ -40,14 +41,22 @@ export function FavoritePlaylistItem({ playlist }) {
                 <Grid.Col span={{ base: 10 }}>
                     <Grid>
                         <Grid.Col span={{ base: 3 }}>
-                            <Image
-                                className='CoverArt'
-                                data-testid='Playlist cover'
-                                alt="Playlist cover"
-                                src={meta.images[1] ? meta.images[1].url : meta.images[0].url}
-                                mah={{ base: 50, xs: 80 }}
-                                w='auto'
-                            />
+                            {meta.images && meta.images.length > 0 ? (
+                                <Image
+                                    className='CoverArt'
+                                    data-testid='Playlist cover'
+                                    alt="Playlist cover"
+                                    src={meta.images[1] ? meta.images[1].url : meta.images[0].url}
+                                    mah={{ base: 50, xs: 80 }}
+                                    w='auto'
+                                />
+                            ) : (
+                                <IconDisc
+                                    size={50}
+                                    stroke={1.5}
+                                    color={theme.colors['pale-purple'][colorScheme === 'light' ? 3 : 2]}
+                                />
+                            )}
                         </Grid.Col>
                         <Grid.Col span={{ base: 9 }} className='PlaylistDetails' >
                             <Anchor td='none'  c={theme.colors['pale-purple'][colorScheme === 'light' ? 3 : 2]} fw={500} size="lg" href={meta.uri} target="_blank" rel="noreferrer">{meta.name}</Anchor>

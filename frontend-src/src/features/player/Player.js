@@ -5,7 +5,8 @@ import {
   IconPlayerTrackPrev,
   IconPlayerTrackNext,
   IconPlayerPause,
-  IconPlayerPlay
+  IconPlayerPlay,
+  IconDisc
 } from '@tabler/icons-react';
 import {
   getCurrentTrack,
@@ -93,14 +94,23 @@ export function Player() {
         withBorder
       >
         <Card.Section>
-          <Image
-            radius="md"
-            src={currentTrack.item.album.images[1].url}
-            className={classes.AlbumArt}
-            w={150}
-            h="auto"
-            fit="cover"
-          />
+          {currentTrack.item.album.images && currentTrack.item.album.images.length > 0 ? (
+            <Image
+              radius="md"
+              src={currentTrack.item.album.images[1] ? currentTrack.item.album.images[1].url : currentTrack.item.album.images[0].url}
+              className={classes.AlbumArt}
+              w={150}
+              h="auto"
+              fit="cover"
+            />
+          ) : (
+            <IconDisc
+              size={150}
+              stroke={1.5}
+              color={theme.colors['pale-purple'][colorScheme === 'light' ? 3 : 2]}
+              className={classes.AlbumArt}
+            />
+          )}
           <div className={classes.AlbumInfo}>
             <Anchor c={theme.colors['pale-purple'][colorScheme === 'light' ? 4 : 1]} td='none' fw={700} size="xl" href={currentTrack.item.uri} target="_blank" rel="noreferrer">{currentTrack.item.name}</Anchor>
             <br />
