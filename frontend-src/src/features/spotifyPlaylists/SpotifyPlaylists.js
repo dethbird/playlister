@@ -11,7 +11,7 @@ import {
 
 import { SpotifyPlaylistsPagination } from './SpotifyPlaylistsPagination';
 import { SpotifyPlaylistItem } from './SpotifyPlaylistItem';
-
+import { IconBrandSpotify } from '@tabler/icons-react';
 
 export function SpotifyPlaylists({ spotifyUser }) {
 
@@ -34,12 +34,27 @@ export function SpotifyPlaylists({ spotifyUser }) {
             return <div role='alert' aria-busy="true"></div>;
         }
 
-        const userPlaylists = currentPage.items.filter(item => {
+        const userPlaylists = (currentPage && currentPage.items) ? currentPage.items.filter(item => {
             return item.owner.id === spotifyUser.id;
-        });
+        }) : [];
+
+        if (userPlaylists.length === 0) {
+            return (
+                <Container ta="center" py="xl">
+                    <p>You have not created any playlists yet!</p>
+                    <p>Please <a href="spotify:" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>create at least one on <IconBrandSpotify size={16} /> Spotify</a> then refresh this page.</p>
+                </Container>
+            );
+        }
 
         return userPlaylists.map(item => {
-            return <SpotifyPlaylistItem playlist={item} key={item.id}/>;
+            return (
+                <>
+                    <SpotifyPlaylistsPagination />
+                    <SpotifyPlaylistItem playlist={item} key={item.id}/>
+                    <SpotifyPlaylistsPagination />
+                </>
+            );
         })
     }
 
@@ -52,9 +67,7 @@ export function SpotifyPlaylists({ spotifyUser }) {
             fullScreen
         >
             <Container>
-                <SpotifyPlaylistsPagination />
-                <div>{renderItems()}</div>
-                <SpotifyPlaylistsPagination />
+                {renderItems()}
             </Container>
         </Modal>
     );
