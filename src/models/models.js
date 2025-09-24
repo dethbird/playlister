@@ -31,6 +31,14 @@ const User = sequelize.define(
             allowNull: false,
             defaultValue: 'N'
         },
+        spotify_refresh_token: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        spotify_token_expires_at: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
     },
     {
         tableName: 'user',

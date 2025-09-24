@@ -8,10 +8,12 @@ const morgan = require('morgan');
 const passport = require("passport");
 const RateLimit = require("express-rate-limit");
 const session = require("express-session");
+const pgSession = require('connect-pg-simple')(session);
 const SpotifyStrategy = require('passport-spotify').Strategy;
+const { Pool } = require('pg');
 
 const spotifyApi = require('./modules/spotifyApi');
-const { authenticateSpotifyUser } = require('./services/userService');
+const { authenticateSpotifyUser, refreshSpotifyToken } = require('./services/userService');
 
 const limiter = RateLimit({
     windowMs: 1 * 60 * 1000, // 1 minute
@@ -55,18 +57,45 @@ passport.use(
     )
 );
 
+// Create PostgreSQL connection pool for sessions
+const pgPool = new Pool({
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: 5432,
+});
+
 app.use(
     session({
+        store: new pgSession({
+            pool: pgPool,
+            tableName: 'session'
+        }),
         secret: process.env.SESSION_SECRET,
         cookie: { maxAge: Number(process.env.SESSION_MAXAGE), secure: false },
         saveUninitialized: false,
         resave: false,
-        // store, // use a persistent store like connect-mongo
     })
 );
 
-app.use((req, res, next) => {
-    if (req.user) {
+// Token refresh middleware
+app.use(async (req, res, next) => {
+    if (req.user && req.user.user && req.user.user.id) {
+        try {
+            const refreshResult = await refreshSpotifyToken(req.user.user.id);
+            if (refreshResult) {
+                // Update session with new tokens
+                req.user.accessToken = refreshResult.accessToken;
+                req.user.refreshToken = refreshResult.refreshToken;
+                req.user.expiresAt = refreshResult.expiresAt;
+            }
+            spotifyApi.setAccessToken(req.user.accessToken);
+        } catch (err) {
+            console.error('Error refreshing token in middleware:', err);
+            // Continue without refresh - let the API calls handle the expired token
+        }
+    } else if (req.user) {
         spotifyApi.setAccessToken(req.user.accessToken);
     }
     next();

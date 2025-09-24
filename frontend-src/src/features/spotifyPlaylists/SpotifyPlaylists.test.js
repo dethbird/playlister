@@ -138,6 +138,69 @@ describe('SpotifyPlaylistsTest', () => {
 
     });
 
+    test('renders empty state message when user has no playlists', async () => {
+        getSpotifyPlaylists
+            .mockReturnValue({ type: 'someAction' });
+        selectCurrentPage
+            .mockReturnValue({
+                total: 0,
+                limit: 25,
+                items: []
+            });
+        selectStatus
+            .mockReturnValue('fulfilled');
+        selectdDialogIsOpen
+            .mockReturnValue(true);
+        
+        render(
+            <Provider store={store}>
+                <MantineProvider>
+                    <SpotifyPlaylists spotifyUser={mockSpotifyUser} />
+                </MantineProvider>
+            </Provider>
+        );
+        
+        expect(screen.getByText('You have not created any playlists yet!')).toBeInTheDocument();
+        
+        // Check that the Spotify link exists and has the correct href
+        const spotifyLink = screen.getByRole('link');
+        expect(spotifyLink).toHaveAttribute('href', 'spotify:');
+        expect(spotifyLink).toHaveAttribute('target', '_blank');
+        expect(spotifyLink).toHaveAttribute('rel', 'noopener noreferrer');
+    });
+
+    test('renders empty state when user has playlists but none owned by them', async () => {
+        const playlistsNotOwnedByUser = [{
+            id: 'XXX',
+            images: [{ url: 'http://image' }],
+            tracks: { total: 100 },
+            owner: { id: 99999 } // Different from mockSpotifyUser.id
+        }];
+        
+        getSpotifyPlaylists
+            .mockReturnValue({ type: 'someAction' });
+        selectCurrentPage
+            .mockReturnValue({
+                total: 1,
+                limit: 25,
+                items: playlistsNotOwnedByUser
+            });
+        selectStatus
+            .mockReturnValue('fulfilled');
+        selectdDialogIsOpen
+            .mockReturnValue(true);
+        
+        render(
+            <Provider store={store}>
+                <MantineProvider>
+                    <SpotifyPlaylists spotifyUser={mockSpotifyUser} />
+                </MantineProvider>
+            </Provider>
+        );
+        
+        expect(screen.getByText('You have not created any playlists yet!')).toBeInTheDocument();
+    });
+
     test('dispatches toggleFavoriteDialog() when onHandleDrag it triggered', async () => {
         getSpotifyPlaylists
             .mockReturnValue({ type: 'someAction' });

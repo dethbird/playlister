@@ -47,15 +47,19 @@ export function SpotifyPlaylists({ spotifyUser }) {
             );
         }
 
-        return userPlaylists.map(item => {
-            return (
-                <>
-                    <SpotifyPlaylistsPagination />
-                    <SpotifyPlaylistItem playlist={item} key={item.id}/>
-                    <SpotifyPlaylistsPagination />
-                </>
-            );
-        })
+        return (
+            <>
+                <SpotifyPlaylistsPagination />
+                {userPlaylists.map(item => {
+                    return (
+                        <React.Fragment key={item.id}>
+                            <SpotifyPlaylistItem playlist={item} />
+                        </React.Fragment>
+                    );
+                })}
+                <SpotifyPlaylistsPagination />
+            </>
+        );
     }
 
     return (
