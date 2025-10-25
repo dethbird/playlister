@@ -2,12 +2,15 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Modal } from '@mantine/core';
 import {
-    getSpotifyPlaylists,
-    selectCurrentPage,
+    getAllSpotifyPlaylists,
+    selectAllPlaylists,
+    // managed playlists to exclude
+    // (we import selectPlaylists from managed slice below)
     selectdDialogIsOpen,
     selectStatus,
     toggleDialog
 } from './spotifyPlaylistsSlice';
+import { selectPlaylists } from '../managedPlaylists/managedPlaylistsSlice';
 
 import { SpotifyPlaylistsPagination } from './SpotifyPlaylistsPagination';
 import { SpotifyPlaylistItem } from './SpotifyPlaylistItem';
@@ -15,14 +18,20 @@ import { IconBrandSpotify } from '@tabler/icons-react';
 
 export function SpotifyPlaylists({ spotifyUser }) {
 
-    const currentPage = useSelector(selectCurrentPage);
+    // read consolidated playlists from localStorage via helper selector (not a redux selector)
+    const allPlaylists = selectAllPlaylists();
     const dialogIsOpen = useSelector(selectdDialogIsOpen);
     const status = useSelector(selectStatus);
+    // managed playlists from Redux (used to filter out managed ids)
+    const managed = useSelector(selectPlaylists) || [];
+    const managedIds = new Set(managed.map(p => p.spotify_playlist_id));
+    const limit = useSelector((state) => state.spotifyPlaylists.limit);
+    const offset = useSelector((state) => state.spotifyPlaylists.offset);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getSpotifyPlaylists({ limit: 25, offset: 0 }));
+        dispatch(getAllSpotifyPlaylists());
     }, [dispatch]);
 
     if (!dialogIsOpen) {
@@ -30,13 +39,28 @@ export function SpotifyPlaylists({ spotifyUser }) {
     }
 
     const renderItems = () => {
-        if (['pending', 'idle'].includes(status) && !currentPage) {
+        if (['pending', 'idle'].includes(status) && !allPlaylists) {
             return <div role='alert' aria-busy="true"></div>;
         }
 
-        const userPlaylists = (currentPage && currentPage.items) ? currentPage.items.filter(item => {
-            return item.owner.id === spotifyUser.id;
-        }) : [];
+    const source = (allPlaylists && allPlaylists.items) ? allPlaylists : { items: [] };
+        // normalize a playlist name for consistent alphabetical sorting: lowercase and strip non-alphanumerics
+        const normalizeName = (s) => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const userPlaylists = (source.items || [])
+            .filter(item => item.owner && item.owner.id === spotifyUser.id)
+            .filter(item => !managedIds.has(item.id))
+            .sort((a, b) => {
+                const na = normalizeName(a.name);
+                const nb = normalizeName(b.name);
+                if (na < nb) return -1;
+                if (na > nb) return 1;
+                // fallback to original case-insensitive compare if normalized equal
+                const aName = (a.name || '').toLowerCase();
+                const bName = (b.name || '').toLowerCase();
+                if (aName < bName) return -1;
+                if (aName > bName) return 1;
+                return 0;
+            });
 
         if (userPlaylists.length === 0) {
             return (
@@ -47,17 +71,16 @@ export function SpotifyPlaylists({ spotifyUser }) {
             );
         }
 
+        const pageItems = userPlaylists.slice(offset, offset + limit);
         return (
             <>
-                <SpotifyPlaylistsPagination />
-                {userPlaylists.map(item => {
-                    return (
-                        <React.Fragment key={item.id}>
-                            <SpotifyPlaylistItem playlist={item} />
-                        </React.Fragment>
-                    );
-                })}
-                <SpotifyPlaylistsPagination />
+                <SpotifyPlaylistsPagination userPlaylists={userPlaylists} />
+                {pageItems.map(item => (
+                    <React.Fragment key={item.id}>
+                        <SpotifyPlaylistItem playlist={item} />
+                    </React.Fragment>
+                ))}
+                <SpotifyPlaylistsPagination userPlaylists={userPlaylists} />
             </>
         );
     }

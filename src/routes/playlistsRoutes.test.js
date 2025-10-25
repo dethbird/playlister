@@ -1,3 +1,6 @@
+// NOTE: tests for many playlist routes live below. The consolidated "all" endpoint
+// tests are implemented in a separate file to avoid colliding with the existing
+// route test suite that uses app-level session/auth mocks.
 const request = require('supertest');
 const app = require('../app');
 const SpotifyStrategy = require('passport-spotify').Strategy;
