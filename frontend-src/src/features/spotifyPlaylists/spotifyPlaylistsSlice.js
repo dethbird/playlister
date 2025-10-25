@@ -69,6 +69,12 @@ export const spotifyPlaylistsSlice = createSlice({
   reducers: {
     toggleDialog: (state, action) => {
       state.dialogIsOpen = !state.dialogIsOpen;
+    },
+    setLimit: (state, action) => {
+      state.limit = action.payload;
+    },
+    setOffset: (state, action) => {
+      state.offset = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -107,10 +113,16 @@ export const spotifyPlaylistsSlice = createSlice({
 
 export const { toggleDialog } = spotifyPlaylistsSlice.actions;
 
+// additional pagination actions
+export const { setLimit, setOffset } = spotifyPlaylistsSlice.actions;
+
 export const selectCurrentPage = (state) => state.spotifyPlaylists.currentPage;
 export const selectdDialogIsOpen = (state) => state.spotifyPlaylists.dialogIsOpen;
 export const selectStatus = (state) => state.spotifyPlaylists.status;
 export const selectError = (state) => state.spotifyPlaylists.error;
+
+export const selectLimit = (state) => state.spotifyPlaylists.limit;
+export const selectOffset = (state) => state.spotifyPlaylists.offset;
 
 export const selectAllPlaylists = () => {
   try {

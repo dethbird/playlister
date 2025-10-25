@@ -19,6 +19,8 @@ export function SpotifyPlaylists({ spotifyUser }) {
     const allPlaylists = selectAllPlaylists();
     const dialogIsOpen = useSelector(selectdDialogIsOpen);
     const status = useSelector(selectStatus);
+    const limit = useSelector((state) => state.spotifyPlaylists.limit);
+    const offset = useSelector((state) => state.spotifyPlaylists.offset);
 
     const dispatch = useDispatch();
 
@@ -62,17 +64,16 @@ export function SpotifyPlaylists({ spotifyUser }) {
             );
         }
 
+        const pageItems = userPlaylists.slice(offset, offset + limit);
         return (
             <>
-                <SpotifyPlaylistsPagination />
-                {userPlaylists.map(item => {
-                    return (
-                        <React.Fragment key={item.id}>
-                            <SpotifyPlaylistItem playlist={item} />
-                        </React.Fragment>
-                    );
-                })}
-                <SpotifyPlaylistsPagination />
+                <SpotifyPlaylistsPagination userPlaylists={userPlaylists} />
+                {pageItems.map(item => (
+                    <React.Fragment key={item.id}>
+                        <SpotifyPlaylistItem playlist={item} />
+                    </React.Fragment>
+                ))}
+                <SpotifyPlaylistsPagination userPlaylists={userPlaylists} />
             </>
         );
     }

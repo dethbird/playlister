@@ -2,31 +2,33 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Pagination } from '@mantine/core';
 import {
-    getSpotifyPlaylists,
-    selectCurrentPage,
+    selectLimit,
+    selectOffset,
+    setOffset
 } from './spotifyPlaylistsSlice';
 
 
-export function SpotifyPlaylistsPagination() {
+export function SpotifyPlaylistsPagination({ userPlaylists }) {
 
-    const currentPage = useSelector(selectCurrentPage);
-
+    const limit = useSelector(selectLimit);
+    const offset = useSelector(selectOffset);
     const dispatch = useDispatch();
 
-    if (!currentPage) {
-        return null;
-    }
+    // receive userPlaylists as a prop
+    if (!userPlaylists || !Array.isArray(userPlaylists)) return null;
+
+    const total = userPlaylists.length;
+    const pages = Math.max(1, Math.ceil(total / limit));
+    const value = Math.floor(offset / limit) + 1;
 
     return (
         <Container justify='center'>
             <Pagination
-                total={Math.ceil(currentPage.total / currentPage.limit)}
-                value={currentPage.offset / currentPage.limit + 1}
+                total={pages}
+                value={value}
                 onChange={value => {
-                    dispatch(getSpotifyPlaylists({
-                        limit: currentPage.limit,
-                        offset: (value - 1) * currentPage.limit
-                    }))
+                    const newOffset = (value - 1) * limit;
+                    dispatch(setOffset(newOffset));
                 }}
             />
         </Container>
