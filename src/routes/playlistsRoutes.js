@@ -3,6 +3,7 @@ const router = express.Router();
 const spotifyApi = require('../modules/spotifyApi');
 const { QueryTypes } = require('sequelize');
 const { sequelize, Playlist, Favorite } = require('../models/models');
+const { prunePlaylist, prunePage } = require('../utils/playlistPrune');
 
 
 /**
@@ -12,7 +13,8 @@ router.get('/spotify', (req, res) => {
     const { limit, offset } = req.query;
     spotifyApi.getUserPlaylists({ limit, offset })
         .then(data => {
-            res.json(data.body);
+            const pruned = prunePage(data.body || {});
+            res.json(pruned);
         })
         .catch(err => {
             console.error('Error getting page of user spotify playlists:', err);
@@ -35,18 +37,6 @@ router.get('/spotify/all', async (req, res) => {
     }
 
     const sleep = ms => new Promise(r => setTimeout(r, ms));
-    // prune a full Spotify playlist object down to the minimal metadata we need
-    const prunePlaylist = (p) => {
-        return {
-            id: p.id,
-            name: p.name,
-            images: p.images || [],
-            tracks: { total: (p.tracks && (typeof p.tracks.total !== 'undefined')) ? p.tracks.total : (p.tracks || {}).total || 0 },
-            uri: p.uri,
-            snapshot_id: p.snapshot_id,
-            owner: { id: (p.owner && p.owner.id) ? p.owner.id : null }
-        };
-    };
     const allItems = [];
     let offset = 0;
     const maxRetries = 5;
@@ -59,8 +49,8 @@ router.get('/spotify/all', async (req, res) => {
                 try {
                     const data = await spotifyApi.getUserPlaylists({ limit: perPage, offset });
                     const body = data.body || {};
-                    const pageItems = (body.items || []).map(prunePlaylist);
-                    allItems.push(...pageItems);
+                    const pruned = prunePage(body);
+                    allItems.push(...(pruned.items || []));
 
                     // If there's another page, advance and continue looping
                     if (body.next) {
@@ -114,7 +104,8 @@ router.get('/spotify/:id', (req, res) => {
     const { fields } = req.query;
     spotifyApi.getPlaylist(id, { fields })
         .then(data => {
-            res.json(data.body);
+            const pruned = prunePlaylist(data.body || null);
+            res.json(pruned);
         })
         .catch(err => {
             console.error('Error getting spotify playlist meta:', err);
