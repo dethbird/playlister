@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Modal } from '@mantine/core';
 import {
-    getSpotifyPlaylists,
     getAllSpotifyPlaylists,
     selectAllPlaylists,
     selectdDialogIsOpen,
@@ -24,7 +23,6 @@ export function SpotifyPlaylists({ spotifyUser }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getSpotifyPlaylists({ limit: 25, offset: 0 }));
         dispatch(getAllSpotifyPlaylists());
     }, [dispatch]);
 
@@ -38,7 +36,22 @@ export function SpotifyPlaylists({ spotifyUser }) {
         }
 
         const source = (allPlaylists && allPlaylists.items) ? allPlaylists : { items: [] };
-        const userPlaylists = (source.items || []).filter(item => item.owner && item.owner.id === spotifyUser.id);
+        // normalize a playlist name for consistent alphabetical sorting: lowercase and strip non-alphanumerics
+        const normalizeName = (s) => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const userPlaylists = (source.items || [])
+            .filter(item => item.owner && item.owner.id === spotifyUser.id)
+            .sort((a, b) => {
+                const na = normalizeName(a.name);
+                const nb = normalizeName(b.name);
+                if (na < nb) return -1;
+                if (na > nb) return 1;
+                // fallback to original case-insensitive compare if normalized equal
+                const aName = (a.name || '').toLowerCase();
+                const bName = (b.name || '').toLowerCase();
+                if (aName < bName) return -1;
+                if (aName > bName) return 1;
+                return 0;
+            });
 
         if (userPlaylists.length === 0) {
             return (
