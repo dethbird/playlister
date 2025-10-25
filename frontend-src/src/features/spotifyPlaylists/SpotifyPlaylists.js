@@ -4,10 +4,13 @@ import { Container, Modal } from '@mantine/core';
 import {
     getAllSpotifyPlaylists,
     selectAllPlaylists,
+    // managed playlists to exclude
+    // (we import selectPlaylists from managed slice below)
     selectdDialogIsOpen,
     selectStatus,
     toggleDialog
 } from './spotifyPlaylistsSlice';
+import { selectPlaylists } from '../managedPlaylists/managedPlaylistsSlice';
 
 import { SpotifyPlaylistsPagination } from './SpotifyPlaylistsPagination';
 import { SpotifyPlaylistItem } from './SpotifyPlaylistItem';
@@ -19,6 +22,9 @@ export function SpotifyPlaylists({ spotifyUser }) {
     const allPlaylists = selectAllPlaylists();
     const dialogIsOpen = useSelector(selectdDialogIsOpen);
     const status = useSelector(selectStatus);
+    // managed playlists from Redux (used to filter out managed ids)
+    const managed = useSelector(selectPlaylists) || [];
+    const managedIds = new Set(managed.map(p => p.spotify_playlist_id));
     const limit = useSelector((state) => state.spotifyPlaylists.limit);
     const offset = useSelector((state) => state.spotifyPlaylists.offset);
 
@@ -37,11 +43,12 @@ export function SpotifyPlaylists({ spotifyUser }) {
             return <div role='alert' aria-busy="true"></div>;
         }
 
-        const source = (allPlaylists && allPlaylists.items) ? allPlaylists : { items: [] };
+    const source = (allPlaylists && allPlaylists.items) ? allPlaylists : { items: [] };
         // normalize a playlist name for consistent alphabetical sorting: lowercase and strip non-alphanumerics
         const normalizeName = (s) => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
         const userPlaylists = (source.items || [])
             .filter(item => item.owner && item.owner.id === spotifyUser.id)
+            .filter(item => !managedIds.has(item.id))
             .sort((a, b) => {
                 const na = normalizeName(a.name);
                 const nb = normalizeName(b.name);
