@@ -22,6 +22,78 @@ router.get('/spotify', (req, res) => {
 });
 
 /**
+ * Fetch all playlists for authenticated user, paginating under the hood.
+ * Respects 429 Retry-After headers and performs exponential backoff on transient errors.
+ * Returns consolidated JSON: { total, limit, items }
+ */
+router.get('/spotify/all', async (req, res) => {
+    // optional per-page size, capped to Spotify's max (50)
+    const perPage = Math.min(50, parseInt(req.query.per_page, 10) || 50);
+
+    if (!req.user || !req.user.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+    const allItems = [];
+    let offset = 0;
+    const maxRetries = 5;
+
+    try {
+        // Page sequentially to avoid hitting rate limits
+        while (true) {
+            let attempt = 0;
+            while (true) {
+                try {
+                    const data = await spotifyApi.getUserPlaylists({ limit: perPage, offset });
+                    const body = data.body || {};
+                    allItems.push(...(body.items || []));
+
+                    // If there's another page, advance and continue looping
+                    if (body.next) {
+                        offset += perPage;
+                        break; // break retry loop, proceed to next page
+                    }
+
+                    // No next page – return consolidated result
+                    return res.json({
+                        total: body.total || allItems.length,
+                        limit: perPage,
+                        items: allItems
+                    });
+                } catch (err) {
+                    attempt++;
+
+                    // Spotify rate limit – respect Retry-After if provided
+                    if (err && err.statusCode === 429) {
+                        const ra = err.headers && (err.headers['retry-after'] || err.headers['Retry-After']);
+                        const waitMs = ra ? parseInt(ra, 10) * 1000 : Math.min(1000 * Math.pow(2, attempt), 10000);
+                        console.warn(`Spotify rate limit hit, waiting ${waitMs}ms before retrying (attempt ${attempt})`);
+                        await sleep(waitMs + Math.floor(Math.random() * 200));
+                        continue;
+                    }
+
+                    // Transient errors – retry a limited number of times with exponential backoff
+                    if (attempt < maxRetries) {
+                        const backoff = Math.min(300 * Math.pow(2, attempt), 5000);
+                        console.warn(`Transient error fetching playlists (attempt ${attempt}), retrying in ${backoff}ms`, err && err.message);
+                        await sleep(backoff + Math.floor(Math.random() * 200));
+                        continue;
+                    }
+
+                    // Exhausted retries – return error
+                    console.error('Error fetching playlists page after retries:', err);
+                    return res.status(err && err.statusCode ? err.statusCode : 500).json({ message: err && err.message ? err.message : 'Error fetching playlists' });
+                }
+            }
+        }
+    } catch (outerErr) {
+        console.error('Unexpected error consolidating playlists:', outerErr);
+        res.status(500).json({ message: outerErr.message || 'Unexpected error' });
+    }
+});
+
+/**
  * Get playlist details
  */
 router.get('/spotify/:id', (req, res) => {
