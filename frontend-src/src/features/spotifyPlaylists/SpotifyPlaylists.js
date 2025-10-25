@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Container, Modal } from '@mantine/core';
 import {
     getSpotifyPlaylists,
+    getAllSpotifyPlaylists,
     selectCurrentPage,
     selectdDialogIsOpen,
     selectStatus,
@@ -23,6 +24,7 @@ export function SpotifyPlaylists({ spotifyUser }) {
 
     useEffect(() => {
         dispatch(getSpotifyPlaylists({ limit: 25, offset: 0 }));
+        dispatch(getAllSpotifyPlaylists());
     }, [dispatch]);
 
     if (!dialogIsOpen) {
