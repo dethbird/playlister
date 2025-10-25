@@ -4,7 +4,7 @@ import { Container, Modal } from '@mantine/core';
 import {
     getSpotifyPlaylists,
     getAllSpotifyPlaylists,
-    selectCurrentPage,
+    selectAllPlaylists,
     selectdDialogIsOpen,
     selectStatus,
     toggleDialog
@@ -16,7 +16,8 @@ import { IconBrandSpotify } from '@tabler/icons-react';
 
 export function SpotifyPlaylists({ spotifyUser }) {
 
-    const currentPage = useSelector(selectCurrentPage);
+    // read consolidated playlists from localStorage via helper selector (not a redux selector)
+    const allPlaylists = selectAllPlaylists();
     const dialogIsOpen = useSelector(selectdDialogIsOpen);
     const status = useSelector(selectStatus);
 
@@ -32,13 +33,12 @@ export function SpotifyPlaylists({ spotifyUser }) {
     }
 
     const renderItems = () => {
-        if (['pending', 'idle'].includes(status) && !currentPage) {
+        if (['pending', 'idle'].includes(status) && !allPlaylists) {
             return <div role='alert' aria-busy="true"></div>;
         }
 
-        const userPlaylists = (currentPage && currentPage.items) ? currentPage.items.filter(item => {
-            return item.owner.id === spotifyUser.id;
-        }) : [];
+        const source = (allPlaylists && allPlaylists.items) ? allPlaylists : { items: [] };
+        const userPlaylists = (source.items || []).filter(item => item.owner && item.owner.id === spotifyUser.id);
 
         if (userPlaylists.length === 0) {
             return (
