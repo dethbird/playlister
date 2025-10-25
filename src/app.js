@@ -58,51 +58,64 @@ passport.use(
 );
 
 // Create PostgreSQL connection pool for sessions
-const pgPool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: 5432,
-});
+// const pgPool = new Pool({
+//     user: process.env.DB_USER,
+//     host: process.env.DB_HOST,
+//     database: process.env.DB_NAME,
+//     password: process.env.DB_PASSWORD,
+//     port: 5432,
+// });
 
 app.use(
     session({
-        store: new pgSession({
-            pool: pgPool,
-            tableName: 'session'
-        }),
+        // Temporarily disabled until permissions are fixed
+        // store: new pgSession({
+        //     pool: pgPool,
+        //     tableName: 'session'
+        // }),
         secret: process.env.SESSION_SECRET,
         cookie: { maxAge: Number(process.env.SESSION_MAXAGE), secure: false },
-        saveUninitialized: false,
-        resave: false,
+        saveUninitialized: true,
+        resave: true,
     })
 );
 
-// Token refresh middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Token refresh middleware (runs after passport has restored req.user)
 app.use(async (req, res, next) => {
-    if (req.user && req.user.user && req.user.user.id) {
-        try {
+    try {
+        // skip for health checks and static assets
+        if (!req.path || req.path === '/hello' || req.path.startsWith('/static') || req.path.startsWith('/favicon')) {
+            return next();
+        }
+
+        if (req.user && req.user.user && req.user.user.id) {
             const refreshResult = await refreshSpotifyToken(req.user.user.id);
             if (refreshResult) {
-                // Update session with new tokens
+                // Update session user and persist it
                 req.user.accessToken = refreshResult.accessToken;
                 req.user.refreshToken = refreshResult.refreshToken;
                 req.user.expiresAt = refreshResult.expiresAt;
-            }
-            spotifyApi.setAccessToken(req.user.accessToken);
-        } catch (err) {
-            console.error('Error refreshing token in middleware:', err);
-            // Continue without refresh - let the API calls handle the expired token
-        }
-    } else if (req.user) {
-        spotifyApi.setAccessToken(req.user.accessToken);
-    }
-    next();
-});
 
-app.use(passport.initialize());
-app.use(passport.session());
+                // Re-login to persist updated user in session store
+                return req.login(req.user, (err) => {
+                    if (err) console.error('Error re-saving session after token refresh:', err);
+                    spotifyApi.setAccessToken(req.user.accessToken);
+                    return next();
+                });
+            }
+
+            // no refresh needed, just set access token for outgoing API calls
+            spotifyApi.setAccessToken(req.user.accessToken);
+        }
+    } catch (err) {
+        console.error('Error refreshing token in middleware:', err);
+        // Continue without refresh - let the API calls handle the expired token
+    }
+    return next();
+});
 
 passport.serializeUser((user, done) => {
     done(null, user);
@@ -118,7 +131,7 @@ passport.deserializeUser((user, done) => {
 app.get('/', (req, res) => {
     console.log('USER', req.user)
     res.render('index', {
-        title: 'Spotify Playlister',
+        title: 'Playlister',
         user: req.user,
         spotifyUserJson: req.user ? JSON.stringify({
             id: req.user.spotifyUser.id,
@@ -131,7 +144,7 @@ app.get('/', (req, res) => {
 app.get('/about', (req, res) => {
     console.log('USER', req.user)
     res.render('index', {
-        title: 'Spotify Playlister',
+        title: 'Playlister',
         user: req.user,
         spotifyUserJson: req.user ? JSON.stringify({
             id: req.user.spotifyUser.id,
@@ -144,7 +157,7 @@ app.get('/about', (req, res) => {
 app.get('/howto', (req, res) => {
     console.log('USER', req.user)
     res.render('index', {
-        title: 'Spotify Playlister',
+        title: 'Playlister',
         user: req.user,
         spotifyUserJson: req.user ? JSON.stringify({
             id: req.user.spotifyUser.id,
@@ -154,10 +167,11 @@ app.get('/howto', (req, res) => {
     });
 });
 
+// terms of service
 app.get('/tos', (req, res) => {
     console.log('USER', req.user)
     res.render('index', {
-        title: 'Spotify Playlister',
+        title: 'Playlister',
         user: req.user,
         spotifyUserJson: req.user ? JSON.stringify({
             id: req.user.spotifyUser.id,
@@ -167,11 +181,11 @@ app.get('/tos', (req, res) => {
     });
 });
 
-
+// privacy policy
 app.get('/pp', (req, res) => {
     console.log('USER', req.user)
     res.render('index', {
-        title: 'Spotify Playlister',
+        title: 'Playlister',
         user: req.user,
         spotifyUserJson: req.user ? JSON.stringify({
             id: req.user.spotifyUser.id,
@@ -186,6 +200,7 @@ app.get('/hello', (req, res) => {
     res.status(200).send({ message: 'Hello, World!' });
 });
 
+// logout
 app.get("/logout", (req, res) => {
     req.logout(() => {
         res.redirect("/");
@@ -193,13 +208,17 @@ app.get("/logout", (req, res) => {
 
 });
 
-// initiate oauth
+// Oauth routes
 const shouldShowDialog = () => {
     const cb = process.env.SPOTIFY_CALLBACK_URL || '';
     return cb.startsWith('http://');
-};
+}; 
 
-app.get('/auth/spotify', passport.authenticate('spotify', {
+app.get('/auth/spotify', (req, res, next) => {
+    console.log('Starting OAuth, Session ID:', req.sessionID);
+    console.log('Session contents:', req.session);
+    next();
+}, passport.authenticate('spotify', {
     scope: requiredScopes,
     showDialog: shouldShowDialog()
 }));
@@ -207,6 +226,9 @@ app.get('/auth/spotify', passport.authenticate('spotify', {
 // callback to get access token
 app.get(
     '/auth/spotify/callback',
+    (req, res, next) => {
+        next();
+    },
     passport.authenticate('spotify', { failureRedirect: '/login' }),
     function (req, res) {
         res.redirect('/');
@@ -233,9 +255,3 @@ app.use('/playlists', playlistsRoutes);
 
 
 module.exports = app;
-// const ensureAuthenticated = (req, res, next) => {
-//     if (req.isAuthenticated()) {
-//         return next();
-//     }
-//     res.redirect('/login');
-// }

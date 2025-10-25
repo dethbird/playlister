@@ -13,3 +13,9 @@ WITH (OIDS=FALSE);
 ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 CREATE INDEX "IDX_session_expire" ON "session" ("expire");
+
+-- Ensure correct ownership
+ALTER TABLE "session" OWNER TO "playlister_db";
+
+-- Grant permissions are not needed when playlister_db owns the table
+-- GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE session TO playlister_db;

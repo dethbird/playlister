@@ -17,7 +17,7 @@ export const apiRequest = async (path, options) => {
     try {
         const response = await fetch(apiBaseUrl + path, options);
         if (!response.ok && path !== '/me') {
-            window.location.assign(apiBaseUrl + '/logout?error=sessionTimeout');
+            window.location.assign(apiBaseUrl + '/logout?error=apiRequestFailed');
         }
         return response;
     } catch (err) {
