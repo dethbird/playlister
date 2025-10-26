@@ -16,12 +16,18 @@ export const getSpotifyPlaylists = createAsyncThunk(
   async ({ limit, offset }) => {
     const response = await apiRequest(`/playlists/spotify?limit=${limit}&offset=${offset}`);
     const data = await response.json();
-    setTimeout(() => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    }, 250);
+    // schedule a microtask to scroll to top after the promise resolves
+    // (avoids brittle setTimeout delays while ensuring this runs after the thunk finishes)
+    Promise.resolve().then(() => {
+      try {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      } catch (e) {
+        // ignore errors in environments without window
+      }
+    });
     return data;
   }
 );
@@ -46,19 +52,24 @@ export const getAllSpotifyPlaylists = createAsyncThunk(
 export const addSpotifyPlaylistToManaged = createAsyncThunk(
   'playlists/addToManaged',
   async (spotifyPlaylistId, { dispatch }) => {
-    const response = await apiRequest(`/playlists`, {
+    // Use promise chaining so follow-up dispatches run after the API promise resolves
+    return apiRequest(`/playlists`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ id: spotifyPlaylistId })
-    });
-    const data = await response.json();
-    setTimeout(() => {
-      dispatch(spotifyPlaylistsSlice.actions.toggleDialog());
-      dispatch(getManagedPlaylists());
-    }, 250);
-    return data;
+    })
+      .then(response => response.json())
+      .then(data => {
+        try {
+          dispatch(spotifyPlaylistsSlice.actions.toggleDialog());
+          dispatch(getManagedPlaylists());
+        } catch (e) {
+          // defensive: swallow dispatch errors; calling code will see request errors via the returned promise
+        }
+        return data;
+      });
   }
 );
 

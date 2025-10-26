@@ -45,20 +45,18 @@ export const previous = createAsyncThunk(
     const response = await apiRequest('/player/previous', { method: 'POST' });
     const data = await response.json();
     
-    // Retry logic to ensure track actually changed
-    const checkForTrackChange = async (retries = 0) => {
-      if (retries >= 5) return; // Max 5 retries (5 seconds)
-      
+    // Retry logic to ensure track actually changed.
+    // Use an async loop with a sleep promise instead of setTimeout callbacks.
+    const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
+    for (let i = 0; i < 5; i++) {
+      // wait 1s before checking
+      await sleep(1000);
       await dispatch(getCurrentTrack());
-      const newState = getState();
-      const newTrackId = newState.player.currentTrack?.item?.id;
-      
-      if (newTrackId === currentTrackId && retries < 5) {
-        setTimeout(() => checkForTrackChange(retries + 1), 1000);
+      const newTrackId = getState().player.currentTrack?.item?.id;
+      if (newTrackId && newTrackId !== currentTrackId) {
+        break;
       }
-    };
-    
-    setTimeout(() => checkForTrackChange(), 1000);
+    }
     return data;
   }
 );
@@ -72,20 +70,18 @@ export const next = createAsyncThunk(
     const response = await apiRequest('/player/next', { method: 'POST' });
     const data = await response.json();
     
-    // Retry logic to ensure track actually changed
-    const checkForTrackChange = async (retries = 0) => {
-      if (retries >= 5) return; // Max 5 retries (5 seconds)
-      
+    // Retry logic to ensure track actually changed.
+    // Use an async loop with a sleep promise instead of setTimeout callbacks.
+    const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
+    for (let i = 0; i < 5; i++) {
+      // wait 1s before checking
+      await sleep(1000);
       await dispatch(getCurrentTrack());
-      const newState = getState();
-      const newTrackId = newState.player.currentTrack?.item?.id;
-      
-      if (newTrackId === currentTrackId && retries < 5) {
-        setTimeout(() => checkForTrackChange(retries + 1), 1000);
+      const newTrackId = getState().player.currentTrack?.item?.id;
+      if (newTrackId && newTrackId !== currentTrackId) {
+        break;
       }
-    };
-    
-    setTimeout(() => checkForTrackChange(), 1000);
+    }
     return data;
   }
 );

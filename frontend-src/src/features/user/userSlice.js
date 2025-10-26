@@ -29,42 +29,48 @@ export const getSpotifyUser = createAsyncThunk(
 export const toggleTheme = createAsyncThunk(
     'user/toggleTheme',
     async (_, {dispatch}) => {
-        const response = await apiRequest('/me/toggle-theme', {
-            method: 'PUT'
-        });
-        const data = await response.json();
-        setTimeout(() => {
-            dispatch(getUser());
-        }, 250);
-        return data;
+        return apiRequest('/me/toggle-theme', { method: 'PUT' })
+            .then(response => response.json())
+            .then(data => {
+                try {
+                    dispatch(getUser());
+                } catch (e) {
+                    // defensive: swallow dispatch errors; caller will observe request errors
+                }
+                return data;
+            });
     }
 );
 
 export const signTos = createAsyncThunk(
     'user/signTos',
     async (_, {dispatch}) => {
-        const response = await apiRequest('/me/sign-tos', {
-            method: 'PUT'
-        });
-        const data = await response.json();
-        setTimeout(() => {
-            dispatch(getUser());
-        }, 250);
-        return data;
+        return apiRequest('/me/sign-tos', { method: 'PUT' })
+            .then(response => response.json())
+            .then(data => {
+                try {
+                    dispatch(getUser());
+                } catch (e) {
+                    // defensive
+                }
+                return data;
+            });
     }
 );
 
 export const signPP = createAsyncThunk(
     'user/signPP',
     async (_, {dispatch}) => {
-        const response = await apiRequest('/me/sign-pp', {
-            method: 'PUT'
-        });
-        const data = await response.json();
-        setTimeout(() => {
-            dispatch(getUser());
-        }, 250);
-        return data;
+        return apiRequest('/me/sign-pp', { method: 'PUT' })
+            .then(response => response.json())
+            .then(data => {
+                try {
+                    dispatch(getUser());
+                } catch (e) {
+                    // defensive
+                }
+                return data;
+            });
     }
 );
 
