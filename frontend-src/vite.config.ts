@@ -27,9 +27,9 @@ export default defineConfig({
       }
     }
   },
-  esbuild: {
-    // also configure esbuild for dev/build parsing
-    loader: 'jsx',
-    include: /src\/.*/
-  }
+  // Note: don't set a global esbuild loader for the whole `src/` tree
+  // because that can cause non-JS assets (for example `src/*.css`) to be
+  // fed to esbuild with a JS loader which breaks (see index.css parse error).
+  // The `optimizeDeps.esbuildOptions.loader` above is sufficient to ensure
+  // dependencies are parsed as JSX when needed.
 });

@@ -3,9 +3,9 @@
 # build frontend
 cd frontend-src
 npm install
-echo REACT_APP_ENVIRONMENT=\"production\" > .env
+echo VITE_ENVIRONMENT="production" > .env
 npm run build
-echo REACT_APP_ENVIRONMENT=\"development\" > .env
+echo VITE_ENVIRONMENT="development" > .env
 
 # copy built assets to `/src/public`
 cd ../

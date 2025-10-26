@@ -1,6 +1,6 @@
-export const apiBaseUrl = process.env.REACT_APP_ENVIRONMENT === 'development' ? 'http://localhost:3000' : '';
+export const apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://localhost:3000' : '';
 
-if (process.env.REACT_APP_ENVIRONMENT === 'development') {
+if (import.meta.env.VITE_ENVIRONMENT === 'development') {
     // logged in:
     window.spotifyUser = {
         id: '1267654234',
@@ -23,5 +23,4 @@ export const apiRequest = async (path, options) => {
     } catch (err) {
         window.location.assign(apiBaseUrl + '/logout?error=sessionTimeout');
     }
-
 }
