@@ -132,7 +132,7 @@ export const reorderPlaylists = createAsyncThunk(
 export const addTrackToActive = createAsyncThunk(
   'playlists/addTrackToActive',
   async (uri, { dispatch, getState }) => {
-    const response = await apiRequest(
+    return apiRequest(
       `/playlists/add-track-to-active`,
       {
         method: 'PUT',
@@ -141,25 +141,26 @@ export const addTrackToActive = createAsyncThunk(
         },
         body: JSON.stringify({ uri })
       }
-    );
-    const data = await response.json();
-    const playlists = selectPlaylists(getState());
-    notifications.show(trackAddedNotification);
-    setTimeout(() => {
-      playlists.forEach(playlist => {
-        if (playlist.active === 'Y') {
-          dispatch(getPlaylistMeta(playlist.spotify_playlist_id));
-        }
+    )
+      .then(response => response.json())
+      .then(data => {
+        const playlists = selectPlaylists(getState());
+        notifications.show(trackAddedNotification);
+        // Refresh meta for active playlists after the request succeeds
+        playlists.forEach(playlist => {
+          if (playlist.active === 'Y') {
+            dispatch(getPlaylistMeta(playlist.spotify_playlist_id));
+          }
+        });
+        return data;
       });
-    }, 250);
-    return data;
   }
 );
 
 export const removeTrackFromActive = createAsyncThunk(
   'playlists/removeTrackFromActive',
   async (uri, { dispatch, getState }) => {
-    const response = await apiRequest(
+    return apiRequest(
       `/playlists/remove-track-from-active`,
       {
         method: 'PUT',
@@ -168,18 +169,19 @@ export const removeTrackFromActive = createAsyncThunk(
         },
         body: JSON.stringify({ uri })
       }
-    );
-    const data = await response.json();
-    const playlists = selectPlaylists(getState());
-    notifications.show(trackRemovedNotification);
-    setTimeout(() => {
-      playlists.forEach(playlist => {
-        if (playlist.active === 'Y') {
-          dispatch(getPlaylistMeta(playlist.spotify_playlist_id));
-        }
+    )
+      .then(response => response.json())
+      .then(data => {
+        const playlists = selectPlaylists(getState());
+        notifications.show(trackRemovedNotification);
+        // Refresh meta for active playlists after the request succeeds
+        playlists.forEach(playlist => {
+          if (playlist.active === 'Y') {
+            dispatch(getPlaylistMeta(playlist.spotify_playlist_id));
+          }
+        });
+        return data;
       });
-    }, 250);
-    return data;
   }
 );
 
@@ -187,7 +189,7 @@ export const addTrackToPlaylist = createAsyncThunk(
   'playlists/addTrackToPlaylist',
   async (spotifyPlaylistId, { dispatch, getState }) => {
     const currentTrack = selectCurrentTrack(getState());
-    const response = await apiRequest(
+    return apiRequest(
       `/playlists/spotify/${spotifyPlaylistId}/add-track`,
       {
         method: 'POST',
@@ -196,13 +198,13 @@ export const addTrackToPlaylist = createAsyncThunk(
         },
         body: JSON.stringify({ uri: currentTrack.item.uri })
       }
-    );
-    const data = await response.json();
-    notifications.show(trackAddedNotification);
-    setTimeout(() => {
-      dispatch(getPlaylistMeta(spotifyPlaylistId));
-    }, 250);
-    return data;
+    )
+      .then(response => response.json())
+      .then(data => {
+        notifications.show(trackAddedNotification);
+        dispatch(getPlaylistMeta(spotifyPlaylistId));
+        return data;
+      });
   }
 );
 
@@ -210,7 +212,7 @@ export const removeTrackFromPlaylist = createAsyncThunk(
   'playlists/removeTrackFromPlaylist',
   async (spotifyPlaylistId, { dispatch, getState }) => {
     const currentTrack = selectCurrentTrack(getState());
-    const response = await apiRequest(
+    return apiRequest(
       `/playlists/spotify/${spotifyPlaylistId}/remove-track`,
       {
         method: 'DELETE',
@@ -219,13 +221,13 @@ export const removeTrackFromPlaylist = createAsyncThunk(
         },
         body: JSON.stringify({ uri: currentTrack.item.uri })
       }
-    );
-    const data = await response.json();
-    notifications.show(trackRemovedNotification);
-    setTimeout(() => {
-      dispatch(getPlaylistMeta(spotifyPlaylistId));
-    }, 250);
-    return data;
+    )
+      .then(response => response.json())
+      .then(data => {
+        notifications.show(trackRemovedNotification);
+        dispatch(getPlaylistMeta(spotifyPlaylistId));
+        return data;
+      });
   }
 );
 
@@ -266,19 +268,20 @@ export const getFavoritePlaylists = createAsyncThunk(
 export const addFavoritePlaylistToManaged = createAsyncThunk(
   'playlists/addFavoriteToManaged',
   async (spotifyPlaylistId, { dispatch }) => {
-    const response = await apiRequest(`/playlists`, {
+    return apiRequest(`/playlists`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ id: spotifyPlaylistId })
-    });
-    const data = await response.json();
-    setTimeout(() => {
-      dispatch(managedPlaylistsSlice.actions.toggleFavoriteDialog());
-      dispatch(getManagedPlaylists());
-    }, 250);
-    return data;
+    })
+      .then(response => response.json())
+      .then(data => {
+        // refresh managed playlists and close the favorites dialog after success
+        dispatch(managedPlaylistsSlice.actions.toggleFavoriteDialog());
+        dispatch(getManagedPlaylists());
+        return data;
+      });
   }
 );
 
