@@ -11,6 +11,9 @@ export const initialState = {
   offset: 0
 };
 
+// Cache TTL for allSpotifyPlaylists in milliseconds (1 minute)
+const ALL_PLAYLISTS_TTL = 60 * 1000;
+
 export const getSpotifyPlaylists = createAsyncThunk(
   'playlists/spotify',
   async ({ limit, offset }) => {
@@ -36,12 +39,34 @@ export const getAllSpotifyPlaylists = createAsyncThunk(
   'playlists/spotify/all',
   async (_, { rejectWithValue }) => {
     try {
+      // try using cached data if present and fresh
+      try {
+        const raw = localStorage.getItem('allSpotifyPlaylists');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          // support both legacy shape (payload only) and new shape { payload, savedAt }
+          const payload = parsed.payload !== undefined ? parsed.payload : parsed;
+          const savedAt = parsed.savedAt || null;
+          if (savedAt && (Date.now() - savedAt) < ALL_PLAYLISTS_TTL) {
+            return payload;
+          }
+        }
+      } catch (e) {
+        // ignore localStorage parsing errors and fall through to network request
+      }
+
       const response = await apiRequest('/playlists/spotify/all');
       if (!response.ok) {
         const err = await response.json().catch(() => ({ message: 'Failed to fetch' }));
         return rejectWithValue(err);
       }
       const data = await response.json();
+      // persist to localStorage with timestamp (only on real network fetch)
+      try {
+        localStorage.setItem('allSpotifyPlaylists', JSON.stringify({ payload: data, savedAt: Date.now() }));
+      } catch (e) {
+        // ignore localStorage failures
+      }
       return data;
     } catch (e) {
       return rejectWithValue({ message: e.message || 'Network error' });
@@ -103,17 +128,7 @@ export const spotifyPlaylistsSlice = createSlice({
       })
       .addCase(getAllSpotifyPlaylists.fulfilled, (state, action) => {
         state.status = 'fulfilled';
-        // persist consolidated playlists to localStorage for selector usage
-        try {
-          if (action.payload) {
-            // store the whole payload (total, limit, items) under a stable key
-            localStorage.setItem('allSpotifyPlaylists', JSON.stringify(action.payload));
-          }
-        } catch (e) {
-          // ignore localStorage failures
-          // eslint-disable-next-line no-console
-          console.warn('Failed to save playlists to localStorage', e);
-        }
+        // no-op here: persistence happens in the thunk on cache-miss to avoid overwriting savedAt
       })
       .addCase(getSpotifyPlaylists.rejected, (state, action) => {
         state.status = 'rejected';
@@ -139,7 +154,9 @@ export const selectAllPlaylists = () => {
   try {
     const raw = localStorage.getItem('allSpotifyPlaylists');
     if (!raw) return null;
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    // support both legacy shape (payload only) and new shape { payload, savedAt }
+    return parsed.payload !== undefined ? parsed.payload : parsed;
   } catch (e) {
     // eslint-disable-next-line no-console
     console.warn('Failed to read allSpotifyPlaylists from localStorage', e);
