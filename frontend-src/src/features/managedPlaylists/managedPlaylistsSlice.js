@@ -232,19 +232,25 @@ export const removeTrackFromPlaylist = createAsyncThunk(
 export const toggleFavoritePlaylist = createAsyncThunk(
   'playlists/toggleFavorite',
   async (spotifyPlaylistId, { dispatch }) => {
-    const response = await apiRequest(`/playlists/favorite`, {
+    return apiRequest(`/playlists/favorite`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ id: spotifyPlaylistId })
-    });
-    const data = await response.json();
-    setTimeout(() => {
-      dispatch(getManagedPlaylists());
-      dispatch(getFavoritePlaylists());
-    }, 250);
-    return data;
+    })
+      .then(response => response.json())
+      // ensure we refresh managed & favorite lists after the request settles
+      .finally(() => {
+        try {
+          dispatch(getManagedPlaylists());
+          dispatch(getFavoritePlaylists());
+        } catch (e) {
+          // swallow dispatch errors here; createAsyncThunk will surface request errors
+          // but we don't want follow-up dispatch failures to break the original flow
+          // (this is defensive; dispatch should not normally throw)
+        }
+      });
   }
 );
 
