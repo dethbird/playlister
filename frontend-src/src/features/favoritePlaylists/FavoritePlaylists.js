@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Modal } from '@mantine/core';
 import {
@@ -25,6 +25,15 @@ export function FavoritePlaylists() {
     useEffect(() => {
         dispatch(getFavoritePlaylists());
     }, [dispatch]);
+
+    // Close the favorites modal if the list transitions from >0 to 0 after a successful refresh
+    const prevCountRef = useRef(favoritePlaylists.length);
+    useEffect(() => {
+        if (favoriteDialogIsOpen && favoriteStatus === 'fulfilled' && prevCountRef.current > 0 && favoritePlaylists.length === 0) {
+            dispatch(toggleFavoriteDialog());
+        }
+        prevCountRef.current = favoritePlaylists.length;
+    }, [favoritePlaylists.length, favoriteStatus, favoriteDialogIsOpen, dispatch]);
 
     if (!favoriteDialogIsOpen) {
         return null;

@@ -6,11 +6,13 @@ import {
     IconPlus,
     IconDisc
 } from '@tabler/icons-react';
+import { IconStarFilled } from '@tabler/icons-react';
 import { PaperStyled } from '../../components/PaperStyled';
 import {
     getPlaylistMeta,
     selectPlaylistsMeta,
-    addFavoritePlaylistToManaged
+    addFavoritePlaylistToManaged,
+    toggleFavoritePlaylist
 } from '../managedPlaylists/managedPlaylistsSlice';
 import { theme } from '../../app/theme';
 
@@ -66,8 +68,13 @@ export function FavoritePlaylistItem({ playlist }) {
                     </Grid>
                 </Grid.Col>
                 <Grid.Col span={{ base: 2 }} ta='right'>
+                    <Tooltip label="Remove from Favorite Playlists">
+                        <ActionIcon variant="light" size='lg' role='button' aria-label="Remove from Favorite Playlists" onClick={() => dispatch(toggleFavoritePlaylist(playlist.spotify_playlist_id))}>
+                            <IconStarFilled />
+                        </ActionIcon>
+                    </Tooltip>
                     <Tooltip label="Add to Managed Playlists">
-                        <ActionIcon size='lg' role='button' aria-label="Add to Managed Playlists" onClick={() => dispatch(addFavoritePlaylistToManaged(playlist.spotify_playlist_id))}>
+                        <ActionIcon variant="light" size='lg' role='button' aria-label="Add to Managed Playlists" onClick={() => dispatch(addFavoritePlaylistToManaged(playlist.spotify_playlist_id))}>
                             <IconPlus />
                         </ActionIcon>
                     </Tooltip>
