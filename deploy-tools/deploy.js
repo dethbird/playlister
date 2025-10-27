@@ -12,13 +12,16 @@ const rootAssets = [
 ];
 
 const copyAsset = (src, dest) => {
-    fs.copyFile(src, dest, (err) => {
-        if (err) {
-            console.error('Error copying file:', err);
-        } else {
-            console.log(`${src} copied`);
+    try {
+        const destDir = dest.substring(0, dest.lastIndexOf('/'));
+        if (destDir && !fs.existsSync(destDir)) {
+            fs.mkdirSync(destDir, { recursive: true });
         }
-    });
+        fs.copyFileSync(src, dest);
+        console.log(`${src} copied -> ${dest}`);
+    } catch (err) {
+        console.error('Error copying file:', err, 'src:', src, 'dest:', dest);
+    }
 }
 
 const clearDir = dir => {
@@ -77,26 +80,51 @@ const tryCopyManifest = () => {
         return;
     }
 
-    if (fs.existsSync(viteManifestPath)) {
+    // try multiple possible locations for Vite manifest (some Vite setups place it under .vite/)
+    // prefer the .vite nested manifest if present (some Vite setups emit it there)
+    const viteManifestPaths = [`${buildDir}/.vite/manifest.json`, viteManifestPath];
+    const foundViteManifestPath = viteManifestPaths.find(p => fs.existsSync(p));
+    if (foundViteManifestPath) {
         // Vite-style manifest
-        const data = fs.readFileSync(viteManifestPath, 'utf8');
+        const data = fs.readFileSync(foundViteManifestPath, 'utf8');
         const manifest = JSON.parse(data);
 
-        // find the main entry (the one marked as isEntry or the 'main' key)
-        const entryKey = Object.keys(manifest).find(k => manifest[k].isEntry) || 'main';
+        // Also copy the vite manifest into the public dir so the server can read it at runtime
+        try {
+            const destManifest = '../public/vite-manifest.json';
+            copyAsset(foundViteManifestPath, destManifest);
+        } catch (err) {
+            console.warn('Failed to copy vite manifest to public dir:', err);
+        }
+
+        // find the main entry: prefer 'src/main.jsx' or 'main' or the first isEntry
+        const entryKey =
+            Object.keys(manifest).find(k => k === 'src/main.jsx') ||
+            Object.keys(manifest).find(k => k === 'main') ||
+            Object.keys(manifest).find(k => manifest[k].isEntry) ||
+            Object.keys(manifest)[0];
+
         const entry = manifest[entryKey];
         if (entry) {
-            // copy main JS
+            // copy main JS to ../public/js/main.js (legacy contract)
             if (entry.file) {
                 const src = `${buildDir}/${entry.file}`;
-                const dest = `../public/${entry.file}`;
-                copyAsset(src, dest);
+                const dest = `../public/js/main.js`;
+                if (fs.existsSync(src)) {
+                    copyAsset(src, dest);
+                } else {
+                    console.warn('Expected main JS not found at', src);
+                }
             }
-            // copy main CSS (if present)
+            // copy main CSS (if present) to ../public/css/main.css (legacy contract)
             if (entry.css && entry.css.length) {
                 const cssSrc = `${buildDir}/${entry.css[0]}`;
-                const cssDest = `../public/${entry.css[0]}`;
-                copyAsset(cssSrc, cssDest);
+                const cssDest = `../public/css/main.css`;
+                if (fs.existsSync(cssSrc)) {
+                    copyAsset(cssSrc, cssDest);
+                } else {
+                    console.warn('Expected main CSS not found at', cssSrc);
+                }
             }
         }
 
@@ -106,13 +134,13 @@ const tryCopyManifest = () => {
             if (val.file) {
                 const src = `${buildDir}/${val.file}`;
                 const destPath = `../public/${val.file}`;
-                copyAsset(src, destPath);
+                if (fs.existsSync(src)) copyAsset(src, destPath);
             }
             if (val.css && val.css.length) {
                 val.css.forEach(cssFile => {
                     const src = `${buildDir}/${cssFile}`;
                     const dest = `../public/${cssFile}`;
-                    copyAsset(src, dest);
+                    if (fs.existsSync(src)) copyAsset(src, dest);
                 });
             }
         });

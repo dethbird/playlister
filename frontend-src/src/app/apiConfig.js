@@ -1,4 +1,4 @@
-export const apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://localhost:3000' : '';
+export const apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
 
 if (import.meta.env.VITE_ENVIRONMENT === 'development') {
     // logged in:

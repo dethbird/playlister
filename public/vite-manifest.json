@@ -1,0 +1,11 @@
+{
+  "src/main.jsx": {
+    "file": "assets/main-QcDeSyRT.js",
+    "name": "main",
+    "src": "src/main.jsx",
+    "isEntry": true,
+    "css": [
+      "assets/main-C_AmxunR.css"
+    ]
+  }
+}
