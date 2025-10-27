@@ -6,10 +6,18 @@ export default defineConfig({
   plugins: [react()],
   root: '.',
   build: {
-    // write built assets directly to the server public folder
-    outDir: '../public',
-    // don't remove other existing public assets (images, manifest, etc.)
+    // write built assets to frontend-src/build (keeps parity with the old CRA output)
+    outDir: 'build',
+    // produce a manifest.json (used by deploy script / server to map entry names to hashed files)
+    manifest: true,
+    // don't remove other existing public assets in the server public folder (deploy step will copy)
     emptyOutDir: false,
+    rollupOptions: {
+      input: {
+        // ensure manifest contains a stable key for our main entry
+        main: './src/main.jsx'
+      }
+    },
   },
   server: {
     port: 5173,
