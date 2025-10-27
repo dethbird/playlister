@@ -291,7 +291,7 @@ export const managedPlaylistsSlice = createSlice({
   name: 'managedPlaylists',
   initialState,
   reducers: {
-    toggleFavoriteDialog: (state, action) => {
+    toggleFavoriteDialog: (state, _action) => {
       state.favoriteDialogIsOpen = !state.favoriteDialogIsOpen;
     }
   },

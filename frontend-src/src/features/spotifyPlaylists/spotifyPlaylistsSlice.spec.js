@@ -62,10 +62,7 @@ describe('spotifyPlaylistSlice ', () => {
 
     const store = mockStore({})
 
-    const resp = new Response(JSON.stringify(mockPlaylistsResponse), {
-      status: 200,
-      headers: { 'Content-type': 'application/json' }
-    });
+    const resp = makeResp(mockPlaylistsResponse);
 
     const promise = new Promise(resolve => resolve(resp));
 
@@ -86,10 +83,7 @@ describe('spotifyPlaylistSlice ', () => {
 
     const store = mockStore({})
 
-    const resp = new Response(JSON.stringify({}), {
-      status: 200,
-      headers: { 'Content-type': 'application/json' }
-    });
+    const resp = makeResp({});
 
     const promise = new Promise(resolve => resolve(resp));
 
@@ -101,10 +95,16 @@ describe('spotifyPlaylistSlice ', () => {
         jest.advanceTimersByTime(1250);
         const actionsDispatched = store.getActions();
         expect(actionsDispatched[0].type).toEqual(addSpotifyPlaylistToManaged.pending.type);
-        expect(actionsDispatched[1].type).toEqual(addSpotifyPlaylistToManaged.fulfilled.type);
-        expect(actionsDispatched[1].payload).toEqual({});
-        expect(actionsDispatched[2].type).toEqual(toggleDialog.type);
-        expect(actionsDispatched[3].type).toEqual(getManagedPlaylists.pending.type);
+        // The thunk dispatches toggleDialog() and getManagedPlaylists() inside the
+        // payload creator before it returns the data, so ordering between
+        // fulfilled and those follow-up dispatches may vary. Assert presence
+        // instead of strict ordering.
+        const types = actionsDispatched.map(a => a.type);
+        expect(types).toContain(addSpotifyPlaylistToManaged.fulfilled.type);
+        expect(types).toContain(toggleDialog.type);
+        expect(types).toContain(getManagedPlaylists.pending.type);
+        const fulfilledAction = actionsDispatched.find(a => a.type === addSpotifyPlaylistToManaged.fulfilled.type);
+        expect(fulfilledAction.payload).toEqual({});
       });
 
   });

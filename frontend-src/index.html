@@ -13,6 +13,10 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <script type="module">
+      // expose Vite env to non-module code (tests and legacy code can read window.__VITE_ENV__)
+      window.__VITE_ENV__ = import.meta.env.VITE_ENVIRONMENT;
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

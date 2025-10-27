@@ -41,6 +41,18 @@ jest.mock('../../app/apiConfig', () => ({
 
 describe('managedPlaylistSlice ', () => {
 
+  // Helper to produce a lightweight response-like object for tests.
+  // Some environments/tests construct Response; using this helper avoids depending on global Response.
+  function makeResp(payload, status = 200) {
+    return {
+      status,
+      headers: { 'Content-type': 'application/json' },
+      ok: status >= 200 && status < 300,
+      json: () => Promise.resolve(payload),
+      text: () => Promise.resolve(typeof payload === 'string' ? payload : JSON.stringify(payload)),
+    };
+  }
+
   beforeEach(() => {
     jest.useFakeTimers();
     mockPlaylistMetadata = {
@@ -84,10 +96,7 @@ describe('managedPlaylistSlice ', () => {
 
     const store = mockStore({})
 
-    const resp = new Response(JSON.stringify(mockPlaylistsResponse), {
-      status: 200,
-      headers: { 'Content-type': 'application/json' }
-    });
+    const resp = makeResp(mockPlaylistsResponse);
 
     const promise = new Promise(resolve => resolve(resp));
 
@@ -127,10 +136,7 @@ describe('managedPlaylistSlice ', () => {
 
     const store = mockStore({})
 
-    const resp = new Response(JSON.stringify(mockPlaylistMetadata), {
-      status: 200,
-      headers: { 'Content-type': 'application/json' }
-    });
+    const resp = makeResp(mockPlaylistMetadata);
 
     const promise = new Promise(resolve => resolve(resp));
 
@@ -170,10 +176,7 @@ describe('managedPlaylistSlice ', () => {
 
     const store = mockStore({})
 
-    const resp = new Response(JSON.stringify(dummyResponse), {
-      status: 200,
-      headers: { 'Content-type': 'application/json' }
-    });
+    const resp = makeResp(dummyResponse);
 
     const promise = new Promise(resolve => resolve(resp));
 
@@ -195,10 +198,7 @@ describe('managedPlaylistSlice ', () => {
 
     const store = mockStore({})
 
-    const resp = new Response(JSON.stringify(dummyResponse), {
-      status: 200,
-      headers: { 'Content-type': 'application/json' }
-    });
+    const resp = makeResp(dummyResponse);
 
     const promise = new Promise(resolve => resolve(resp));
 
@@ -220,10 +220,7 @@ describe('managedPlaylistSlice ', () => {
 
     const store = mockStore({})
 
-    const resp = new Response(JSON.stringify(dummyResponse), {
-      status: 200,
-      headers: { 'Content-type': 'application/json' }
-    });
+    const resp = makeResp(dummyResponse);
 
     const promise = new Promise(resolve => resolve(resp));
 
@@ -245,10 +242,7 @@ describe('managedPlaylistSlice ', () => {
 
     const store = mockStore({})
 
-    const resp = new Response(JSON.stringify(dummyResponse), {
-      status: 200,
-      headers: { 'Content-type': 'application/json' }
-    });
+    const resp = makeResp(dummyResponse);
 
     const promise = new Promise(resolve => resolve(resp));
 
@@ -270,10 +264,7 @@ describe('managedPlaylistSlice ', () => {
 
     const store = mockStore({})
 
-    const resp = new Response(JSON.stringify(dummyResponse), {
-      status: 200,
-      headers: { 'Content-type': 'application/json' }
-    });
+    const resp = makeResp(dummyResponse);
 
     const promise = new Promise(resolve => resolve(resp));
 
@@ -303,10 +294,7 @@ describe('managedPlaylistSlice ', () => {
       }
     );
 
-    const resp = new Response(JSON.stringify(dummyResponse), {
-      status: 200,
-      headers: { 'Content-type': 'application/json' }
-    });
+    const resp = makeResp(dummyResponse);
 
     const promise = new Promise(resolve => resolve(resp));
 
@@ -341,10 +329,7 @@ describe('managedPlaylistSlice ', () => {
       }
     );
 
-    const resp = new Response(JSON.stringify(dummyResponse), {
-      status: 200,
-      headers: { 'Content-type': 'application/json' }
-    });
+    const resp = makeResp(dummyResponse);
 
     const promise = new Promise(resolve => resolve(resp));
 
@@ -386,10 +371,7 @@ describe('managedPlaylistSlice ', () => {
 
     const showSpy = jest.spyOn(notifications, 'show');
 
-    const resp = new Response(JSON.stringify(dummyResponse), {
-      status: 200,
-      headers: { 'Content-type': 'application/json' }
-    });
+    const resp = makeResp(dummyResponse);
     const promise = new Promise(resolve => resolve(resp));
     apiRequest
       .mockResolvedValueOnce(promise);
@@ -428,10 +410,7 @@ describe('managedPlaylistSlice ', () => {
 
     const showSpy = jest.spyOn(notifications, 'show');
 
-    const resp = new Response(JSON.stringify(dummyResponse), {
-      status: 200,
-      headers: { 'Content-type': 'application/json' }
-    });
+    const resp = makeResp(dummyResponse);
     const promise = new Promise(resolve => resolve(resp));
     apiRequest
       .mockResolvedValueOnce(promise);
@@ -455,10 +434,7 @@ describe('managedPlaylistSlice ', () => {
 
     const store = mockStore({});
 
-    const resp = new Response(JSON.stringify(dummyResponse), {
-      status: 200,
-      headers: { 'Content-type': 'application/json' }
-    });
+    const resp = makeResp(dummyResponse);
     const promise = new Promise(resolve => resolve(resp));
     apiRequest
       .mockResolvedValueOnce(promise);
@@ -482,10 +458,7 @@ describe('managedPlaylistSlice ', () => {
 
     const store = mockStore({});
 
-    const resp = new Response(JSON.stringify(dummyResponse), {
-      status: 200,
-      headers: { 'Content-type': 'application/json' }
-    });
+    const resp = makeResp(dummyResponse);
     const promise = new Promise(resolve => resolve(resp));
     apiRequest
       .mockResolvedValueOnce(promise);
@@ -507,10 +480,7 @@ describe('managedPlaylistSlice ', () => {
 
     const store = mockStore({});
 
-    const resp = new Response(JSON.stringify(dummyResponse), {
-      status: 200,
-      headers: { 'Content-type': 'application/json' }
-    });
+    const resp = makeResp(dummyResponse);
     const promise = new Promise(resolve => resolve(resp));
     apiRequest
       .mockResolvedValueOnce(promise);

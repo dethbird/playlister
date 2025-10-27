@@ -42,10 +42,7 @@ describe('userSlice ', () => {
 
         const store = mockStore({})
 
-        const resp = new Response(JSON.stringify({}), {
-            status: 200,
-            headers: { 'Content-type': 'application/json' }
-        });
+        const resp = makeResp({});
 
         const promise = new Promise(resolve => resolve(resp));
 
@@ -66,10 +63,7 @@ describe('userSlice ', () => {
 
         const store = mockStore({})
 
-        const resp = new Response(JSON.stringify({}), {
-            status: 200,
-            headers: { 'Content-type': 'application/json' }
-        });
+        const resp = makeResp({});
 
         const promise = new Promise(resolve => resolve(resp));
 
@@ -90,10 +84,7 @@ describe('userSlice ', () => {
 
         const store = mockStore({})
 
-        const resp = new Response(JSON.stringify({}), {
-            status: 200,
-            headers: { 'Content-type': 'application/json' }
-        });
+        const resp = makeResp({});
 
         const promise = new Promise(resolve => resolve(resp));
 
@@ -104,10 +95,17 @@ describe('userSlice ', () => {
             .then(() => {
                 jest.advanceTimersByTime(1250);
                 const actionsDispatched = store.getActions();
+                // dispatch(getUser()) is invoked inside the signTos thunk before signTos
+                // resolves, so getUser.pending may appear before signTos.fulfilled.
                 expect(actionsDispatched[0].type).toEqual(signTos.pending.type);
-                expect(actionsDispatched[1].type).toEqual(signTos.fulfilled.type);
-                expect(actionsDispatched[1].payload).toEqual({});
-                expect(actionsDispatched[2].type).toEqual(getUser.pending.type);
+                // either getUser.pending appears before fulfilled, or fulfilled appears first
+                // assert both exist in the dispatched actions in a stable way:
+                const types = actionsDispatched.map(a => a.type);
+                expect(types).toContain(signTos.fulfilled.type);
+                expect(types).toContain(getUser.pending.type);
+                // ensure fulfilled payload is the expected value
+                const fulfilledAction = actionsDispatched.find(a => a.type === signTos.fulfilled.type);
+                expect(fulfilledAction.payload).toEqual({});
             });
 
     });
@@ -116,10 +114,7 @@ describe('userSlice ', () => {
 
         const store = mockStore({})
 
-        const resp = new Response(JSON.stringify({}), {
-            status: 200,
-            headers: { 'Content-type': 'application/json' }
-        });
+        const resp = makeResp({});
 
         const promise = new Promise(resolve => resolve(resp));
 
@@ -131,9 +126,11 @@ describe('userSlice ', () => {
                 jest.advanceTimersByTime(1250);
                 const actionsDispatched = store.getActions();
                 expect(actionsDispatched[0].type).toEqual(signPP.pending.type);
-                expect(actionsDispatched[1].type).toEqual(signPP.fulfilled.type);
-                expect(actionsDispatched[1].payload).toEqual({});
-                expect(actionsDispatched[2].type).toEqual(getUser.pending.type);
+                const types = actionsDispatched.map(a => a.type);
+                expect(types).toContain(signPP.fulfilled.type);
+                expect(types).toContain(getUser.pending.type);
+                const fulfilledAction = actionsDispatched.find(a => a.type === signPP.fulfilled.type);
+                expect(fulfilledAction.payload).toEqual({});
             });
 
     });
@@ -143,10 +140,7 @@ describe('userSlice ', () => {
 
         const store = mockStore({})
 
-        const resp = new Response(JSON.stringify({}), {
-            status: 200,
-            headers: { 'Content-type': 'application/json' }
-        });
+        const resp = makeResp({});
 
         const promise = new Promise(resolve => resolve(resp));
 
@@ -158,9 +152,11 @@ describe('userSlice ', () => {
                 jest.advanceTimersByTime(1250);
                 const actionsDispatched = store.getActions();
                 expect(actionsDispatched[0].type).toEqual(toggleTheme.pending.type);
-                expect(actionsDispatched[1].type).toEqual(toggleTheme.fulfilled.type);
-                expect(actionsDispatched[1].payload).toEqual({});
-                expect(actionsDispatched[2].type).toEqual(getUser.pending.type);
+                const types = actionsDispatched.map(a => a.type);
+                expect(types).toContain(toggleTheme.fulfilled.type);
+                expect(types).toContain(getUser.pending.type);
+                const fulfilledAction = actionsDispatched.find(a => a.type === toggleTheme.fulfilled.type);
+                expect(fulfilledAction.payload).toEqual({});
             });
 
     });

@@ -40,7 +40,7 @@ function Pp({ signed }) {
 
             <Title order={2} pb='md'>5. Third-Party Services</Title>
 
-            <Text>Playlister uses Spotify’s API to provide its services. Please note that your interactions with Spotify are governed by their privacy policy, which can be found at <a href='https://www.spotify.com/legal/end-user-agreement/' taget='_blank'>Spotify's Terms of Service</a>.</Text>
+            <Text>Playlister uses Spotify’s API to provide its services. Please note that your interactions with Spotify are governed by their privacy policy, which can be found at <a href='https://www.spotify.com/legal/end-user-agreement/' target='_blank' rel='noopener noreferrer'>Spotify's Terms of Service</a>.</Text>
 
             <Title order={2} pb='md'>6. Children's Privacy</Title>
 

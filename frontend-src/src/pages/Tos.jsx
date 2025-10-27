@@ -57,7 +57,7 @@ function Tos({ signed }) {
 
             <Title order={2} py='md'>5. Third-Party Services</Title>
 
-            <Text>Playlister integrates with Spotify to provide its services. By using Playlister, you agree to comply with Spotify’s terms and conditions, available at <a href='https://www.spotify.com/legal/end-user-agreement/' taget='_blank'>Spotify's Terms of Service</a>.</Text>
+            <Text>Playlister integrates with Spotify to provide its services. By using Playlister, you agree to comply with Spotify’s terms and conditions, available at <a href='https://www.spotify.com/legal/end-user-agreement/' target='_blank' rel='noopener noreferrer'>Spotify's Terms of Service</a>.</Text>
 
             <Title order={2} py='md'>6. Intellectual Property</Title>
 

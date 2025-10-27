@@ -25,8 +25,10 @@ export function SpotifyPlaylists({ spotifyUser }) {
     // managed playlists from Redux (used to filter out managed ids)
     const managed = useSelector(selectPlaylists) || [];
     const managedIds = new Set(managed.map(p => p.spotify_playlist_id));
-    const limit = useSelector((state) => state.spotifyPlaylists.limit);
-    const offset = useSelector((state) => state.spotifyPlaylists.offset);
+    // guard against tests or environments where the slice isn't mounted
+    // provide safe defaults so component rendering doesn't throw
+    const limit = useSelector((state) => state.spotifyPlaylists?.limit ?? 50);
+    const offset = useSelector((state) => state.spotifyPlaylists?.offset ?? 0);
 
     const dispatch = useDispatch();
 

@@ -8,6 +8,9 @@ import {
 import { store } from '../../app/store';
 import {
     getSpotifyPlaylists,
+    selectAllPlaylists,
+    selectLimit,
+    selectOffset,
     selectCurrentPage,
     selectdDialogIsOpen,
     selectStatus,
@@ -18,10 +21,19 @@ import { SpotifyPlaylists } from './SpotifyPlaylists';
 let matchMedia;
 
 jest.mock('./spotifyPlaylistsSlice', () => ({
+    // actions/selectors used by tests and component
     getSpotifyPlaylists: jest.fn(),
+    // the component dispatches getAllSpotifyPlaylists() on mount; tests expect a plain action
+    getAllSpotifyPlaylists: jest.fn(() => ({ type: 'getAllSpotifyPlaylists/mock' })),
     selectCurrentPage: jest.fn(),
     selectdDialogIsOpen: jest.fn(),
     selectStatus: jest.fn(),
+    // helper that reads consolidated playlists from localStorage
+    selectAllPlaylists: jest.fn(),
+    // pagination selectors/actions
+    selectLimit: jest.fn(),
+    selectOffset: jest.fn(),
+    setOffset: jest.fn(),
     toggleDialog: jest.fn(),
 }));
 
@@ -66,6 +78,9 @@ describe('SpotifyPlaylistsTest', () => {
         mockSpotifyUser = {
             id: 12345
         };
+        // sensible defaults for pagination selectors
+        selectLimit.mockReturnValue(mockCurrentPage.limit);
+        selectOffset.mockReturnValue(0);
     });
 
     afterEach(() => {
@@ -76,6 +91,10 @@ describe('SpotifyPlaylistsTest', () => {
         getSpotifyPlaylists
             .mockReturnValue({ type: 'someAction' });
         selectCurrentPage
+            .mockReturnValue(mockCurrentPage);
+        // component reads consolidated playlists via selectAllPlaylists()
+        // mirror the same payload so rendering sees the playlist items
+        selectAllPlaylists
             .mockReturnValue(mockCurrentPage);
         selectStatus
             .mockReturnValue('pending');
@@ -98,6 +117,8 @@ describe('SpotifyPlaylistsTest', () => {
         getSpotifyPlaylists
             .mockReturnValue({ type: 'someAction' });
         selectCurrentPage
+            .mockReturnValue(null);
+        selectAllPlaylists
             .mockReturnValue(null);
         selectStatus
             .mockReturnValue('pending');
@@ -122,6 +143,8 @@ describe('SpotifyPlaylistsTest', () => {
             .mockReturnValue({ type: 'someAction' });
         selectCurrentPage
             .mockReturnValue(mockCurrentPage);
+        selectAllPlaylists
+            .mockReturnValue(mockCurrentPage);
         selectStatus
             .mockReturnValue('pending');
         selectdDialogIsOpen
@@ -142,6 +165,12 @@ describe('SpotifyPlaylistsTest', () => {
         getSpotifyPlaylists
             .mockReturnValue({ type: 'someAction' });
         selectCurrentPage
+            .mockReturnValue({
+                total: 0,
+                limit: 25,
+                items: []
+            });
+        selectAllPlaylists
             .mockReturnValue({
                 total: 0,
                 limit: 25,
@@ -185,6 +214,12 @@ describe('SpotifyPlaylistsTest', () => {
                 limit: 25,
                 items: playlistsNotOwnedByUser
             });
+        selectAllPlaylists
+            .mockReturnValue({
+                total: 1,
+                limit: 25,
+                items: playlistsNotOwnedByUser
+            });
         selectStatus
             .mockReturnValue('fulfilled');
         selectdDialogIsOpen
@@ -205,6 +240,8 @@ describe('SpotifyPlaylistsTest', () => {
         getSpotifyPlaylists
             .mockReturnValue({ type: 'someAction' });
         selectCurrentPage
+            .mockReturnValue(mockCurrentPage);
+        selectAllPlaylists
             .mockReturnValue(mockCurrentPage);
         selectStatus
             .mockReturnValue('pending');
