@@ -66,7 +66,8 @@ describe('Player', () => {
     afterEach(() => {
         matchMedia.clear();
         jest.clearAllTimers();
-        jest.restoreAllMocks();
+            jest.clearAllMocks();
+            jest.restoreAllMocks();
         jest.useRealTimers()
     });
 

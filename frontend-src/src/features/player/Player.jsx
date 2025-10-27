@@ -21,8 +21,7 @@ import {
 import { LikeButton } from './LikeButton';
 import classes from './Player.module.css';
 import { theme } from '../../app/theme';
-
-const dayjs = require('dayjs');
+import dayjs from 'dayjs';
 
 let refreshTimer;
 

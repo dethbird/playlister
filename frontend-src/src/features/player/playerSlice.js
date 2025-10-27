@@ -11,7 +11,7 @@ export const initialState = {
 
 export const getCurrentTrack = createAsyncThunk(
   'player/getCurrentTrack',
-  async (_, { rejectWithValue }) => {
+  async () => {
     const response = await apiRequest('/player/currently-playing');
     const data = await response.json();
     return data;
@@ -136,19 +136,19 @@ export const playerSlice = createSlice({
         state.status = 'rejected';
         state.error = action.error;
       })
-      .addCase(play.fulfilled, (state, action) => {
+      .addCase(play.fulfilled, (state, _action) => {
         state.isPlaying = true;
       })
-      .addCase(pause.fulfilled, (state, action) => {
+      .addCase(pause.fulfilled, (state, _action) => {
         state.isPlaying = false;
       })
       .addCase(liked.fulfilled, (state, action) => {
         state.isLiked = action.payload;
       })
-      .addCase(like.fulfilled, (state, action) => {
+      .addCase(like.fulfilled, (state, _action) => {
         state.isLiked = true;
       })
-      .addCase(unlike.fulfilled, (state, action) => {
+      .addCase(unlike.fulfilled, (state, _action) => {
         state.isLiked = false;
       });
   },

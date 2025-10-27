@@ -103,7 +103,7 @@ export const spotifyPlaylistsSlice = createSlice({
   name: 'spotifyPlaylists',
   initialState,
   reducers: {
-    toggleDialog: (state, action) => {
+    toggleDialog: (state, _action) => {
       state.dialogIsOpen = !state.dialogIsOpen;
     },
     setLimit: (state, action) => {
@@ -126,7 +126,7 @@ export const spotifyPlaylistsSlice = createSlice({
         // keep a separate status if desired
         state.status = 'pending';
       })
-      .addCase(getAllSpotifyPlaylists.fulfilled, (state, action) => {
+      .addCase(getAllSpotifyPlaylists.fulfilled, (state) => {
         state.status = 'fulfilled';
         // no-op here: persistence happens in the thunk on cache-miss to avoid overwriting savedAt
       })

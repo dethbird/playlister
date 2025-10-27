@@ -51,8 +51,9 @@
 
   <link rel="apple-touch-icon" href="/logo192.png" />
   <link rel="manifest" href="/manifest.json" />
-  <script defer="defer" src="/js/main.js"></script>
-  <link href="/css/main.css" rel="stylesheet">
+  {# Use runtime-injected asset paths when available; fall back to legacy paths #}
+  <script defer="defer" src="{{ mainJs | default('/js/main.js') }}"></script>
+  <link href="{{ mainCss | default('/css/main.css') }}" rel="stylesheet">
   <title>Playlister.love</title>
   <script>
     window.spotifyUser = {{ spotifyUserJson | safe }};

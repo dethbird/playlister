@@ -1,6 +1,7 @@
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const express = require('express');
+const fs = require('fs');
 const app = express();
 const compression = require("compression");
 const consolidate = require('consolidate');
@@ -31,6 +32,51 @@ app.set('view engine', 'html');
 app.engine('html', consolidate.nunjucks);
 // server static contents from /public dir relative to the view templates
 app.use(express.static(__dirname + '../../public'));
+
+// Try to load a Vite manifest copied into the public directory at build time.
+// If present, this lets templates reference the exact hashed files instead
+// of relying on legacy /js/main.js and /css/main.css filenames.
+const publicViteManifestPath = path.join(__dirname, '../public/vite-manifest.json');
+try {
+    if (fs.existsSync(publicViteManifestPath)) {
+        const raw = fs.readFileSync(publicViteManifestPath, 'utf8');
+        const assetManifest = JSON.parse(raw);
+        app.locals.assetManifest = assetManifest;
+        console.log('Loaded asset manifest from', publicViteManifestPath);
+    } else {
+        app.locals.assetManifest = null;
+    }
+} catch (err) {
+    console.warn('Unable to load vite asset manifest:', err);
+    app.locals.assetManifest = null;
+}
+
+// Middleware to set template variables for main JS/CSS. Templates use these
+// (with fallbacks) to include the correct static files.
+app.use((req, res, next) => {
+    const manifest = app.locals.assetManifest;
+    if (manifest && manifest['src/main.jsx']) {
+        const entry = manifest['src/main.jsx'];
+        res.locals.mainJs = '/' + (entry.file || 'js/main.js');
+        res.locals.mainCss = (entry.css && entry.css.length) ? '/' + entry.css[0] : '/css/main.css';
+    } else if (manifest) {
+        // if manifest exists but key differs, try to find the first entry that isEntry
+        const key = Object.keys(manifest).find(k => manifest[k].isEntry) || Object.keys(manifest)[0];
+        if (key && manifest[key]) {
+            const e = manifest[key];
+            res.locals.mainJs = '/' + (e.file || 'js/main.js');
+            res.locals.mainCss = (e.css && e.css.length) ? '/' + e.css[0] : '/css/main.css';
+        } else {
+            res.locals.mainJs = '/js/main.js';
+            res.locals.mainCss = '/css/main.css';
+        }
+    } else {
+        // no manifest available — use legacy filenames
+        res.locals.mainJs = '/js/main.js';
+        res.locals.mainCss = '/css/main.css';
+    }
+    next();
+});
 
 // constants
 const requiredScopes = [

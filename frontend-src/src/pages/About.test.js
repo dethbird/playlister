@@ -6,7 +6,7 @@ import {
     MantineProvider,
 } from '@mantine/core';
 import { store } from '../app/store';
-import About from './About';
+import About from './About.jsx';
 
 let matchMedia;
 

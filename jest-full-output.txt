@@ -1,0 +1,2589 @@
+
+> frontend-src@0.1.0 test
+> jest --runInBand --verbose
+
+FAIL src/features/managedPlaylists/managedPlaylistsSlice.spec.js
+  managedPlaylistSlice 
+    ✓ should handle initial state (3 ms)
+    ✕ getManagedPlaylists pending then fulfilled (1 ms)
+    ✓ getManagedPlaylists pending then rejected (3 ms)
+    ✕ getPlaylistMeta pending then fulfilled (1 ms)
+    ✓ getPlaylistMeta pending then rejected (1 ms)
+    ✕ removeManagedPlaylist pending then fulfilled, and getManagedPlaylists was called
+    ✕ togglePlaylistActive pending then fulfilled, and getManagedPlaylists was called (1 ms)
+    ✕ setActiveAll pending then fulfilled, and getManagedPlaylists was called (1 ms)
+    ✕ invertActiveAll pending then fulfilled, and getManagedPlaylists was called (1 ms)
+    ✕ reorderPlaylists pending then fulfilled, and getManagedPlaylists was called (1 ms)
+    ✕ addTrackToActive adds to active playlists, updates meta for active, and shows notification  (1 ms)
+    ✕ removeTrackFromActive adds to active playlists, updates meta for active, and shows notification 
+    ✕ addTrackToPlaylist uses currentTrack selector and adds to requested playlist, updates meta for playlist, and shows notification 
+    ✕ removeTrackFromPlaylist uses currentTrack selector and removes from requested playlist, updates meta for playlist, and shows notification  (1 ms)
+    ✕ toggleFavoritePlaylist toggles then, fetches manages playlists and favorite playlists (1 ms)
+    ✕ getFavoritePlaylists pending and fulfilled
+    ✕ addFavoritePlaylistToManaged pending and fulfilled, dispatch toggleDialog and getManagedPlaylists (1 ms)
+    ✓ toggleFavoriteDialog toggles favoriteDialogIsOpen in state (1 ms)
+    ✓ getManagedPlaylists.fulfilled (1 ms)
+    ✓ getManagedPlaylists.rejected (1 ms)
+    ✓ getPlaylistMeta.fulfilled (1 ms)
+    ✓ getFavoritePlaylists.fulfilled (1 ms)
+    ✓ getFavoritePlaylists.rejected
+
+  ● managedPlaylistSlice  › getManagedPlaylists pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      85 |     const store = mockStore({})
+      86 |
+    > 87 |     const resp = new Response(JSON.stringify(mockPlaylistsResponse), {
+         |                  ^
+      88 |       status: 200,
+      89 |       headers: { 'Content-type': 'application/json' }
+      90 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:87:18)
+
+  ● managedPlaylistSlice  › getPlaylistMeta pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      128 |     const store = mockStore({})
+      129 |
+    > 130 |     const resp = new Response(JSON.stringify(mockPlaylistMetadata), {
+          |                  ^
+      131 |       status: 200,
+      132 |       headers: { 'Content-type': 'application/json' }
+      133 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:130:18)
+
+  ● managedPlaylistSlice  › removeManagedPlaylist pending then fulfilled, and getManagedPlaylists was called
+
+    ReferenceError: Response is not defined
+
+      171 |     const store = mockStore({})
+      172 |
+    > 173 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      174 |       status: 200,
+      175 |       headers: { 'Content-type': 'application/json' }
+      176 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:173:18)
+
+  ● managedPlaylistSlice  › togglePlaylistActive pending then fulfilled, and getManagedPlaylists was called
+
+    ReferenceError: Response is not defined
+
+      196 |     const store = mockStore({})
+      197 |
+    > 198 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      199 |       status: 200,
+      200 |       headers: { 'Content-type': 'application/json' }
+      201 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:198:18)
+
+  ● managedPlaylistSlice  › setActiveAll pending then fulfilled, and getManagedPlaylists was called
+
+    ReferenceError: Response is not defined
+
+      221 |     const store = mockStore({})
+      222 |
+    > 223 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      224 |       status: 200,
+      225 |       headers: { 'Content-type': 'application/json' }
+      226 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:223:18)
+
+  ● managedPlaylistSlice  › invertActiveAll pending then fulfilled, and getManagedPlaylists was called
+
+    ReferenceError: Response is not defined
+
+      246 |     const store = mockStore({})
+      247 |
+    > 248 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      249 |       status: 200,
+      250 |       headers: { 'Content-type': 'application/json' }
+      251 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:248:18)
+
+  ● managedPlaylistSlice  › reorderPlaylists pending then fulfilled, and getManagedPlaylists was called
+
+    ReferenceError: Response is not defined
+
+      271 |     const store = mockStore({})
+      272 |
+    > 273 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      274 |       status: 200,
+      275 |       headers: { 'Content-type': 'application/json' }
+      276 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:273:18)
+
+  ● managedPlaylistSlice  › addTrackToActive adds to active playlists, updates meta for active, and shows notification 
+
+    ReferenceError: Response is not defined
+
+      304 |     );
+      305 |
+    > 306 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      307 |       status: 200,
+      308 |       headers: { 'Content-type': 'application/json' }
+      309 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:306:18)
+
+  ● managedPlaylistSlice  › removeTrackFromActive adds to active playlists, updates meta for active, and shows notification 
+
+    ReferenceError: Response is not defined
+
+      342 |     );
+      343 |
+    > 344 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      345 |       status: 200,
+      346 |       headers: { 'Content-type': 'application/json' }
+      347 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:344:18)
+
+  ● managedPlaylistSlice  › addTrackToPlaylist uses currentTrack selector and adds to requested playlist, updates meta for playlist, and shows notification 
+
+    ReferenceError: Response is not defined
+
+      387 |     const showSpy = jest.spyOn(notifications, 'show');
+      388 |
+    > 389 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      390 |       status: 200,
+      391 |       headers: { 'Content-type': 'application/json' }
+      392 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:389:18)
+
+  ● managedPlaylistSlice  › removeTrackFromPlaylist uses currentTrack selector and removes from requested playlist, updates meta for playlist, and shows notification 
+
+    ReferenceError: Response is not defined
+
+      429 |     const showSpy = jest.spyOn(notifications, 'show');
+      430 |
+    > 431 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      432 |       status: 200,
+      433 |       headers: { 'Content-type': 'application/json' }
+      434 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:431:18)
+
+  ● managedPlaylistSlice  › toggleFavoritePlaylist toggles then, fetches manages playlists and favorite playlists
+
+    ReferenceError: Response is not defined
+
+      456 |     const store = mockStore({});
+      457 |
+    > 458 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      459 |       status: 200,
+      460 |       headers: { 'Content-type': 'application/json' }
+      461 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:458:18)
+
+  ● managedPlaylistSlice  › getFavoritePlaylists pending and fulfilled
+
+    ReferenceError: Response is not defined
+
+      483 |     const store = mockStore({});
+      484 |
+    > 485 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      486 |       status: 200,
+      487 |       headers: { 'Content-type': 'application/json' }
+      488 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:485:18)
+
+  ● managedPlaylistSlice  › addFavoritePlaylistToManaged pending and fulfilled, dispatch toggleDialog and getManagedPlaylists
+
+    ReferenceError: Response is not defined
+
+      508 |     const store = mockStore({});
+      509 |
+    > 510 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      511 |       status: 200,
+      512 |       headers: { 'Content-type': 'application/json' }
+      513 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:510:18)
+
+FAIL src/features/spotifyPlaylists/spotifyPlaylistsSlice.spec.js
+  spotifyPlaylistSlice 
+    ✓ should handle initial state (2 ms)
+    ✕ getSpotifyPlaylists pending then fulfilled
+    ✕ addSpotifyPlaylistToManaged pending then toggle dialog and get managed playlists (1 ms)
+    ✓ toggleFDialog toggles dialogIsOpen in state (1 ms)
+    ✓ getSpotifyPlaylists.fulfilled
+    ✓ getSpotifyPlaylists.rejected
+
+  ● spotifyPlaylistSlice  › getSpotifyPlaylists pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      63 |     const store = mockStore({})
+      64 |
+    > 65 |     const resp = new Response(JSON.stringify(mockPlaylistsResponse), {
+         |                  ^
+      66 |       status: 200,
+      67 |       headers: { 'Content-type': 'application/json' }
+      68 |     });
+
+      at Object.<anonymous> (src/features/spotifyPlaylists/spotifyPlaylistsSlice.spec.js:65:18)
+
+  ● spotifyPlaylistSlice  › addSpotifyPlaylistToManaged pending then toggle dialog and get managed playlists
+
+    ReferenceError: Response is not defined
+
+      87 |     const store = mockStore({})
+      88 |
+    > 89 |     const resp = new Response(JSON.stringify({}), {
+         |                  ^
+      90 |       status: 200,
+      91 |       headers: { 'Content-type': 'application/json' }
+      92 |     });
+
+      at Object.<anonymous> (src/features/spotifyPlaylists/spotifyPlaylistsSlice.spec.js:89:18)
+
+FAIL src/features/player/playerSlice.test.js
+  playerSlice 
+    ✓ should handle initial state (1 ms)
+    ✕ getCurrentTrack pending then fulfilled (1 ms)
+    ✕ play pending then fulfilled
+    ✕ pause pending then fulfilled
+    ✕ previous pending then fulfilled, then get current track (1 ms)
+    ✕ next pending then fulfilled, then get current track
+    ✕ next with retry logic - includes current track state
+    ✕ previous with retry logic - includes current track state (1 ms)
+    ✕ liked pending then fulfilled, the gets current track
+    ✕ like pending then fulfilled, the gets current track (1 ms)
+    ✕ unlike pending then fulfilled, the gets current track
+    ✓ getCurrentTrack.pending
+    ✓ getCurrentTrack.fulfilled (1 ms)
+    ✓ getCurrentTrack.rejected
+    ✓ play.fulfilled (1 ms)
+    ✓ pause.fulfilled
+    ✓ liked.fulfilled (1 ms)
+    ✓ like.fulfilled
+    ✓ unlike.fulfilled
+
+  ● playerSlice  › getCurrentTrack pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      66 |     const store = mockStore({})
+      67 |
+    > 68 |     const resp = new Response(JSON.stringify(mockPlaylistsResponse), {
+         |                  ^
+      69 |       status: 200,
+      70 |       headers: { 'Content-type': 'application/json' }
+      71 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:68:18)
+
+  ● playerSlice  › play pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      90 |     const store = mockStore({})
+      91 |
+    > 92 |     const resp = new Response(JSON.stringify({}), {
+         |                  ^
+      93 |       status: 200,
+      94 |       headers: { 'Content-type': 'application/json' }
+      95 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:92:18)
+
+  ● playerSlice  › pause pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      114 |     const store = mockStore({})
+      115 |
+    > 116 |     const resp = new Response(JSON.stringify({}), {
+          |                  ^
+      117 |       status: 200,
+      118 |       headers: { 'Content-type': 'application/json' }
+      119 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:116:18)
+
+  ● playerSlice  › previous pending then fulfilled, then get current track
+
+    ReferenceError: Response is not defined
+
+      142 |     })
+      143 |
+    > 144 |     const resp = new Response(JSON.stringify({}), {
+          |                  ^
+      145 |       status: 200,
+      146 |       headers: { 'Content-type': 'application/json' }
+      147 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:144:18)
+
+  ● playerSlice  › next pending then fulfilled, then get current track
+
+    ReferenceError: Response is not defined
+
+      180 |     })
+      181 |
+    > 182 |     const resp = new Response(JSON.stringify({}), {
+          |                  ^
+      183 |       status: 200,
+      184 |       headers: { 'Content-type': 'application/json' }
+      185 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:182:18)
+
+  ● playerSlice  › next with retry logic - includes current track state
+
+    ReferenceError: Response is not defined
+
+      216 |     });
+      217 |
+    > 218 |     const nextResp = new Response(JSON.stringify({}), {
+          |                      ^
+      219 |       status: 200,
+      220 |       headers: { 'Content-type': 'application/json' }
+      221 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:218:22)
+
+  ● playerSlice  › previous with retry logic - includes current track state
+
+    ReferenceError: Response is not defined
+
+      249 |     });
+      250 |
+    > 251 |     const prevResp = new Response(JSON.stringify({}), {
+          |                      ^
+      252 |       status: 200,
+      253 |       headers: { 'Content-type': 'application/json' }
+      254 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:251:22)
+
+  ● playerSlice  › liked pending then fulfilled, the gets current track
+
+    ReferenceError: Response is not defined
+
+      280 |     const store = mockStore({})
+      281 |
+    > 282 |     const resp = new Response(JSON.stringify([true]), {
+          |                  ^
+      283 |       status: 200,
+      284 |       headers: { 'Content-type': 'application/json' }
+      285 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:282:18)
+
+  ● playerSlice  › like pending then fulfilled, the gets current track
+
+    ReferenceError: Response is not defined
+
+      305 |     const store = mockStore({})
+      306 |
+    > 307 |     const resp = new Response(JSON.stringify([true]), {
+          |                  ^
+      308 |       status: 200,
+      309 |       headers: { 'Content-type': 'application/json' }
+      310 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:307:18)
+
+  ● playerSlice  › unlike pending then fulfilled, the gets current track
+
+    ReferenceError: Response is not defined
+
+      330 |     const store = mockStore({})
+      331 |
+    > 332 |     const resp = new Response(JSON.stringify([true]), {
+          |                  ^
+      333 |       status: 200,
+      334 |       headers: { 'Content-type': 'application/json' }
+      335 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:332:18)
+
+FAIL src/features/user/userSlice.test.js
+  userSlice 
+    ✓ should handle initial state (1 ms)
+    ✕ getUser pending then fulfilled (1 ms)
+    ✕ getSpotifyUser pending then fulfilled
+    ✕ signTos pending then fulfilled (1 ms)
+    ✕ signPP pending then fulfilled
+    ✕ toggleTheme pending then fulfilled
+    ✓ getSpotifyUser.pending (1 ms)
+    ✓ getSpotifyUser.fulfilled
+    ✓ getSpotifyUser.rejected (1 ms)
+    ✓ getUser.fulfilled (1 ms)
+
+  ● userSlice  › getUser pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      43 |         const store = mockStore({})
+      44 |
+    > 45 |         const resp = new Response(JSON.stringify({}), {
+         |                      ^
+      46 |             status: 200,
+      47 |             headers: { 'Content-type': 'application/json' }
+      48 |         });
+
+      at Object.<anonymous> (src/features/user/userSlice.test.js:45:22)
+
+  ● userSlice  › getSpotifyUser pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      67 |         const store = mockStore({})
+      68 |
+    > 69 |         const resp = new Response(JSON.stringify({}), {
+         |                      ^
+      70 |             status: 200,
+      71 |             headers: { 'Content-type': 'application/json' }
+      72 |         });
+
+      at Object.<anonymous> (src/features/user/userSlice.test.js:69:22)
+
+  ● userSlice  › signTos pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      91 |         const store = mockStore({})
+      92 |
+    > 93 |         const resp = new Response(JSON.stringify({}), {
+         |                      ^
+      94 |             status: 200,
+      95 |             headers: { 'Content-type': 'application/json' }
+      96 |         });
+
+      at Object.<anonymous> (src/features/user/userSlice.test.js:93:22)
+
+  ● userSlice  › signPP pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      117 |         const store = mockStore({})
+      118 |
+    > 119 |         const resp = new Response(JSON.stringify({}), {
+          |                      ^
+      120 |             status: 200,
+      121 |             headers: { 'Content-type': 'application/json' }
+      122 |         });
+
+      at Object.<anonymous> (src/features/user/userSlice.test.js:119:22)
+
+  ● userSlice  › toggleTheme pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      144 |         const store = mockStore({})
+      145 |
+    > 146 |         const resp = new Response(JSON.stringify({}), {
+          |                      ^
+      147 |             status: 200,
+      148 |             headers: { 'Content-type': 'application/json' }
+      149 |         });
+
+      at Object.<anonymous> (src/features/user/userSlice.test.js:146:22)
+
+FAIL src/features/managedPlaylists/ManagedPlaylistsNav.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |     user: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/user/userSlice.js:2:1)
+      at Object.require (src/app/store.js:5:1)
+      at Object.require (src/features/managedPlaylists/ManagedPlaylistsNav.test.js:8:1)
+
+FAIL src/features/managedPlaylists/ManagedPlaylists.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/features/managedPlaylists/ManagedPlaylists.test.js:8:1)
+
+FAIL src/features/managedPlaylists/ManagedPlaylistItem.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 | import { getManagedPlaylists } from '../managedPlaylists/managedPlaylistsSlice';
+      4 |
+      5 | export const initialState = {
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/spotifyPlaylists/spotifyPlaylistsSlice.js:2:1)
+      at Object.require (src/app/store.js:4:1)
+      at Object.require (src/features/managedPlaylists/ManagedPlaylistItem.test.js:8:1)
+
+FAIL src/features/spotifyPlaylists/SpotifyPlaylistsPagination.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/features/spotifyPlaylists/SpotifyPlaylistsPagination.test.js:10:1)
+
+FAIL src/features/spotifyPlaylists/SpotifyPlaylists.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/features/spotifyPlaylists/SpotifyPlaylists.test.js:8:1)
+
+FAIL src/features/spotifyPlaylists/SpotifyPlaylistItem.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/features/spotifyPlaylists/SpotifyPlaylistItem.test.js:8:1)
+
+FAIL src/features/player/Player.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      2 | import { Title } from '@mantine/core';
+      3 | import { notifications } from '@mantine/notifications';
+    > 4 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      5 | import { selectCurrentTrack } from '../player/playerSlice';
+      6 | import { theme } from '../../app/theme';
+      7 |
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/managedPlaylists/managedPlaylistsSlice.jsx:4:1)
+      at Object.require (src/app/store.js:3:1)
+      at Object.require (src/features/player/Player.test.js:8:1)
+
+FAIL src/features/player/LikeButton.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      2 | import { Title } from '@mantine/core';
+      3 | import { notifications } from '@mantine/notifications';
+    > 4 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      5 | import { selectCurrentTrack } from '../player/playerSlice';
+      6 | import { theme } from '../../app/theme';
+      7 |
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/managedPlaylists/managedPlaylistsSlice.jsx:4:1)
+      at Object.require (src/app/store.js:3:1)
+      at Object.require (src/features/player/LikeButton.test.js:8:1)
+
+FAIL src/features/favoritePlaylists/FavoritePlaylists.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/features/favoritePlaylists/FavoritePlaylists.test.js:8:1)
+
+FAIL src/features/favoritePlaylists/FavoritePlaylistItem.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/features/favoritePlaylists/FavoritePlaylistItem.test.js:8:1)
+
+FAIL src/app/apiConfig.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import React from 'react';
+    > 2 | import { apiBaseUrl, apiRequest } from './apiConfig';
+        | ^
+      3 |
+      4 | let matchMedia;
+      5 |
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/app/apiConfig.test.js:2:1)
+
+FAIL src/pages/Tos.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/pages/Tos.test.js:8:1)
+
+FAIL src/pages/Pp.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/pages/Pp.test.js:8:1)
+
+FAIL src/pages/HowTo.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/pages/HowTo.test.js:8:1)
+
+FAIL src/pages/About.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/pages/About.test.js:8:1)
+
+FAIL src/components/PaperStyles.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/components/PaperStyles.test.js:11:1)
+
+FAIL src/components/LoginScreen.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/components/LoginScreen.test.js:8:1)
+
+FAIL src/components/Nav.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/components/Nav.test.js:9:1)
+
+FAIL src/App.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      2 | import { Title } from '@mantine/core';
+      3 | import { notifications } from '@mantine/notifications';
+    > 4 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      5 | import { selectCurrentTrack } from '../player/playerSlice';
+      6 | import { theme } from '../../app/theme';
+      7 |
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/managedPlaylists/managedPlaylistsSlice.jsx:4:1)
+      at Object.require (src/app/store.js:3:1)
+      at Object.require (src/App.test.js:5:1)
+
+Summary of all failing tests
+FAIL src/features/managedPlaylists/managedPlaylistsSlice.spec.js
+  ● managedPlaylistSlice  › getManagedPlaylists pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      85 |     const store = mockStore({})
+      86 |
+    > 87 |     const resp = new Response(JSON.stringify(mockPlaylistsResponse), {
+         |                  ^
+      88 |       status: 200,
+      89 |       headers: { 'Content-type': 'application/json' }
+      90 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:87:18)
+
+  ● managedPlaylistSlice  › getPlaylistMeta pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      128 |     const store = mockStore({})
+      129 |
+    > 130 |     const resp = new Response(JSON.stringify(mockPlaylistMetadata), {
+          |                  ^
+      131 |       status: 200,
+      132 |       headers: { 'Content-type': 'application/json' }
+      133 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:130:18)
+
+  ● managedPlaylistSlice  › removeManagedPlaylist pending then fulfilled, and getManagedPlaylists was called
+
+    ReferenceError: Response is not defined
+
+      171 |     const store = mockStore({})
+      172 |
+    > 173 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      174 |       status: 200,
+      175 |       headers: { 'Content-type': 'application/json' }
+      176 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:173:18)
+
+  ● managedPlaylistSlice  › togglePlaylistActive pending then fulfilled, and getManagedPlaylists was called
+
+    ReferenceError: Response is not defined
+
+      196 |     const store = mockStore({})
+      197 |
+    > 198 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      199 |       status: 200,
+      200 |       headers: { 'Content-type': 'application/json' }
+      201 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:198:18)
+
+  ● managedPlaylistSlice  › setActiveAll pending then fulfilled, and getManagedPlaylists was called
+
+    ReferenceError: Response is not defined
+
+      221 |     const store = mockStore({})
+      222 |
+    > 223 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      224 |       status: 200,
+      225 |       headers: { 'Content-type': 'application/json' }
+      226 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:223:18)
+
+  ● managedPlaylistSlice  › invertActiveAll pending then fulfilled, and getManagedPlaylists was called
+
+    ReferenceError: Response is not defined
+
+      246 |     const store = mockStore({})
+      247 |
+    > 248 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      249 |       status: 200,
+      250 |       headers: { 'Content-type': 'application/json' }
+      251 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:248:18)
+
+  ● managedPlaylistSlice  › reorderPlaylists pending then fulfilled, and getManagedPlaylists was called
+
+    ReferenceError: Response is not defined
+
+      271 |     const store = mockStore({})
+      272 |
+    > 273 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      274 |       status: 200,
+      275 |       headers: { 'Content-type': 'application/json' }
+      276 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:273:18)
+
+  ● managedPlaylistSlice  › addTrackToActive adds to active playlists, updates meta for active, and shows notification 
+
+    ReferenceError: Response is not defined
+
+      304 |     );
+      305 |
+    > 306 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      307 |       status: 200,
+      308 |       headers: { 'Content-type': 'application/json' }
+      309 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:306:18)
+
+  ● managedPlaylistSlice  › removeTrackFromActive adds to active playlists, updates meta for active, and shows notification 
+
+    ReferenceError: Response is not defined
+
+      342 |     );
+      343 |
+    > 344 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      345 |       status: 200,
+      346 |       headers: { 'Content-type': 'application/json' }
+      347 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:344:18)
+
+  ● managedPlaylistSlice  › addTrackToPlaylist uses currentTrack selector and adds to requested playlist, updates meta for playlist, and shows notification 
+
+    ReferenceError: Response is not defined
+
+      387 |     const showSpy = jest.spyOn(notifications, 'show');
+      388 |
+    > 389 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      390 |       status: 200,
+      391 |       headers: { 'Content-type': 'application/json' }
+      392 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:389:18)
+
+  ● managedPlaylistSlice  › removeTrackFromPlaylist uses currentTrack selector and removes from requested playlist, updates meta for playlist, and shows notification 
+
+    ReferenceError: Response is not defined
+
+      429 |     const showSpy = jest.spyOn(notifications, 'show');
+      430 |
+    > 431 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      432 |       status: 200,
+      433 |       headers: { 'Content-type': 'application/json' }
+      434 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:431:18)
+
+  ● managedPlaylistSlice  › toggleFavoritePlaylist toggles then, fetches manages playlists and favorite playlists
+
+    ReferenceError: Response is not defined
+
+      456 |     const store = mockStore({});
+      457 |
+    > 458 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      459 |       status: 200,
+      460 |       headers: { 'Content-type': 'application/json' }
+      461 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:458:18)
+
+  ● managedPlaylistSlice  › getFavoritePlaylists pending and fulfilled
+
+    ReferenceError: Response is not defined
+
+      483 |     const store = mockStore({});
+      484 |
+    > 485 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      486 |       status: 200,
+      487 |       headers: { 'Content-type': 'application/json' }
+      488 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:485:18)
+
+  ● managedPlaylistSlice  › addFavoritePlaylistToManaged pending and fulfilled, dispatch toggleDialog and getManagedPlaylists
+
+    ReferenceError: Response is not defined
+
+      508 |     const store = mockStore({});
+      509 |
+    > 510 |     const resp = new Response(JSON.stringify(dummyResponse), {
+          |                  ^
+      511 |       status: 200,
+      512 |       headers: { 'Content-type': 'application/json' }
+      513 |     });
+
+      at Object.<anonymous> (src/features/managedPlaylists/managedPlaylistsSlice.spec.js:510:18)
+
+FAIL src/features/spotifyPlaylists/spotifyPlaylistsSlice.spec.js
+  ● spotifyPlaylistSlice  › getSpotifyPlaylists pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      63 |     const store = mockStore({})
+      64 |
+    > 65 |     const resp = new Response(JSON.stringify(mockPlaylistsResponse), {
+         |                  ^
+      66 |       status: 200,
+      67 |       headers: { 'Content-type': 'application/json' }
+      68 |     });
+
+      at Object.<anonymous> (src/features/spotifyPlaylists/spotifyPlaylistsSlice.spec.js:65:18)
+
+  ● spotifyPlaylistSlice  › addSpotifyPlaylistToManaged pending then toggle dialog and get managed playlists
+
+    ReferenceError: Response is not defined
+
+      87 |     const store = mockStore({})
+      88 |
+    > 89 |     const resp = new Response(JSON.stringify({}), {
+         |                  ^
+      90 |       status: 200,
+      91 |       headers: { 'Content-type': 'application/json' }
+      92 |     });
+
+      at Object.<anonymous> (src/features/spotifyPlaylists/spotifyPlaylistsSlice.spec.js:89:18)
+
+FAIL src/features/player/playerSlice.test.js
+  ● playerSlice  › getCurrentTrack pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      66 |     const store = mockStore({})
+      67 |
+    > 68 |     const resp = new Response(JSON.stringify(mockPlaylistsResponse), {
+         |                  ^
+      69 |       status: 200,
+      70 |       headers: { 'Content-type': 'application/json' }
+      71 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:68:18)
+
+  ● playerSlice  › play pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      90 |     const store = mockStore({})
+      91 |
+    > 92 |     const resp = new Response(JSON.stringify({}), {
+         |                  ^
+      93 |       status: 200,
+      94 |       headers: { 'Content-type': 'application/json' }
+      95 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:92:18)
+
+  ● playerSlice  › pause pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      114 |     const store = mockStore({})
+      115 |
+    > 116 |     const resp = new Response(JSON.stringify({}), {
+          |                  ^
+      117 |       status: 200,
+      118 |       headers: { 'Content-type': 'application/json' }
+      119 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:116:18)
+
+  ● playerSlice  › previous pending then fulfilled, then get current track
+
+    ReferenceError: Response is not defined
+
+      142 |     })
+      143 |
+    > 144 |     const resp = new Response(JSON.stringify({}), {
+          |                  ^
+      145 |       status: 200,
+      146 |       headers: { 'Content-type': 'application/json' }
+      147 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:144:18)
+
+  ● playerSlice  › next pending then fulfilled, then get current track
+
+    ReferenceError: Response is not defined
+
+      180 |     })
+      181 |
+    > 182 |     const resp = new Response(JSON.stringify({}), {
+          |                  ^
+      183 |       status: 200,
+      184 |       headers: { 'Content-type': 'application/json' }
+      185 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:182:18)
+
+  ● playerSlice  › next with retry logic - includes current track state
+
+    ReferenceError: Response is not defined
+
+      216 |     });
+      217 |
+    > 218 |     const nextResp = new Response(JSON.stringify({}), {
+          |                      ^
+      219 |       status: 200,
+      220 |       headers: { 'Content-type': 'application/json' }
+      221 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:218:22)
+
+  ● playerSlice  › previous with retry logic - includes current track state
+
+    ReferenceError: Response is not defined
+
+      249 |     });
+      250 |
+    > 251 |     const prevResp = new Response(JSON.stringify({}), {
+          |                      ^
+      252 |       status: 200,
+      253 |       headers: { 'Content-type': 'application/json' }
+      254 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:251:22)
+
+  ● playerSlice  › liked pending then fulfilled, the gets current track
+
+    ReferenceError: Response is not defined
+
+      280 |     const store = mockStore({})
+      281 |
+    > 282 |     const resp = new Response(JSON.stringify([true]), {
+          |                  ^
+      283 |       status: 200,
+      284 |       headers: { 'Content-type': 'application/json' }
+      285 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:282:18)
+
+  ● playerSlice  › like pending then fulfilled, the gets current track
+
+    ReferenceError: Response is not defined
+
+      305 |     const store = mockStore({})
+      306 |
+    > 307 |     const resp = new Response(JSON.stringify([true]), {
+          |                  ^
+      308 |       status: 200,
+      309 |       headers: { 'Content-type': 'application/json' }
+      310 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:307:18)
+
+  ● playerSlice  › unlike pending then fulfilled, the gets current track
+
+    ReferenceError: Response is not defined
+
+      330 |     const store = mockStore({})
+      331 |
+    > 332 |     const resp = new Response(JSON.stringify([true]), {
+          |                  ^
+      333 |       status: 200,
+      334 |       headers: { 'Content-type': 'application/json' }
+      335 |     });
+
+      at Object.<anonymous> (src/features/player/playerSlice.test.js:332:18)
+
+FAIL src/features/user/userSlice.test.js
+  ● userSlice  › getUser pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      43 |         const store = mockStore({})
+      44 |
+    > 45 |         const resp = new Response(JSON.stringify({}), {
+         |                      ^
+      46 |             status: 200,
+      47 |             headers: { 'Content-type': 'application/json' }
+      48 |         });
+
+      at Object.<anonymous> (src/features/user/userSlice.test.js:45:22)
+
+  ● userSlice  › getSpotifyUser pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      67 |         const store = mockStore({})
+      68 |
+    > 69 |         const resp = new Response(JSON.stringify({}), {
+         |                      ^
+      70 |             status: 200,
+      71 |             headers: { 'Content-type': 'application/json' }
+      72 |         });
+
+      at Object.<anonymous> (src/features/user/userSlice.test.js:69:22)
+
+  ● userSlice  › signTos pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      91 |         const store = mockStore({})
+      92 |
+    > 93 |         const resp = new Response(JSON.stringify({}), {
+         |                      ^
+      94 |             status: 200,
+      95 |             headers: { 'Content-type': 'application/json' }
+      96 |         });
+
+      at Object.<anonymous> (src/features/user/userSlice.test.js:93:22)
+
+  ● userSlice  › signPP pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      117 |         const store = mockStore({})
+      118 |
+    > 119 |         const resp = new Response(JSON.stringify({}), {
+          |                      ^
+      120 |             status: 200,
+      121 |             headers: { 'Content-type': 'application/json' }
+      122 |         });
+
+      at Object.<anonymous> (src/features/user/userSlice.test.js:119:22)
+
+  ● userSlice  › toggleTheme pending then fulfilled
+
+    ReferenceError: Response is not defined
+
+      144 |         const store = mockStore({})
+      145 |
+    > 146 |         const resp = new Response(JSON.stringify({}), {
+          |                      ^
+      147 |             status: 200,
+      148 |             headers: { 'Content-type': 'application/json' }
+      149 |         });
+
+      at Object.<anonymous> (src/features/user/userSlice.test.js:146:22)
+
+FAIL src/features/managedPlaylists/ManagedPlaylistsNav.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |     user: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/user/userSlice.js:2:1)
+      at Object.require (src/app/store.js:5:1)
+      at Object.require (src/features/managedPlaylists/ManagedPlaylistsNav.test.js:8:1)
+
+FAIL src/features/managedPlaylists/ManagedPlaylists.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/features/managedPlaylists/ManagedPlaylists.test.js:8:1)
+
+FAIL src/features/managedPlaylists/ManagedPlaylistItem.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 | import { getManagedPlaylists } from '../managedPlaylists/managedPlaylistsSlice';
+      4 |
+      5 | export const initialState = {
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/spotifyPlaylists/spotifyPlaylistsSlice.js:2:1)
+      at Object.require (src/app/store.js:4:1)
+      at Object.require (src/features/managedPlaylists/ManagedPlaylistItem.test.js:8:1)
+
+FAIL src/features/spotifyPlaylists/SpotifyPlaylistsPagination.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/features/spotifyPlaylists/SpotifyPlaylistsPagination.test.js:10:1)
+
+FAIL src/features/spotifyPlaylists/SpotifyPlaylists.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/features/spotifyPlaylists/SpotifyPlaylists.test.js:8:1)
+
+FAIL src/features/spotifyPlaylists/SpotifyPlaylistItem.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/features/spotifyPlaylists/SpotifyPlaylistItem.test.js:8:1)
+
+FAIL src/features/player/Player.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      2 | import { Title } from '@mantine/core';
+      3 | import { notifications } from '@mantine/notifications';
+    > 4 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      5 | import { selectCurrentTrack } from '../player/playerSlice';
+      6 | import { theme } from '../../app/theme';
+      7 |
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/managedPlaylists/managedPlaylistsSlice.jsx:4:1)
+      at Object.require (src/app/store.js:3:1)
+      at Object.require (src/features/player/Player.test.js:8:1)
+
+FAIL src/features/player/LikeButton.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      2 | import { Title } from '@mantine/core';
+      3 | import { notifications } from '@mantine/notifications';
+    > 4 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      5 | import { selectCurrentTrack } from '../player/playerSlice';
+      6 | import { theme } from '../../app/theme';
+      7 |
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/managedPlaylists/managedPlaylistsSlice.jsx:4:1)
+      at Object.require (src/app/store.js:3:1)
+      at Object.require (src/features/player/LikeButton.test.js:8:1)
+
+FAIL src/features/favoritePlaylists/FavoritePlaylists.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/features/favoritePlaylists/FavoritePlaylists.test.js:8:1)
+
+FAIL src/features/favoritePlaylists/FavoritePlaylistItem.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/features/favoritePlaylists/FavoritePlaylistItem.test.js:8:1)
+
+FAIL src/app/apiConfig.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import React from 'react';
+    > 2 | import { apiBaseUrl, apiRequest } from './apiConfig';
+        | ^
+      3 |
+      4 | let matchMedia;
+      5 |
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/app/apiConfig.test.js:2:1)
+
+FAIL src/pages/Tos.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/pages/Tos.test.js:8:1)
+
+FAIL src/pages/Pp.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/pages/Pp.test.js:8:1)
+
+FAIL src/pages/HowTo.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/pages/HowTo.test.js:8:1)
+
+FAIL src/pages/About.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/pages/About.test.js:8:1)
+
+FAIL src/components/PaperStyles.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/components/PaperStyles.test.js:11:1)
+
+FAIL src/components/LoginScreen.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/components/LoginScreen.test.js:8:1)
+
+FAIL src/components/Nav.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      1 | import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+    > 2 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      3 |
+      4 | export const initialState = {
+      5 |   currentTrack: {},
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/player/playerSlice.js:2:1)
+      at Object.require (src/app/store.js:2:1)
+      at Object.require (src/components/Nav.test.js:9:1)
+
+FAIL src/App.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/code/playlister/frontend-src/src/app/apiConfig.js:7
+    const apiBaseUrl = exports.apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'development' ? 'http://playlister:8001' : '';
+                                                   ^^^^
+
+    SyntaxError: Cannot use 'import.meta' outside a module
+
+      2 | import { Title } from '@mantine/core';
+      3 | import { notifications } from '@mantine/notifications';
+    > 4 | import { apiRequest } from '../../app/apiConfig';
+        | ^
+      5 | import { selectCurrentTrack } from '../player/playerSlice';
+      6 | import { theme } from '../../app/theme';
+      7 |
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (src/features/managedPlaylists/managedPlaylistsSlice.jsx:4:1)
+      at Object.require (src/app/store.js:3:1)
+      at Object.require (src/App.test.js:5:1)
+
+
+Test Suites: 23 failed, 23 total
+Tests:       31 failed, 27 passed, 58 total
+Snapshots:   0 total
+Time:        6.01 s
+Ran all test suites.
