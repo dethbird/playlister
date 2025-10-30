@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Pagination } from '@mantine/core';
+import { Center, Pagination } from '@mantine/core';
 import {
     selectLimit,
     selectOffset,
@@ -22,7 +22,7 @@ export function SpotifyPlaylistsPagination({ userPlaylists }) {
     const value = Math.floor(offset / limit) + 1;
 
     return (
-        <Container justify='center'>
+        <Center>
             <Pagination
                 total={pages}
                 value={value}
@@ -31,6 +31,6 @@ export function SpotifyPlaylistsPagination({ userPlaylists }) {
                     dispatch(setOffset(newOffset));
                 }}
             />
-        </Container>
+        </Center>
     );
 }
