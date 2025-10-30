@@ -14,12 +14,12 @@ import {
 import { Notifications } from '@mantine/notifications';
 import { Player } from './features/player/Player';
 import About from './pages/About.jsx';
-import HowTo from './pages/HowTo.jsx';
-import Pp from './pages/Pp.jsx';
-import Tos from './pages/Tos.jsx';
-import Footer from './components/Footer.jsx';
-import LoginScreen from './components/LoginScreen.jsx';
-import Nav from './components/Nav.jsx';
+import HowTo from './pages/HowTo';
+import Pp from './pages/Pp';
+import Tos from './pages/Tos';
+import Footer from './components/Footer';
+import LoginScreen from './components/LoginScreen';
+import Nav from './components/Nav';
 import { FavoritePlaylists } from './features/favoritePlaylists/FavoritePlaylists';
 import { ManagedPlaylists } from './features/managedPlaylists/ManagedPlaylists';
 import { ManagedPlaylistsNav } from './features/managedPlaylists/ManagedPlaylistsNav';

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Modal } from '@mantine/core';
+import { Container, Modal, TextInput, ActionIcon } from '@mantine/core';
 import {
     getAllSpotifyPlaylists,
     selectAllPlaylists,
@@ -8,13 +8,14 @@ import {
     // (we import selectPlaylists from managed slice below)
     selectdDialogIsOpen,
     selectStatus,
-    toggleDialog
+    toggleDialog,
+    setOffset
 } from './spotifyPlaylistsSlice';
 import { selectPlaylists } from '../managedPlaylists/managedPlaylistsSlice';
 
 import { SpotifyPlaylistsPagination } from './SpotifyPlaylistsPagination';
 import { SpotifyPlaylistItem } from './SpotifyPlaylistItem';
-import { IconBrandSpotify } from '@tabler/icons-react';
+import { IconBrandSpotify, IconSearch, IconX } from '@tabler/icons-react';
 
 export function SpotifyPlaylists({ spotifyUser }) {
 
@@ -32,9 +33,25 @@ export function SpotifyPlaylists({ spotifyUser }) {
 
     const dispatch = useDispatch();
 
+    // controlled search term for filtering playlists; normalized during filtering
+    const [searchTerm, setSearchTerm] = useState('');
+
     useEffect(() => {
         dispatch(getAllSpotifyPlaylists());
     }, [dispatch]);
+
+    // when the search term changes, reset pagination offset so results show from first page
+    useEffect(() => {
+        dispatch(setOffset(0));
+    }, [searchTerm, dispatch]);
+
+    // clear the search term whenever the dialog closes so the field is empty on next open
+    // this handles both clicking the close button and closing with the Escape key
+    useEffect(() => {
+        if (!dialogIsOpen) {
+            setSearchTerm('');
+        }
+    }, [dialogIsOpen]);
 
     if (!dialogIsOpen) {
         return null;
@@ -45,7 +62,7 @@ export function SpotifyPlaylists({ spotifyUser }) {
             return <div role='alert' aria-busy="true"></div>;
         }
 
-    const source = (allPlaylists && allPlaylists.items) ? allPlaylists : { items: [] };
+        const source = (allPlaylists && allPlaylists.items) ? allPlaylists : { items: [] };
         // normalize a playlist name for consistent alphabetical sorting: lowercase and strip non-alphanumerics
         const normalizeName = (s) => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
         const userPlaylists = (source.items || [])
@@ -64,6 +81,16 @@ export function SpotifyPlaylists({ spotifyUser }) {
                 return 0;
             });
 
+        // apply client-side search filtering (normalize: lowercase + remove non-alphanumerics)
+        const normalizedSearch = (searchTerm || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const filteredPlaylists = normalizedSearch
+            ? userPlaylists.filter(p => {
+                const nameNorm = (p.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+                return nameNorm.includes(normalizedSearch);
+            })
+            : userPlaylists;
+
+        // If the source contains no user playlists at all, show the "no playlists created" message.
         if (userPlaylists.length === 0) {
             return (
                 <Container ta="center" py="xl">
@@ -73,16 +100,53 @@ export function SpotifyPlaylists({ spotifyUser }) {
             );
         }
 
-        const pageItems = userPlaylists.slice(offset, offset + limit);
+        // Reusable search input shown whenever the user has playlists (so it can be cleared)
+        const searchInput = (
+            <div style={{ padding: '0.5rem 1rem' }}>
+                <TextInput
+                    placeholder="Search playlists"
+                    aria-label="Search playlists"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.currentTarget.value)}
+                    icon={<IconSearch size={16} />}
+                    rightSection={
+                        searchTerm ? (
+                            <ActionIcon onClick={() => setSearchTerm('')} aria-label="Clear search">
+                                <IconX size={14} />
+                            </ActionIcon>
+                        ) : null
+                    }
+                    radius="md"
+                    size="md"
+                />
+            </div>
+        );
+
+        // If there are no matches for the current search, show the search input and a friendly
+        // "no search results" message where the pagination/list would normally be.
+        if (filteredPlaylists.length === 0) {
+            return (
+                <>
+                    {searchInput}
+                    <Container ta="center" py="xl">
+                        <p>No search results</p>
+                    </Container>
+                </>
+            );
+        }
+
+        const pageItems = filteredPlaylists.slice(offset, offset + limit);
         return (
             <>
-                <SpotifyPlaylistsPagination userPlaylists={userPlaylists} />
+                {searchInput}
+
+                <SpotifyPlaylistsPagination userPlaylists={filteredPlaylists} />
                 {pageItems.map(item => (
                     <React.Fragment key={item.id}>
                         <SpotifyPlaylistItem playlist={item} />
                     </React.Fragment>
                 ))}
-                <SpotifyPlaylistsPagination userPlaylists={userPlaylists} />
+                <SpotifyPlaylistsPagination userPlaylists={filteredPlaylists} />
             </>
         );
     }
@@ -101,3 +165,5 @@ export function SpotifyPlaylists({ spotifyUser }) {
         </Modal>
     );
 }
+
+
