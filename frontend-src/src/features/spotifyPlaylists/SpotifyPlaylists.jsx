@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Modal, TextInput, ActionIcon } from '@mantine/core';
+import { Container, Modal, TextInput, ActionIcon, Group, SegmentedControl, Select } from '@mantine/core';
 import {
     getAllSpotifyPlaylists,
     selectAllPlaylists,
@@ -35,6 +35,9 @@ export function SpotifyPlaylists({ spotifyUser }) {
 
     // controlled search term for filtering playlists; normalized during filtering
     const [searchTerm, setSearchTerm] = useState('');
+    // UI-only state for the sort controls (stubbed; not wired to actual sorting yet)
+    const [sortOrder, setSortOrder] = useState('asc'); // 'asc' | 'desc'
+    const [sortBy, setSortBy] = useState('title'); // 'title' | 'track_count'
 
     useEffect(() => {
         dispatch(getAllSpotifyPlaylists());
@@ -101,24 +104,49 @@ export function SpotifyPlaylists({ spotifyUser }) {
         }
 
         // Reusable search input shown whenever the user has playlists (so it can be cleared)
+        // Layout: search box on the left, two small sort controls on the right.
         const searchInput = (
             <div style={{ padding: '0.5rem 1rem' }}>
-                <TextInput
-                    placeholder="Search playlists"
-                    aria-label="Search playlists"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.currentTarget.value)}
-                    icon={<IconSearch size={16} />}
-                    rightSection={
-                        searchTerm ? (
-                            <ActionIcon onClick={() => setSearchTerm('')} aria-label="Clear search">
-                                <IconX size={14} />
-                            </ActionIcon>
-                        ) : null
-                    }
-                    radius="md"
-                    size="md"
-                />
+                <Group position="apart" align="center" noWrap>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                        <TextInput
+                            placeholder="Search playlists"
+                            aria-label="Search playlists"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.currentTarget.value)}
+                            icon={<IconSearch size={16} />}
+                            rightSection={
+                                searchTerm ? (
+                                    <ActionIcon onClick={() => setSearchTerm('')} aria-label="Clear search">
+                                        <IconX size={14} />
+                                    </ActionIcon>
+                                ) : null
+                            }
+                            radius="md"
+                            size="md"
+                        />
+                    </div>
+
+                    {/* Sort controls (UI-only stubs) */}
+                    <Group spacing="xs" align="center">
+                        {/* Ascending / Descending toggle */}
+                        <SegmentedControl
+                            value={sortOrder}
+                            onChange={setSortOrder}
+                            data={[{ label: 'Asc', value: 'asc' }, { label: 'Desc', value: 'desc' }]}
+                            size="xs"
+                        />
+
+                        {/* Sort by selector (title / track count) */}
+                        <Select
+                            value={sortBy}
+                            onChange={(v) => setSortBy(v || 'title')}
+                            data={[{ value: 'title', label: 'Title' }, { value: 'track_count', label: 'Track count' }]}
+                            size="xs"
+                            style={{ minWidth: 140 }}
+                        />
+                    </Group>
+                </Group>
             </div>
         );
 
@@ -135,18 +163,36 @@ export function SpotifyPlaylists({ spotifyUser }) {
             );
         }
 
-        const pageItems = filteredPlaylists.slice(offset, offset + limit);
+        // Apply UI-controlled sorting to the filtered results (wired to controls)
+        const sortedPlaylists = [...filteredPlaylists].sort((a, b) => {
+            let cmp = 0;
+            if (sortBy === 'track_count') {
+                const ta = (a.tracks && typeof a.tracks.total === 'number') ? a.tracks.total : 0;
+                const tb = (b.tracks && typeof b.tracks.total === 'number') ? b.tracks.total : 0;
+                cmp = ta - tb;
+            } else {
+                // default: sort by normalized title
+                const na = normalizeName(a.name);
+                const nb = normalizeName(b.name);
+                if (na < nb) cmp = -1;
+                else if (na > nb) cmp = 1;
+                else cmp = 0;
+            }
+            return sortOrder === 'asc' ? cmp : -cmp;
+        });
+
+        const pageItems = sortedPlaylists.slice(offset, offset + limit);
         return (
             <>
                 {searchInput}
 
-                <SpotifyPlaylistsPagination userPlaylists={filteredPlaylists} />
+                <SpotifyPlaylistsPagination userPlaylists={sortedPlaylists} />
                 {pageItems.map(item => (
                     <React.Fragment key={item.id}>
                         <SpotifyPlaylistItem playlist={item} />
                     </React.Fragment>
                 ))}
-                <SpotifyPlaylistsPagination userPlaylists={filteredPlaylists} />
+                <SpotifyPlaylistsPagination userPlaylists={sortedPlaylists} />
             </>
         );
     }
