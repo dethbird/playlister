@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { apiRequest } from '../../app/apiConfig';
-import { getManagedPlaylists } from '../managedPlaylists/managedPlaylistsSlice';
+import { getManagedPlaylists, reorderPlaylists } from '../managedPlaylists/managedPlaylistsSlice';
 
 export const initialState = {
   currentPage: null,
@@ -89,7 +89,31 @@ export const addSpotifyPlaylistToManaged = createAsyncThunk(
       .then(data => {
         try {
           dispatch(spotifyPlaylistsSlice.actions.toggleDialog());
-          dispatch(getManagedPlaylists());
+
+          // If the POST returned the created managed item, use it directly for ordering.
+          const createdId = data && data.id ? data.id : null;
+
+          // Refresh managed playlists, then move the newly added item to the top of the list
+          // so users see it first. We use the createdId when available to avoid extra lookups.
+          dispatch(getManagedPlaylists()).then((res) => {
+            try {
+              const playlists = res.payload || [];
+              let created = null;
+              if (createdId) {
+                created = playlists.find(p => p.id === createdId);
+              }
+              if (!created) {
+                created = playlists.find(p => p.spotify_playlist_id === spotifyPlaylistId);
+              }
+              if (created) {
+                const ids = [created.id, ...playlists.filter(p => p.id !== created.id).map(p => p.id)];
+                // persist the new order
+                dispatch(reorderPlaylists(ids));
+              }
+            } catch (e) {
+              // swallow ordering errors; not critical
+            }
+          });
         } catch (e) {
           // defensive: swallow dispatch errors; calling code will see request errors via the returned promise
         }
