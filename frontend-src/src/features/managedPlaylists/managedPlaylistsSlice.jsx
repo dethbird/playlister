@@ -149,7 +149,7 @@ export const addTrackToActive = createAsyncThunk(
         // Refresh meta for active playlists after the request succeeds
         playlists.forEach(playlist => {
           if (playlist.active === 'Y') {
-            dispatch(getPlaylistMeta(playlist.spotify_playlist_id));
+            dispatch(managedPlaylistsSlice.actions.invalidatePlaylistMeta(playlist.spotify_playlist_id));
           }
         });
         return data;
@@ -177,7 +177,7 @@ export const removeTrackFromActive = createAsyncThunk(
         // Refresh meta for active playlists after the request succeeds
         playlists.forEach(playlist => {
           if (playlist.active === 'Y') {
-            dispatch(getPlaylistMeta(playlist.spotify_playlist_id));
+            dispatch(managedPlaylistsSlice.actions.invalidatePlaylistMeta(playlist.spotify_playlist_id));
           }
         });
         return data;
@@ -202,7 +202,7 @@ export const addTrackToPlaylist = createAsyncThunk(
       .then(response => response.json())
       .then(data => {
         notifications.show(trackAddedNotification);
-        dispatch(getPlaylistMeta(spotifyPlaylistId));
+        dispatch(managedPlaylistsSlice.actions.invalidatePlaylistMeta(spotifyPlaylistId));
         return data;
       });
   }
@@ -225,7 +225,7 @@ export const removeTrackFromPlaylist = createAsyncThunk(
       .then(response => response.json())
       .then(data => {
         notifications.show(trackRemovedNotification);
-        dispatch(getPlaylistMeta(spotifyPlaylistId));
+        dispatch(managedPlaylistsSlice.actions.invalidatePlaylistMeta(spotifyPlaylistId));
         return data;
       });
   }
@@ -293,6 +293,9 @@ export const managedPlaylistsSlice = createSlice({
   reducers: {
     toggleFavoriteDialog: (state, _action) => {
       state.favoriteDialogIsOpen = !state.favoriteDialogIsOpen;
+    },
+    invalidatePlaylistMeta: (state, action) => {
+      delete state.playlistsMeta[action.payload];
     }
   },
   extraReducers: (builder) => {
@@ -325,7 +328,7 @@ export const managedPlaylistsSlice = createSlice({
   },
 });
 
-export const { toggleFavoriteDialog } = managedPlaylistsSlice.actions;
+export const { toggleFavoriteDialog, invalidatePlaylistMeta } = managedPlaylistsSlice.actions;
 
 export const selectPlaylists = (state) => state.managedPlaylists.playlists;
 export const selectPlaylistsMeta = (state) => state.managedPlaylists.playlistsMeta;

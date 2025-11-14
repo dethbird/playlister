@@ -56,8 +56,10 @@ export function ManagedPlaylistItem({ playlist }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getPlaylistMeta(playlist.spotify_playlist_id));
-    }, [dispatch, playlist.spotify_playlist_id]);
+        if (!playlistMeta) {
+            dispatch(getPlaylistMeta(playlist.spotify_playlist_id));
+        }
+    }, [dispatch, playlist.spotify_playlist_id, playlistMeta]);
 
     return (
         <Box ref={setNodeRef} style={style} {...attributes} {...listeners} pb='xs'>
