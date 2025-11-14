@@ -107,8 +107,8 @@ export function SpotifyPlaylists({ spotifyUser }) {
         // Layout: search box on the left, two small sort controls on the right.
         const searchInput = (
             <div style={{ padding: '0.5rem 1rem' }}>
-                <Group position="apart" align="center" noWrap>
-                    <div style={{ flex: 1, minWidth: 0 }}>
+                <Group position="apart" align="center" noWrap={false} spacing="sm">
+                    <div style={{ flex: 1, minWidth: 260, marginBottom: '0.5rem' }}>
                         <TextInput
                             placeholder="Search playlists"
                             aria-label="Search playlists"
