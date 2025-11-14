@@ -16,7 +16,6 @@ import {
   selectPlaylists,
   selectStatus
 } from './managedPlaylistsSlice';
-
 import { ManagedPlaylistItem } from './ManagedPlaylistItem';
 
 
@@ -74,7 +73,7 @@ export function ManagedPlaylists() {
 
   const handleDragEnd = event => {
     const { active, over } = event;
-    if (active.id !== over.id) {
+    if (over && active.id !== over.id) {
       const items = active.data.current.sortable.items;
       const sorted = arrayMove(
         items,
@@ -83,12 +82,17 @@ export function ManagedPlaylists() {
       );
       dispatch(reorderPlaylists(sorted));
     }
+    setActiveId(null);
   }
 
   return (
     <Box className='ManagedPlaylists' mt='xs'>
       <Text tt='uppercase' ta='left' >Managed playlists</Text>
-      <DndContext onDragEnd={handleDragEnd} sensors={sensors} role='list'>
+      <DndContext
+        onDragEnd={handleDragEnd}
+        sensors={sensors}
+        role='list'
+      >
         <SortableContext items={playlists}>
           {renderItems()}
         </SortableContext>
