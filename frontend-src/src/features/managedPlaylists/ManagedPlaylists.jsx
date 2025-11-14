@@ -82,7 +82,6 @@ export function ManagedPlaylists() {
       );
       dispatch(reorderPlaylists(sorted));
     }
-    setActiveId(null);
   }
 
   return (
