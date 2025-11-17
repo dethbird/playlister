@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ActionIcon, Anchor, Box, Grid, Group, Image, Switch, Text, Tooltip, useMantineColorScheme } from '@mantine/core';
 import {
@@ -51,15 +51,24 @@ export function ManagedPlaylistItem({ playlist }) {
     const currentTrack = useSelector(selectCurrentTrack);
 
     const playlistMetaLookup = useSelector(selectPlaylistsMeta);
-    const playlistMeta = playlistMetaLookup && playlistMetaLookup[playlist.spotify_playlist_id];
+    const currentPlaylistMeta = playlistMetaLookup && playlistMetaLookup[playlist.spotify_playlist_id];
+    const [staleMeta, setStaleMeta] = useState(currentPlaylistMeta);
+    const playlistMeta = currentPlaylistMeta || staleMeta;
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (!playlistMeta) {
+        // keep last-known meta around so the UI doesn't vanish while we re-fetch
+        if (currentPlaylistMeta) {
+            setStaleMeta(currentPlaylistMeta);
+        }
+    }, [currentPlaylistMeta]);
+
+    useEffect(() => {
+        if (!currentPlaylistMeta) {
             dispatch(getPlaylistMeta(playlist.spotify_playlist_id));
         }
-    }, [dispatch, playlist.spotify_playlist_id, playlistMeta]);
+    }, [dispatch, playlist.spotify_playlist_id, currentPlaylistMeta]);
 
     return (
         <Box ref={setNodeRef} style={style} {...attributes} {...listeners} pb='xs'>
