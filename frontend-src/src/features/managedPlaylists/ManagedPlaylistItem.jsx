@@ -103,9 +103,19 @@ export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, disp
 
     const cardRef = useRef(null);
     const hasFadedIn = useRef(false);
+    const previousMetaSignature = useRef(null);
+    const metaSignature = playlistMeta ? `${playlistMeta.snapshot_id ?? ''}-${playlistMeta.tracks?.total ?? 0}` : null;
 
     useEffect(() => {
-        if (!dropMarker || !cardRef.current) {
+        if (!cardRef.current || !playlistMeta) {
+            previousMetaSignature.current = metaSignature;
+            return undefined;
+        }
+
+        const metaChanged = metaSignature && metaSignature !== previousMetaSignature.current;
+        const shouldAnimate = Boolean(dropMarker) || Boolean(metaChanged);
+        if (!shouldAnimate) {
+            previousMetaSignature.current = metaSignature;
             return undefined;
         }
 
@@ -114,10 +124,10 @@ export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, disp
             .fromTo(
                 cardRef.current, 
                 { 
-                    boxShadow: '0 0 0 rgba(117, 92, 199, 0.45)' 
+                    boxShadow: '0 0 0 rgba(151, 35, 240, 1)' 
                 }, 
                 {
-                    boxShadow: '0 0 10px rgba(117, 92, 199, 0.25)',
+                    boxShadow: '0 0 25px rgba(97, 64, 139, 0.65)',
                     duration: 0.32
                 })
             .to(
@@ -134,8 +144,10 @@ export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, disp
                     }}
             );
 
+        previousMetaSignature.current = metaSignature;
+
         return () => animation.kill();
-    }, [dropMarker]);
+    }, [dropMarker, metaSignature, playlistMeta]);
 
     useLayoutEffect(() => {
         if (!cardRef.current || !playlistMeta || hasFadedIn.current) {
