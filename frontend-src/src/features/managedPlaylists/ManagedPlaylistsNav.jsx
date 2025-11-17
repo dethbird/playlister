@@ -41,7 +41,7 @@ export function ManagedPlaylistsNav() {
 
             <Box mt='xs'>
                 <Text tt='uppercase' ta='left'>Add / Remove currently playing</Text>
-                <PaperStyled shadow="xs" p="xs" mt='xs' >
+                <PaperStyled shadow="xs" p="xs" mt='xs' data-animate="fade-in">
                     <Group grow justify="center">
                         <Tooltip label="Remove currently playing from active">
                             <ActionIcon
@@ -70,7 +70,7 @@ export function ManagedPlaylistsNav() {
             </Box>
             <Box mt='xs'>
                 <Text tt='uppercase' ta='left'>Playlists</Text>
-                <PaperStyled shadow="xs" p="xs" mt='xs'>
+                <PaperStyled shadow="xs" p="xs" mt='xs' data-animate="fade-in">
                     <Group className='ManagedPlaylistsNav' grow justify="center">
                         <Tooltip label="Add a spotify playlist to manage">
                             <ActionIcon variant="light" role='button' aria-label="Add a spotify playlist to manage" onClick={() => dispatch(toggleDialog())} >

@@ -140,8 +140,8 @@ export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, disp
     const hasCurrentTrack = !!currentTrack && currentTrack.timestamp !== undefined;
 
     return (
-        <Box ref={cardRef}>
-            <PaperStyled shadow="xs" p="xs"  my="xs" role='li' className='ManagedPlaylistItem' >
+        <Box ref={cardRef} >
+            <PaperStyled shadow="xs" p="xs"  my="xs" role='li' className='ManagedPlaylistItem'>
             <Grid>
                 <Grid.Col span={{ base: 12, xs: 6 }}>
                     <Grid>
