@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ActionIcon, Anchor, Box, Grid, Group, Image, Switch, Text, Tooltip, useMantineColorScheme } from '@mantine/core';
 import {
@@ -25,6 +25,7 @@ import {
     selectCurrentTrack
 } from '../player/playerSlice';
 import { theme } from '../../app/theme';
+import { gsap } from 'gsap';
 
 
 export function ManagedPlaylistItem({ playlist }) {
@@ -54,6 +55,8 @@ export function ManagedPlaylistItem({ playlist }) {
     const currentPlaylistMeta = playlistMetaLookup && playlistMetaLookup[playlist.spotify_playlist_id];
     const [staleMeta, setStaleMeta] = useState(currentPlaylistMeta);
     const playlistMeta = currentPlaylistMeta || staleMeta;
+    const [dropMarker, setDropMarker] = useState(0);
+    const wasDragging = useRef(false);
 
     const dispatch = useDispatch();
 
@@ -70,6 +73,13 @@ export function ManagedPlaylistItem({ playlist }) {
         }
     }, [dispatch, playlist.spotify_playlist_id, currentPlaylistMeta]);
 
+    useEffect(() => {
+        if (wasDragging.current && !isDragging) {
+            setDropMarker(Date.now());
+        }
+        wasDragging.current = isDragging;
+    }, [isDragging]);
+
     return (
         <Box ref={setNodeRef} style={style} {...attributes} {...listeners} pb='xs'>
             <ManagedPlaylistCard
@@ -78,23 +88,60 @@ export function ManagedPlaylistItem({ playlist }) {
                 currentTrack={currentTrack}
                 dispatch={dispatch}
                 colorScheme={colorScheme}
+                dropMarker={dropMarker}
                 showActions
             />
         </Box>
     );
 }
 
-export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, dispatch, colorScheme, showActions = true }) {
+export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, dispatch, colorScheme, dropMarker = 0, showActions = true }) {
     if (!playlistMeta) {
         return <div role='alert' aria-busy="true"></div>;
     }
+
+    const cardRef = useRef(null);
+
+    useEffect(() => {
+        if (!dropMarker || !cardRef.current) {
+            return undefined;
+        }
+
+        const animation = gsap.timeline({ defaults: { ease: 'power2.out' } });
+        animation
+            .fromTo(
+                cardRef.current, 
+                { 
+                    boxShadow: '0 0 0 rgba(117, 92, 199, 0.45)' 
+                }, 
+                {
+                    boxShadow: '0 0 10px rgba(117, 92, 199, 0.25)',
+                    duration: 0.32
+                })
+            .to(
+                cardRef.current,
+                { 
+                    boxShadow: '0 0 0 rgba(0, 0, 0, 0)',
+                    duration: 0.25,
+                    ease: 'power1.inOut' 
+                })
+            .eventCallback(
+                'onComplete', () => {
+                    if (cardRef.current) {
+                        gsap.set(cardRef.current, { clearProps: 'box-shadow,transform' });
+                    }}
+            );
+
+        return () => animation.kill();
+    }, [dropMarker]);
 
     const favoriteIcon = playlist.favorited !== null ? <IconStarFilled data-testid='IconStarFilled' /> : <IconStar data-testid='IconStar' />;
     const safeDispatch = dispatch || (() => {});
     const hasCurrentTrack = !!currentTrack && currentTrack.timestamp !== undefined;
 
     return (
-        <PaperStyled shadow="xs" p="xs"  my="xs" role='li' className='ManagedPlaylistItem' >
+        <Box ref={cardRef}>
+            <PaperStyled shadow="xs" p="xs"  my="xs" role='li' className='ManagedPlaylistItem' >
             <Grid>
                 <Grid.Col span={{ base: 12, xs: 6 }}>
                     <Grid>
@@ -172,6 +219,7 @@ export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, disp
                     </Grid.Col>
                 )}
             </Grid>
-        </PaperStyled>
+            </PaperStyled>
+        </Box>
     )
 }
