@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Anchor, Avatar, Box, Grid, Image, Stack, Text } from '@mantine/core';
@@ -6,7 +6,6 @@ import {
     IconLogout,
     IconSwitchHorizontal
 } from '@tabler/icons-react';
-import { gsap } from 'gsap';
 
 import { PaperStyled } from './PaperStyled';
 import { toggleTheme } from '../features/user/userSlice';
@@ -14,28 +13,12 @@ import { toggleTheme } from '../features/user/userSlice';
 function Nav({ spotifyUser }) {
 
     const dispatch = useDispatch();
-    const logoRef = useRef(null);
 
     const iconStyle = { width: '16px', height: '16px', verticalAlign: 'middle' };
 
-    useLayoutEffect(() => {
-        if (!logoRef.current) {
-            return undefined;
-        }
-
-        const ctx = gsap.context(() => {
-            gsap.fromTo(logoRef.current,
-                { opacity: 0, y: -15, scale: 0.95, rotate: -8 },
-                { opacity: 1, y: 0, scale: 1, rotate: 0, duration: 0.9, ease: 'power3.out' }
-            );
-        }, logoRef);
-
-        return () => ctx.revert();
-    }, []);
-
     const renderSpotifyUser = () => {
         return (
-            <PaperStyled shadow="xs" p="xs" my="xs">
+            <PaperStyled shadow="xs" p="xs" my="xs" data-animate="fade-in">
                 <Stack
                     align="stretch"
                     justify="flex-start"
@@ -58,7 +41,7 @@ function Nav({ spotifyUser }) {
     return (
         <Grid className='Nav'>
             <Grid.Col span={{ base: 3, xs: 2 }} >
-                <Link to="/"><Image ref={logoRef} src='/img/logo.001.png' h='auto' w={{ base: 120 }} pt={2} /></Link>
+                <Link to="/"><Image data-animate="fade-in" src='/img/logo.001.png' h='auto' w={{ base: 120 }} pt={2} /></Link>
             </Grid.Col>
             <Grid.Col offset={{ base: 2, xs: 5, sm: 7 }} span={{ base: 7, xs: 5, sm: 3 }}>
                 {renderSpotifyUser()}

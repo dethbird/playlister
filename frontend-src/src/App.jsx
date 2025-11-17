@@ -27,6 +27,7 @@ import { SpotifyPlaylists } from './features/spotifyPlaylists/SpotifyPlaylists';
 import { selectStatus } from './features/player/playerSlice';
 import { getUser, selectUser } from './features/user/userSlice';
 import { theme } from './app/theme';
+import { useFadeInOnScroll } from './hooks/useFadeInOnScroll';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import './App.scss';
@@ -36,6 +37,7 @@ import './App.scss';
 export function AppBody(props) {
   const user = useSelector(selectUser);
   const { setColorScheme } = useMantineColorScheme();
+  useFadeInOnScroll();
 
   useEffect(() => {
     setColorScheme(user.theme ? user.theme : 'dark');
