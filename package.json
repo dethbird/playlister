@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "src/app.js",
   "scripts": {
+    "build": "bash build.sh",
     "start": "node src/start.js",
     "test": "jest --detectOpenHandles --runInBand --watch",
     "test-coverage": "jest --detectOpenHandles --runInBand --watchAll"

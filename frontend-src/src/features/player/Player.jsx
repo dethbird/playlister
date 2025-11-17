@@ -68,7 +68,7 @@ export function Player() {
     return (
       <Box className={classes.Player} mt='xs'>
         {sectionTitle}
-        <Container mt='xs'>
+        <Container mt='xs' data-animate="fade-in">
           <Alert variant="light" color="grape" title="Nothing is playing" icon={<IconPlayerPlay />}>
             Play something on Spotify on any of your devices then check back here.
           </Alert>
@@ -91,6 +91,7 @@ export function Player() {
         mt='xs'
         shadow="sm"
         withBorder
+        data-animate="fade-in"
       >
         <Card.Section>
           {currentTrack.item.album.images && currentTrack.item.album.images.length > 0 ? (

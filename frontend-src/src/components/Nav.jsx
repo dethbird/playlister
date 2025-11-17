@@ -18,7 +18,7 @@ function Nav({ spotifyUser }) {
 
     const renderSpotifyUser = () => {
         return (
-            <PaperStyled shadow="xs" p="xs" my="xs">
+            <PaperStyled shadow="xs" p="xs" my="xs" data-animate="fade-in">
                 <Stack
                     align="stretch"
                     justify="flex-start"
@@ -41,7 +41,7 @@ function Nav({ spotifyUser }) {
     return (
         <Grid className='Nav'>
             <Grid.Col span={{ base: 3, xs: 2 }} >
-                <Link to="/"><Image src='/img/logo.001.png' h='auto' w={{ base: 120 }} pt={2} /></Link>
+                <Link to="/"><Image data-animate="fade-in" src='/img/logo.001.png' h='auto' w={{ base: 120 }} pt={2} /></Link>
             </Grid.Col>
             <Grid.Col offset={{ base: 2, xs: 5, sm: 7 }} span={{ base: 7, xs: 5, sm: 3 }}>
                 {renderSpotifyUser()}

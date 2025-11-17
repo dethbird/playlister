@@ -53,8 +53,8 @@ export function ManagedPlaylists() {
       return <div role='alert' aria-label="error">Error...</div>;
     }
 
-    return playlists.map(item => {
-      return <ManagedPlaylistItem playlist={item} key={item.id} />;
+    return playlists.map((item, index) => {
+      return <ManagedPlaylistItem playlist={item} index={index} key={item.id} />;
     })
   }
 

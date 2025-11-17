@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ActionIcon, Anchor, Box, Grid, Group, Image, Switch, Text, Tooltip, useMantineColorScheme } from '@mantine/core';
 import {
@@ -25,9 +25,10 @@ import {
     selectCurrentTrack
 } from '../player/playerSlice';
 import { theme } from '../../app/theme';
+import { gsap } from 'gsap';
 
 
-export function ManagedPlaylistItem({ playlist }) {
+export function ManagedPlaylistItem({ playlist, index = 0 }) {
 
     const {
         attributes,
@@ -54,6 +55,8 @@ export function ManagedPlaylistItem({ playlist }) {
     const currentPlaylistMeta = playlistMetaLookup && playlistMetaLookup[playlist.spotify_playlist_id];
     const [staleMeta, setStaleMeta] = useState(currentPlaylistMeta);
     const playlistMeta = currentPlaylistMeta || staleMeta;
+    const [dropMarker, setDropMarker] = useState(0);
+    const wasDragging = useRef(false);
 
     const dispatch = useDispatch();
 
@@ -70,6 +73,13 @@ export function ManagedPlaylistItem({ playlist }) {
         }
     }, [dispatch, playlist.spotify_playlist_id, currentPlaylistMeta]);
 
+    useEffect(() => {
+        if (wasDragging.current && !isDragging) {
+            setDropMarker(Date.now());
+        }
+        wasDragging.current = isDragging;
+    }, [isDragging]);
+
     return (
         <Box ref={setNodeRef} style={style} {...attributes} {...listeners} pb='xs'>
             <ManagedPlaylistCard
@@ -78,23 +88,100 @@ export function ManagedPlaylistItem({ playlist }) {
                 currentTrack={currentTrack}
                 dispatch={dispatch}
                 colorScheme={colorScheme}
+                index={index}
+                dropMarker={dropMarker}
                 showActions
             />
         </Box>
     );
 }
 
-export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, dispatch, colorScheme, showActions = true }) {
+export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, dispatch, colorScheme, dropMarker = 0, index = 0, showActions = true }) {
     if (!playlistMeta) {
         return <div role='alert' aria-busy="true"></div>;
     }
+
+    const cardRef = useRef(null);
+    const hasFadedIn = useRef(false);
+    const previousMetaSignature = useRef(null);
+    const metaSignature = playlistMeta ? `${playlistMeta.snapshot_id ?? ''}-${playlistMeta.tracks?.total ?? 0}` : null;
+
+    useEffect(() => {
+        if (!cardRef.current || !playlistMeta) {
+            previousMetaSignature.current = metaSignature;
+            return undefined;
+        }
+
+        const metaChanged = metaSignature && metaSignature !== previousMetaSignature.current;
+        const shouldAnimate = Boolean(dropMarker) || Boolean(metaChanged);
+        if (!shouldAnimate) {
+            previousMetaSignature.current = metaSignature;
+            return undefined;
+        }
+
+        const animation = gsap.timeline({ defaults: { ease: 'power2.out' } });
+        animation
+            .fromTo(
+                cardRef.current, 
+                { 
+                    boxShadow: '0 0 0 rgba(151, 35, 240, 1)' 
+                }, 
+                {
+                    boxShadow: '0 0 25px rgba(97, 64, 139, 0.65)',
+                    duration: 0.32
+                })
+            .to(
+                cardRef.current,
+                { 
+                    boxShadow: '0 0 0 rgba(0, 0, 0, 0)',
+                    duration: 0.25,
+                    ease: 'power1.inOut' 
+                })
+            .eventCallback(
+                'onComplete', () => {
+                    if (cardRef.current) {
+                        gsap.set(cardRef.current, { clearProps: 'box-shadow,transform' });
+                    }}
+            );
+
+        previousMetaSignature.current = metaSignature;
+
+        return () => animation.kill();
+    }, [dropMarker, metaSignature, playlistMeta]);
+
+    useLayoutEffect(() => {
+        if (!cardRef.current || !playlistMeta || hasFadedIn.current) {
+            return undefined;
+        }
+
+        const fadeIn = gsap.fromTo(
+            cardRef.current,
+            { autoAlpha: 0, y: 12 },
+            {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.45,
+                delay: Math.min(index * 0.08, 0.6),
+                ease: 'power2.out'
+            }
+        );
+
+        fadeIn.eventCallback('onComplete', () => {
+            hasFadedIn.current = true;
+        });
+
+        return () => {
+            fadeIn.kill();
+        };
+    }, [playlistMeta, index]);
 
     const favoriteIcon = playlist.favorited !== null ? <IconStarFilled data-testid='IconStarFilled' /> : <IconStar data-testid='IconStar' />;
     const safeDispatch = dispatch || (() => {});
     const hasCurrentTrack = !!currentTrack && currentTrack.timestamp !== undefined;
 
     return (
-        <PaperStyled shadow="xs" p="xs"  my="xs" role='li' className='ManagedPlaylistItem' >
+        <Box ref={cardRef} >
+            <PaperStyled shadow="xs" p="xs"  my="xs" role='li' className='ManagedPlaylistItem'>
             <Grid>
                 <Grid.Col span={{ base: 12, xs: 6 }}>
                     <Grid>
@@ -172,6 +259,7 @@ export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, disp
                     </Grid.Col>
                 )}
             </Grid>
-        </PaperStyled>
+            </PaperStyled>
+        </Box>
     )
 }
