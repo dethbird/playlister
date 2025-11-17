@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ActionIcon, Anchor, Box, Grid, Group, Image, Switch, Text, Tooltip, useMantineColorScheme } from '@mantine/core';
 import {
@@ -28,7 +28,7 @@ import { theme } from '../../app/theme';
 import { gsap } from 'gsap';
 
 
-export function ManagedPlaylistItem({ playlist }) {
+export function ManagedPlaylistItem({ playlist, index = 0 }) {
 
     const {
         attributes,
@@ -88,6 +88,7 @@ export function ManagedPlaylistItem({ playlist }) {
                 currentTrack={currentTrack}
                 dispatch={dispatch}
                 colorScheme={colorScheme}
+                index={index}
                 dropMarker={dropMarker}
                 showActions
             />
@@ -95,12 +96,13 @@ export function ManagedPlaylistItem({ playlist }) {
     );
 }
 
-export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, dispatch, colorScheme, dropMarker = 0, showActions = true }) {
+export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, dispatch, colorScheme, dropMarker = 0, index = 0, showActions = true }) {
     if (!playlistMeta) {
         return <div role='alert' aria-busy="true"></div>;
     }
 
     const cardRef = useRef(null);
+    const hasFadedIn = useRef(false);
 
     useEffect(() => {
         if (!dropMarker || !cardRef.current) {
@@ -134,6 +136,32 @@ export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, disp
 
         return () => animation.kill();
     }, [dropMarker]);
+
+    useLayoutEffect(() => {
+        if (!cardRef.current || !playlistMeta || hasFadedIn.current) {
+            return undefined;
+        }
+
+        const fadeIn = gsap.fromTo(
+            cardRef.current,
+            { autoAlpha: 0, y: 12 },
+            {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.45,
+                delay: Math.min(index * 0.08, 0.6),
+                ease: 'power2.out'
+            }
+        );
+
+        fadeIn.eventCallback('onComplete', () => {
+            hasFadedIn.current = true;
+        });
+
+        return () => {
+            fadeIn.kill();
+        };
+    }, [playlistMeta, index]);
 
     const favoriteIcon = playlist.favorited !== null ? <IconStarFilled data-testid='IconStarFilled' /> : <IconStar data-testid='IconStar' />;
     const safeDispatch = dispatch || (() => {});
