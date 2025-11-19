@@ -28,7 +28,27 @@ export function LikeButton({ trackId }) {
         role='button'
         name="Like / Unlike"
         aria-label="Like / Unlike"
-        onClick={() => isLiked ? dispatch(unlike(trackId)) : dispatch(like(trackId))}
+        onClick={(e) => {
+          const node = e.currentTarget || e.target;
+          try {
+            const color = window.getComputedStyle(node).color || 'rgb(255,105,180)';
+            const start = color.replace(/rgba?\(([^)]+)\)/, 'rgba($1,0.0)');
+            const bloom = color.replace(/rgba?\(([^)]+)\)/, 'rgba($1,0.55)');
+            // lazy-load gsap here to avoid adding runtime cost if not available
+            // but gsap is already installed/used elsewhere so just import dynamically
+            import('gsap').then(({ gsap }) => {
+              gsap.fromTo(node, { boxShadow: `0 0 0 ${start}` }, { boxShadow: `0 0 20px ${bloom}`, duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' });
+            }).catch(() => {
+              // fallback: no animation
+            });
+          } catch (err) { /* ignore animation errors */ }
+
+          if (isLiked) {
+            dispatch(unlike(trackId));
+          } else {
+            dispatch(like(trackId));
+          }
+        }}
         color='pink'
         variant='light'
       >
