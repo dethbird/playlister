@@ -124,18 +124,19 @@ export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, disp
             .fromTo(
                 cardRef.current, 
                 { 
-                    boxShadow: '0 0 0 rgba(151, 35, 240, 1)' 
+                    boxShadow: '0 0 0 rgba(203, 188, 224, 1)' 
                 }, 
                 {
-                    boxShadow: '0 0 25px rgba(97, 64, 139, 0.65)',
-                    duration: 0.32
+                    boxShadow: '0 0 25px rgba(203, 188, 224, 0.55)',
+                    duration: 0.20,
+                    ease: 'power2.out' 
                 })
             .to(
                 cardRef.current,
                 { 
                     boxShadow: '0 0 0 rgba(0, 0, 0, 0)',
                     duration: 0.25,
-                    ease: 'power1.inOut' 
+                    ease: 'power2.out'
                 })
             .eventCallback(
                 'onComplete', () => {
@@ -215,12 +216,36 @@ export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, disp
                     <Grid.Col span={{ base: 12, xs: 6 }}>
                         <Group grow >
                             <Tooltip role='tooltip' label="Favorite / unfavorite">
-                                <ActionIcon variant="light" aria-label="Favorite / Unfavorite" onClick={() => safeDispatch(toggleFavoritePlaylist(playlist.spotify_playlist_id))}>
+                                <ActionIcon
+                                    variant="light"
+                                    aria-label="Favorite / Unfavorite"
+                                    onClick={(e) => {
+                                        const node = e.currentTarget || e.target;
+                                        gsap.fromTo(
+                                            node,
+                                            { boxShadow: '0 0 0 rgba(203,188,224,0.0)' },
+                                                { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' }
+                                        );
+                                        safeDispatch(toggleFavoritePlaylist(playlist.spotify_playlist_id));
+                                    }}
+                                >
                                     {favoriteIcon}
                                 </ActionIcon>
                             </Tooltip>
                             <Tooltip role='tooltip' label="Remove from managed">
-                                <ActionIcon variant="light" aria-label="Remove from managed" onClick={() => safeDispatch(removeManagedPlaylist(playlist.id))}>
+                                <ActionIcon
+                                    variant="light"
+                                    aria-label="Remove from managed"
+                                    onClick={(e) => {
+                                        const node = e.currentTarget || e.target;
+                                        gsap.fromTo(
+                                            node,
+                                            { boxShadow: '0 0 0 rgba(203,188,224,0.0)' },
+                                                { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' }
+                                        );
+                                        safeDispatch(removeManagedPlaylist(playlist.id));
+                                    }}
+                                >
                                     <IconCircleX />
                                 </ActionIcon>
                             </Tooltip>
@@ -238,7 +263,16 @@ export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, disp
                             <Tooltip role='tooltip' label="Remove currently playing from this playlist">
                                 <ActionIcon
                                     aria-label="Remove track"
-                                    onClick={() => { safeDispatch(removeTrackFromPlaylist(playlist.spotify_playlist_id)) }}
+                                    onClick={(e) => {
+                                        if (!hasCurrentTrack) return;
+                                        const node = e.currentTarget || e.target;
+                                        gsap.fromTo(
+                                            node,
+                                            { boxShadow: '0 0 0 rgba(255,0,0,0.0)' },
+                                            { boxShadow: '0 0 20px rgba(255,0,0,0.6)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' }
+                                        );
+                                        safeDispatch(removeTrackFromPlaylist(playlist.spotify_playlist_id));
+                                    }}
                                     color="red"
                                     disabled={!hasCurrentTrack}
                                 >
@@ -248,7 +282,16 @@ export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, disp
                             <Tooltip role='tooltip' label="Add currently playing to this playlist">
                                 <ActionIcon
                                     aria-label="Add track"
-                                    onClick={() => { safeDispatch(addTrackToPlaylist(playlist.spotify_playlist_id)) }}
+                                    onClick={(e) => {
+                                        if (!hasCurrentTrack) return;
+                                        const node = e.currentTarget || e.target;
+                                        gsap.fromTo(
+                                            node,
+                                            { boxShadow: '0 0 0 rgba(0,255,0,0.0)' },
+                                            { boxShadow: '0 0 20px rgba(0,255,0,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' }
+                                        );
+                                        safeDispatch(addTrackToPlaylist(playlist.spotify_playlist_id));
+                                    }}
                                     color="green"
                                     disabled={!hasCurrentTrack}
                                 >

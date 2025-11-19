@@ -22,6 +22,7 @@ import { LikeButton } from './LikeButton';
 import classes from './Player.module.css';
 import { theme } from '../../app/theme';
 import dayjs from 'dayjs';
+import { gsap } from 'gsap';
 
 let refreshTimer;
 
@@ -124,22 +125,66 @@ export function Player() {
           <Group className={classes.PlayerControls} grow justify="center" pt='xs'  >
             <LikeButton trackId={currentTrack.item.id} />
             <Tooltip label="Play">
-              <ActionIcon variant="light" role='button' name="Play" aria-label="Play" onClick={() => dispatch(play())} disabled={isPlaying}>
+              <ActionIcon
+                variant="light"
+                role='button'
+                name="Play"
+                aria-label="Play"
+                onClick={(e) => {
+                  if (isPlaying) return;
+                  const node = e.currentTarget || e.target;
+                  gsap.fromTo(node, { boxShadow: '0 0 0 rgba(203,188,224,0.0)' }, { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' });
+                  dispatch(play());
+                }}
+                disabled={isPlaying}
+              >
                 <IconPlayerPlay />
               </ActionIcon>
             </Tooltip>
             <Tooltip label="Pause">
-              <ActionIcon variant="light" role='button' name="Pause" aria-label="Pause" onClick={() => dispatch(pause())} disabled={!isPlaying}>
+              <ActionIcon
+                variant="light"
+                role='button'
+                name="Pause"
+                aria-label="Pause"
+                onClick={(e) => {
+                  if (!isPlaying) return;
+                  const node = e.currentTarget || e.target;
+                  gsap.fromTo(node, { boxShadow: '0 0 0 rgba(203,188,224,0.0)' }, { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' });
+                  dispatch(pause());
+                }}
+                disabled={!isPlaying}
+              >
                 <IconPlayerPause />
               </ActionIcon>
             </Tooltip>
             <Tooltip label="Previous">
-              <ActionIcon variant="light" role='button' name="Previous Track" aria-label="Previous Track" onClick={() => dispatch(previous())}>
+              <ActionIcon
+                variant="light"
+                role='button'
+                name="Previous Track"
+                aria-label="Previous Track"
+                onClick={(e) => {
+                  const node = e.currentTarget || e.target;
+                  gsap.fromTo(node, { boxShadow: '0 0 0 rgba(203,188,224,0.0)' }, { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' });
+                  dispatch(previous());
+                }}
+              >
                 <IconPlayerTrackPrev />
               </ActionIcon>
             </Tooltip>
             <Tooltip label="Next">
-              <ActionIcon variant="light" role='button' name="Next Track" aria-label="Next Track" onClick={() => dispatch(next())}>
+              <ActionIcon
+                variant="light"
+                role='button'
+                name="Next Track"
+                aria-label="Next Track"
+                onClick={(e) => {
+                  const node = e.currentTarget || e.target;
+                  gsap.fromTo(node, { boxShadow: '0 0 0 rgba(203,188,224,0.0)' }, { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' });
+                  dispatch(next());
+                }}
+              >
                 <IconPlayerTrackNext />
               </ActionIcon>
             </Tooltip>
