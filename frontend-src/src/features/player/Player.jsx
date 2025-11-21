@@ -23,6 +23,7 @@ import classes from './Player.module.css';
 import { theme } from '../../app/theme';
 import dayjs from 'dayjs';
 import { gsap } from 'gsap';
+import { buttonAnimation } from '../../constants';
 
 let refreshTimer;
 
@@ -133,7 +134,7 @@ export function Player() {
                 onClick={(e) => {
                   if (isPlaying) return;
                   const node = e.currentTarget || e.target;
-                  gsap.fromTo(node, { boxShadow: '0 0 0 rgba(203,188,224,0.0)' }, { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' });
+                  gsap.fromTo(node, { boxShadow: '0 0 0 rgba(203,188,224,0.0)' }, { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: buttonAnimation.bloomDuration, yoyo: true, repeat: 1, ease: 'power2.out' });
                   dispatch(play());
                 }}
                 disabled={isPlaying}
@@ -150,7 +151,7 @@ export function Player() {
                 onClick={(e) => {
                   if (!isPlaying) return;
                   const node = e.currentTarget || e.target;
-                  gsap.fromTo(node, { boxShadow: '0 0 0 rgba(203,188,224,0.0)' }, { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' });
+                  gsap.fromTo(node, { boxShadow: '0 0 0 rgba(203,188,224,0.0)' }, { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: buttonAnimation.bloomDuration, yoyo: true, repeat: 1, ease: 'power2.out' });
                   dispatch(pause());
                 }}
                 disabled={!isPlaying}
@@ -166,7 +167,7 @@ export function Player() {
                 aria-label="Previous Track"
                 onClick={(e) => {
                   const node = e.currentTarget || e.target;
-                  gsap.fromTo(node, { boxShadow: '0 0 0 rgba(203,188,224,0.0)' }, { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' });
+                  gsap.fromTo(node, { boxShadow: '0 0 0 rgba(203,188,224,0.0)' }, { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: buttonAnimation.bloomDuration, yoyo: true, repeat: 1, ease: 'power2.out' });
                   dispatch(previous());
                 }}
               >
@@ -181,7 +182,7 @@ export function Player() {
                 aria-label="Next Track"
                 onClick={(e) => {
                   const node = e.currentTarget || e.target;
-                  gsap.fromTo(node, { boxShadow: '0 0 0 rgba(203,188,224,0.0)' }, { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' });
+                  gsap.fromTo(node, { boxShadow: '0 0 0 rgba(203,188,224,0.0)' }, { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: buttonAnimation.bloomDuration, yoyo: true, repeat: 1, ease: 'power2.out' });
                   dispatch(next());
                 }}
               >

@@ -26,6 +26,7 @@ import {
 } from '../player/playerSlice';
 import { theme } from '../../app/theme';
 import { gsap } from 'gsap';
+import { buttonAnimation } from '../../constants';
 
 
 export function ManagedPlaylistItem({ playlist, index = 0 }) {
@@ -224,7 +225,7 @@ export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, disp
                                         gsap.fromTo(
                                             node,
                                             { boxShadow: '0 0 0 rgba(203,188,224,0.0)' },
-                                                { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' }
+                                            { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: buttonAnimation.bloomDuration, yoyo: true, repeat: 1, ease: 'power2.out' }
                                         );
                                         safeDispatch(toggleFavoritePlaylist(playlist.spotify_playlist_id));
                                     }}
@@ -241,7 +242,7 @@ export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, disp
                                         gsap.fromTo(
                                             node,
                                             { boxShadow: '0 0 0 rgba(203,188,224,0.0)' },
-                                                { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' }
+                                            { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: buttonAnimation.bloomDuration, yoyo: true, repeat: 1, ease: 'power2.out' }
                                         );
                                         safeDispatch(removeManagedPlaylist(playlist.id));
                                     }}
@@ -269,7 +270,7 @@ export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, disp
                                         gsap.fromTo(
                                             node,
                                             { boxShadow: '0 0 0 rgba(255,0,0,0.0)' },
-                                            { boxShadow: '0 0 20px rgba(255,0,0,0.6)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' }
+                                            { boxShadow: '0 0 20px rgba(255,0,0,0.6)', duration: buttonAnimation.bloomDuration, yoyo: true, repeat: 1, ease: 'power2.out' }
                                         );
                                         safeDispatch(removeTrackFromPlaylist(playlist.spotify_playlist_id));
                                     }}
@@ -288,7 +289,7 @@ export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, disp
                                         gsap.fromTo(
                                             node,
                                             { boxShadow: '0 0 0 rgba(0,255,0,0.0)' },
-                                            { boxShadow: '0 0 20px rgba(0,255,0,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' }
+                                            { boxShadow: '0 0 20px rgba(0,255,0,0.55)', duration: buttonAnimation.bloomDuration, yoyo: true, repeat: 1, ease: 'power2.out' }
                                         );
                                         safeDispatch(addTrackToPlaylist(playlist.spotify_playlist_id));
                                     }}

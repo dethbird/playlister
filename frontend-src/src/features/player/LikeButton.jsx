@@ -5,6 +5,7 @@ import {
   IconHeart,
   IconHeartFilled
 } from '@tabler/icons-react';
+import { buttonAnimation } from '../../constants';
 import {
   liked,
   like,
@@ -37,7 +38,7 @@ export function LikeButton({ trackId }) {
             // lazy-load gsap here to avoid adding runtime cost if not available
             // but gsap is already installed/used elsewhere so just import dynamically
             import('gsap').then(({ gsap }) => {
-              gsap.fromTo(node, { boxShadow: `0 0 0 ${start}` }, { boxShadow: `0 0 20px ${bloom}`, duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' });
+              gsap.fromTo(node, { boxShadow: `0 0 0 ${start}` }, { boxShadow: `0 0 20px ${bloom}`, duration: buttonAnimation.bloomDuration, yoyo: true, repeat: 1, ease: 'power2.out' });
             }).catch(() => {
               // fallback: no animation
             });

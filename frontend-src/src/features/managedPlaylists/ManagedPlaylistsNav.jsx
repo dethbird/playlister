@@ -13,6 +13,7 @@ import {
 } from '@tabler/icons-react';
 import { PaperStyled } from '../../components/PaperStyled';
 import { gsap } from 'gsap';
+import { buttonAnimation } from '../../constants';
 import {
     selectCurrentTrack
 } from '../player/playerSlice';
@@ -50,7 +51,7 @@ export function ManagedPlaylistsNav() {
                                 onClick={(e) => {
                                     if (currentTrack.timestamp === undefined || playlists.length < 1) return;
                                     const node = e.currentTarget || e.target;
-                                    gsap.fromTo(node, { boxShadow: '0 0 0 rgba(255,0,0,0.0)' }, { boxShadow: '0 0 20px rgba(255,0,0,0.6)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' });
+                                    gsap.fromTo(node, { boxShadow: '0 0 0 rgba(255,0,0,0.0)' }, { boxShadow: '0 0 20px rgba(255,0,0,0.6)', duration: buttonAnimation.bloomDuration, yoyo: true, repeat: 1, ease: 'power2.out' });
                                     dispatch(removeTrackFromActive(currentTrack.item.uri));
                                 }}
                                 disabled={currentTrack.timestamp === undefined || playlists.length < 1}
@@ -66,7 +67,7 @@ export function ManagedPlaylistsNav() {
                                 onClick={(e) => {
                                     if (currentTrack.timestamp === undefined || playlists.length < 1) return;
                                     const node = e.currentTarget || e.target;
-                                    gsap.fromTo(node, { boxShadow: '0 0 0 rgba(0,255,0,0.0)' }, { boxShadow: '0 0 20px rgba(0,255,0,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' });
+                                    gsap.fromTo(node, { boxShadow: '0 0 0 rgba(0,255,0,0.0)' }, { boxShadow: '0 0 20px rgba(0,255,0,0.55)', duration: buttonAnimation.bloomDuration, yoyo: true, repeat: 1, ease: 'power2.out' });
                                     dispatch(addTrackToActive(currentTrack.item.uri));
                                 }}
                                 disabled={currentTrack.timestamp === undefined || playlists.length < 1}
@@ -94,7 +95,7 @@ export function ManagedPlaylistsNav() {
                                     gsap.fromTo(
                                         node,
                                         { boxShadow: '0 0 0 rgba(203,188,224,0.0)' },
-                                        { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' }
+                                        { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: buttonAnimation.bloomDuration, yoyo: true, repeat: 1, ease: 'power2.out' }
                                     );
                                     dispatch(toggleDialog());
                                 }}
@@ -116,7 +117,7 @@ export function ManagedPlaylistsNav() {
                                     gsap.fromTo(
                                         node,
                                         { boxShadow: '0 0 0 rgba(203,188,224,0.0)' },
-                                        { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' }
+                                        { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: buttonAnimation.bloomDuration, yoyo: true, repeat: 1, ease: 'power2.out' }
                                     );
                                     dispatch(toggleFavoriteDialog());
                                 }}
@@ -136,7 +137,7 @@ export function ManagedPlaylistsNav() {
                                     gsap.fromTo(
                                         node,
                                         { boxShadow: '0 0 0 rgba(203,188,224,0.0)' },
-                                        { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' }
+                                        { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: buttonAnimation.bloomDuration, yoyo: true, repeat: 1, ease: 'power2.out' }
                                     );
                                     dispatch(setActiveAll('Y'));
                                 }}
@@ -156,7 +157,7 @@ export function ManagedPlaylistsNav() {
                                     gsap.fromTo(
                                         node,
                                         { boxShadow: '0 0 0 rgba(203,188,224,0.0)' },
-                                        { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' }
+                                        { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: buttonAnimation.bloomDuration, yoyo: true, repeat: 1, ease: 'power2.out' }
                                     );
                                     dispatch(setActiveAll('N'));
                                 }}
@@ -176,7 +177,7 @@ export function ManagedPlaylistsNav() {
                                     gsap.fromTo(
                                         node,
                                         { boxShadow: '0 0 0 rgba(203,188,224,0.0)' },
-                                        { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' }
+                                        { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: buttonAnimation.bloomDuration, yoyo: true, repeat: 1, ease: 'power2.out' }
                                     );
                                     dispatch(invertActiveAll());
                                 }}
