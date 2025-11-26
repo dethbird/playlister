@@ -188,13 +188,19 @@ export function Player() {
                 role="button"
                 name={isPlaying ? "Pause" : "Play"}
                 aria-label={isPlaying ? "Pause" : "Play"}
-                onClick={(e) => {
+                onClick={async (e) => {
                   const node = e.currentTarget || e.target;
                   gsap.fromTo(node, { boxShadow: '0 0 0 rgba(203,188,224,0.0)' }, { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: buttonAnimation.bloomDuration, yoyo: true, repeat: 1, ease: 'power2.out' });
-                  if (isPlaying) {
-                    dispatch(pause());
-                  } else {
-                    dispatch(play());
+                  try {
+                    if (isPlaying) {
+                      await dispatch(pause()).unwrap();
+                    } else {
+                      await dispatch(play()).unwrap();
+                    }
+                  } catch (err) {
+                    console.error('Unable to toggle playback', err);
+                  } finally {
+                    dispatch(getCurrentTrack());
                   }
                 }}
               >
