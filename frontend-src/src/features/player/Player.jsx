@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ActionIcon, Alert, Anchor, Box, Card, Container, Group, Image, Text, Tooltip, useMantineColorScheme } from '@mantine/core';
 import {
@@ -36,6 +36,8 @@ export function Player() {
   const dispatch = useDispatch();
 
   const { colorScheme } = useMantineColorScheme();
+  const [displayProgress, setDisplayProgress] = useState(0);
+  const progressTimerRef = useRef(null);
 
   useEffect(() => {
     dispatch(getCurrentTrack());
@@ -65,6 +67,40 @@ export function Player() {
   }
 
   const sectionTitle = <Text tt='uppercase' ta='left' visibleFrom="xs">Currently Playing</Text>;
+  const trackDuration = currentTrack?.item?.duration_ms || 0;
+  const trackProgress = currentTrack?.progress_ms || 0;
+
+  useEffect(() => {
+    setDisplayProgress(trackProgress);
+    if (progressTimerRef.current) {
+      clearInterval(progressTimerRef.current);
+      progressTimerRef.current = null;
+    }
+
+    if (!trackDuration || trackProgress >= trackDuration || !isPlaying) {
+      return;
+    }
+
+    progressTimerRef.current = setInterval(() => {
+      setDisplayProgress((prev) => {
+        const nextValue = Math.min(trackDuration, prev + 1000);
+        if (nextValue >= trackDuration && progressTimerRef.current) {
+          clearInterval(progressTimerRef.current);
+          progressTimerRef.current = null;
+        }
+        return nextValue;
+      });
+    }, 1000);
+
+    return () => {
+      if (progressTimerRef.current) {
+        clearInterval(progressTimerRef.current);
+        progressTimerRef.current = null;
+      }
+    };
+  }, [trackDuration, trackProgress, currentTrack?.item?.id, isPlaying]);
+
+  const progressPercent = trackDuration > 0 ? Math.min(100, Math.max(0, (displayProgress / trackDuration) * 100)) : 0;
 
   if (Object.keys(currentTrack).length === 0) {
     return (
@@ -190,6 +226,24 @@ export function Player() {
               </ActionIcon>
             </Tooltip>
           </Group>
+          <div
+            className={classes.ProgressBar}
+            role="progressbar"
+            aria-label="Track progress"
+            aria-valuemin={0}
+            aria-valuemax={trackDuration}
+            aria-valuenow={displayProgress}
+          >
+            <div className={classes.ProgressTrack}>
+              <div
+                className={classes.ProgressValue}
+                style={{
+                  width: `${progressPercent}%`,
+                  backgroundColor: theme.colors.red[colorScheme === 'light' ? 4 : 5]
+                }}
+              />
+            </div>
+          </div>
         </footer>
       </Card>
     </Box>
