@@ -182,38 +182,23 @@ export function Player() {
         <footer>
           <Group className={classes.PlayerControls} grow justify="center" pt='xs'  >
             <LikeButton trackId={currentTrack.item.id} />
-            <Tooltip label="Play">
+            <Tooltip label={isPlaying ? "Pause" : "Play"}>
               <ActionIcon
                 variant="light"
-                role='button'
-                name="Play"
-                aria-label="Play"
+                role="button"
+                name={isPlaying ? "Pause" : "Play"}
+                aria-label={isPlaying ? "Pause" : "Play"}
                 onClick={(e) => {
-                  if (isPlaying) return;
                   const node = e.currentTarget || e.target;
                   gsap.fromTo(node, { boxShadow: '0 0 0 rgba(203,188,224,0.0)' }, { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: buttonAnimation.bloomDuration, yoyo: true, repeat: 1, ease: 'power2.out' });
-                  dispatch(play());
+                  if (isPlaying) {
+                    dispatch(pause());
+                  } else {
+                    dispatch(play());
+                  }
                 }}
-                disabled={isPlaying}
               >
-                <IconPlayerPlay />
-              </ActionIcon>
-            </Tooltip>
-            <Tooltip label="Pause">
-              <ActionIcon
-                variant="light"
-                role='button'
-                name="Pause"
-                aria-label="Pause"
-                onClick={(e) => {
-                  if (!isPlaying) return;
-                  const node = e.currentTarget || e.target;
-                  gsap.fromTo(node, { boxShadow: '0 0 0 rgba(203,188,224,0.0)' }, { boxShadow: '0 0 20px rgba(203,188,224,0.55)', duration: buttonAnimation.bloomDuration, yoyo: true, repeat: 1, ease: 'power2.out' });
-                  dispatch(pause());
-                }}
-                disabled={!isPlaying}
-              >
-                <IconPlayerPause />
+                {isPlaying ? <IconPlayerPause /> : <IconPlayerPlay />}
               </ActionIcon>
             </Tooltip>
             <Tooltip label="Previous">
