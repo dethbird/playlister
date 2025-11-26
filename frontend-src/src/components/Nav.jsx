@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Anchor, Avatar, Box, Grid, Image, Stack, Text } from '@mantine/core';
+import { Anchor, Avatar, Box, Grid, Stack, Text } from '@mantine/core';
 import {
     IconLogout,
     IconSwitchHorizontal
@@ -41,7 +41,12 @@ function Nav({ spotifyUser }) {
     return (
         <Grid className='Nav'>
             <Grid.Col span={{ base: 3, xs: 2 }} >
-                <Link to="/"><Image data-animate="fade-in" src='/img/logo.001.png' h='auto' w={{ base: 120 }} pt={2} /></Link>
+                <Link to="/">
+                    <picture data-animate="fade-in">
+                        <source media="(min-width: 640px)" srcSet="/img/logo.rectangle.png" />
+                        <img src="/img/logo.001.png" alt="Playlister logo" style={{ maxHeight: 100, width: 'auto', paddingTop: 8 }} />
+                    </picture>
+                </Link>
             </Grid.Col>
             <Grid.Col offset={{ base: 2, xs: 5, sm: 7 }} span={{ base: 7, xs: 5, sm: 3 }}>
                 {renderSpotifyUser()}
