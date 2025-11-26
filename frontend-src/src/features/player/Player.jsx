@@ -25,8 +25,6 @@ import dayjs from 'dayjs';
 import { gsap } from 'gsap';
 import { buttonAnimation } from '../../constants';
 
-let refreshTimer;
-
 export function Player() {
 
   const currentTrack = useSelector(selectCurrentTrack);
@@ -38,6 +36,7 @@ export function Player() {
   const { colorScheme } = useMantineColorScheme();
   const [displayProgress, setDisplayProgress] = useState(0);
   const progressTimerRef = useRef(null);
+  const refreshTimerRef = useRef(null);
 
   useEffect(() => {
     dispatch(getCurrentTrack());
@@ -54,9 +53,6 @@ export function Player() {
     };
 
   }, [dispatch]);
-
-  // prevent setting multiple timers on rerender
-  refreshTimer = clearTimeout(refreshTimer);
 
   if (status === 'rejected') {
     return null;
@@ -102,6 +98,29 @@ export function Player() {
 
   const progressPercent = trackDuration > 0 ? Math.min(100, Math.max(0, (displayProgress / trackDuration) * 100)) : 0;
 
+  useEffect(() => {
+    if (refreshTimerRef.current) {
+      clearTimeout(refreshTimerRef.current);
+      refreshTimerRef.current = null;
+    }
+
+    if (!isPlaying || !currentTrack?.item) {
+      return undefined;
+    }
+
+    const remainingMs = Math.max(500, currentTrack.item.duration_ms - currentTrack.progress_ms);
+    refreshTimerRef.current = setTimeout(() => {
+      dispatch(getCurrentTrack());
+    }, remainingMs + 200);
+
+    return () => {
+      if (refreshTimerRef.current) {
+        clearTimeout(refreshTimerRef.current);
+        refreshTimerRef.current = null;
+      }
+    };
+  }, [dispatch, currentTrack?.item?.id, currentTrack?.progress_ms, isPlaying]);
+
   if (Object.keys(currentTrack).length === 0) {
     return (
       <Box className={classes.Player} mt='xs'>
@@ -113,12 +132,6 @@ export function Player() {
         </Container>
       </Box>
     )
-  }
-
-  // only set new timer in fulfilled state.
-  if (isPlaying && currentTrack && !refreshTimer) {
-    const refreshIn = currentTrack.item.duration_ms - currentTrack.progress_ms + 100;
-    refreshTimer = setTimeout(() => { dispatch(getCurrentTrack()) }, refreshIn);
   }
 
   return (
