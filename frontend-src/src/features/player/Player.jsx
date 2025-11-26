@@ -25,6 +25,14 @@ import dayjs from 'dayjs';
 import { gsap } from 'gsap';
 import { buttonAnimation } from '../../constants';
 
+const formatTrackTime = (ms = 0) => {
+  if (!Number.isFinite(ms) || ms <= 0) return '0:00';
+  const totalSeconds = Math.floor(ms / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+};
+
 export function Player() {
 
   const currentTrack = useSelector(selectCurrentTrack);
@@ -257,6 +265,9 @@ export function Player() {
               />
             </div>
           </div>
+          <Text size="xs" c="dimmed" className={classes.ProgressTime}>
+            {formatTrackTime(displayProgress)} / {formatTrackTime(trackDuration)}
+          </Text>
         </footer>
       </Card>
     </Box>

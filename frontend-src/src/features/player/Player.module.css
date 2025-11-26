@@ -30,3 +30,7 @@
   background-color: #f83eb8;
   transition: width 0.2s ease-out;
 }
+.ProgressTime {
+  margin-top: 4px;
+  text-align: right;
+}
