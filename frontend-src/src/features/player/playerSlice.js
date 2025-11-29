@@ -18,7 +18,11 @@ export const initialState = {
   // Last.fm artist info state
   lastfmArtistInfo: null,
   lastfmArtistInfoStatus: 'idle',
-  lastfmArtistInfoError: null
+  lastfmArtistInfoError: null,
+  // Last.fm album info state
+  lastfmAlbumInfo: null,
+  lastfmAlbumInfoStatus: 'idle',
+  lastfmAlbumInfoError: null
 };
 
 export const getCurrentTrack = createAsyncThunk(
@@ -157,6 +161,15 @@ export const getLastfmArtistInfo = createAsyncThunk(
   }
 );
 
+export const getLastfmAlbumInfo = createAsyncThunk(
+  'player/getLastfmAlbumInfo',
+  async ({ artistName, albumName }) => {
+    const response = await apiRequest('/player/lastfm/album?artist=' + encodeURIComponent(artistName) + '&album=' + encodeURIComponent(albumName));
+    const data = await response.json();
+    return data;
+  }
+);
+
 export const playerSlice = createSlice({
   name: 'player',
   initialState,
@@ -181,11 +194,19 @@ export const playerSlice = createSlice({
       state.lastfmArtistInfo = null;
       state.lastfmArtistInfoStatus = 'idle';
       state.lastfmArtistInfoError = null;
+      state.lastfmAlbumInfo = null;
+      state.lastfmAlbumInfoStatus = 'idle';
+      state.lastfmAlbumInfoError = null;
     },
     clearLastfmArtistInfo: (state) => {
       state.lastfmArtistInfo = null;
       state.lastfmArtistInfoStatus = 'idle';
       state.lastfmArtistInfoError = null;
+    },
+    clearLastfmAlbumInfo: (state) => {
+      state.lastfmAlbumInfo = null;
+      state.lastfmAlbumInfoStatus = 'idle';
+      state.lastfmAlbumInfoError = null;
     }
   },
   extraReducers: (builder) => {
@@ -252,11 +273,23 @@ export const playerSlice = createSlice({
       .addCase(getLastfmArtistInfo.rejected, (state, action) => {
         state.lastfmArtistInfoStatus = 'rejected';
         state.lastfmArtistInfoError = action.error;
+      })
+      .addCase(getLastfmAlbumInfo.pending, (state) => {
+        state.lastfmAlbumInfoStatus = 'pending';
+        state.lastfmAlbumInfoError = null;
+      })
+      .addCase(getLastfmAlbumInfo.fulfilled, (state, action) => {
+        state.lastfmAlbumInfoStatus = 'fulfilled';
+        state.lastfmAlbumInfo = action.payload;
+      })
+      .addCase(getLastfmAlbumInfo.rejected, (state, action) => {
+        state.lastfmAlbumInfoStatus = 'rejected';
+        state.lastfmAlbumInfoError = action.error;
       });
   },
 });
 
-export const { clearArtistInfo, clearAlbumInfo, clearTrackInfoModal, clearLastfmArtistInfo } = playerSlice.actions;
+export const { clearArtistInfo, clearAlbumInfo, clearTrackInfoModal, clearLastfmArtistInfo, clearLastfmAlbumInfo } = playerSlice.actions;
 
 export const selectCurrentTrack = (state) => state.player.currentTrack;
 export const selectIsPlaying = (state) => state.player.isPlaying;
@@ -272,6 +305,9 @@ export const selectAlbumInfoError = (state) => state.player.albumInfoError;
 export const selectLastfmArtistInfo = (state) => state.player.lastfmArtistInfo;
 export const selectLastfmArtistInfoStatus = (state) => state.player.lastfmArtistInfoStatus;
 export const selectLastfmArtistInfoError = (state) => state.player.lastfmArtistInfoError;
+export const selectLastfmAlbumInfo = (state) => state.player.lastfmAlbumInfo;
+export const selectLastfmAlbumInfoStatus = (state) => state.player.lastfmAlbumInfoStatus;
+export const selectLastfmAlbumInfoError = (state) => state.player.lastfmAlbumInfoError;
 
 
 

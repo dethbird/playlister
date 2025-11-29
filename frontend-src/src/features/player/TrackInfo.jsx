@@ -9,6 +9,7 @@ import {
   getArtistInfo,
   getAlbumInfo,
   getLastfmArtistInfo,
+  getLastfmAlbumInfo,
   clearTrackInfoModal,
   selectArtistInfo,
   selectArtistInfoStatus,
@@ -16,6 +17,8 @@ import {
   selectAlbumInfoStatus,
   selectLastfmArtistInfo,
   selectLastfmArtistInfoStatus,
+  selectLastfmAlbumInfo,
+  selectLastfmAlbumInfoStatus,
   selectCurrentTrack,
   selectStatus
 } from './playerSlice';
@@ -32,11 +35,14 @@ export function TrackInfo() {
   const albumInfoStatus = useSelector(selectAlbumInfoStatus);
   const lastfmArtistInfo = useSelector(selectLastfmArtistInfo);
   const lastfmArtistInfoStatus = useSelector(selectLastfmArtistInfoStatus);
+  const lastfmAlbumInfo = useSelector(selectLastfmAlbumInfo);
+  const lastfmAlbumInfoStatus = useSelector(selectLastfmAlbumInfoStatus);
   
   // Track the IDs we last fetched for
   const lastFetchedArtistIdRef = useRef(null);
   const lastFetchedAlbumIdRef = useRef(null);
   const lastFetchedArtistNameRef = useRef(null);
+  const lastFetchedAlbumNameRef = useRef(null);
   
   const track = currentTrack?.item;
   
@@ -44,6 +50,7 @@ export function TrackInfo() {
   const primaryArtistId = track?.artists?.[0]?.id;
   const primaryArtistName = track?.artists?.[0]?.name;
   const albumId = track?.album?.id;
+  const albumName = track?.album?.name;
   
   // Fetch artist info when track changes
   useEffect(() => {
@@ -68,6 +75,15 @@ export function TrackInfo() {
       dispatch(getLastfmArtistInfo(primaryArtistName));
     }
   }, [primaryArtistName, dispatch]);
+  
+  // Fetch Last.fm album info when track changes
+  useEffect(() => {
+    const albumKey = `${primaryArtistName}:${albumName}`;
+    if (primaryArtistName && albumName && albumKey !== lastFetchedAlbumNameRef.current) {
+      lastFetchedAlbumNameRef.current = albumKey;
+      dispatch(getLastfmAlbumInfo({ artistName: primaryArtistName, albumName }));
+    }
+  }, [primaryArtistName, albumName, dispatch]);
   
   // Clear info when component unmounts
   useEffect(() => {
@@ -141,8 +157,8 @@ export function TrackInfo() {
                   <Image
                     radius="xl"
                     src={artistInfo.images[artistInfo.images.length > 1 ? 1 : 0].url}
-                    w={80}
-                    h={80}
+                    w={100}
+                    h={100}
                     fit="cover"
                     alt={`${artistInfo.name}`}
                   />
@@ -341,8 +357,8 @@ export function TrackInfo() {
                   <Image
                     radius="md"
                     src={albumInfo.images[albumInfo.images.length > 1 ? 1 : 0].url}
-                    w={80}
-                    h={80}
+                    w={100}
+                    h={100}
                     fit="cover"
                     alt={`${albumInfo.name} album art`}
                   />
@@ -425,6 +441,64 @@ export function TrackInfo() {
                       >
                         {genre}
                       </Badge>
+                    ))}
+                  </Group>
+                </div>
+              )}
+              
+              {/* Last.fm Album Wiki */}
+              {lastfmAlbumInfoStatus === 'pending' && (
+                <Group gap="xs" mt="xs">
+                  <Loader size="xs" />
+                  <Text size="sm" c="dimmed">Loading album info from Last.fm...</Text>
+                </Group>
+              )}
+              
+              {lastfmAlbumInfoStatus === 'fulfilled' && lastfmAlbumInfo?.wiki?.summary && (
+                <div>
+                  <Text size="sm" c="dimmed" mb="xs">About</Text>
+                  <Text size="sm" style={{ lineHeight: 1.6 }}>
+                    {lastfmAlbumInfo.wiki.summary.replace(/<a href=".*">Read more on Last\.fm<\/a>\.?/gi, '').trim()}
+                  </Text>
+                  {lastfmAlbumInfo.url && (
+                    <Anchor
+                      href={lastfmAlbumInfo.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      size="xs"
+                      c="dimmed"
+                      mt="xs"
+                      display="inline-block"
+                    >
+                      Read more on Last.fm
+                    </Anchor>
+                  )}
+                </div>
+              )}
+              
+              {/* Last.fm Album Tags */}
+              {lastfmAlbumInfoStatus === 'fulfilled' && lastfmAlbumInfo?.tags?.tag?.length > 0 && (
+                <div>
+                  <Text size="sm" c="dimmed" mb="xs">Tags</Text>
+                  <Group gap="xs">
+                    {lastfmAlbumInfo.tags.tag.slice(0, 6).map((tag) => (
+                      <Anchor
+                        key={tag.name}
+                        href={tag.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{ textDecoration: 'none' }}
+                      >
+                        <Badge
+                          variant="light"
+                          color="blue"
+                          size="sm"
+                          tt="capitalize"
+                          style={{ cursor: 'pointer' }}
+                        >
+                          {tag.name}
+                        </Badge>
+                      </Anchor>
                     ))}
                   </Group>
                 </div>

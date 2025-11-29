@@ -149,5 +149,33 @@ router.get('/lastfm/artist', async (req, res) => {
     }
 });
 
+router.get('/lastfm/album', async (req, res) => {
+    const { artist, album } = req.query;
+    const apiKey = process.env.LASTFM_API_KEY;
+    
+    if (!artist || !album) {
+        return res.status(400).json({ message: 'Artist and album names are required' });
+    }
+    
+    if (!apiKey) {
+        return res.status(500).json({ message: 'Last.fm API key not configured' });
+    }
+    
+    try {
+        const url = `http://ws.audioscrobbler.com/2.0/?method=album.getinfo&artist=${encodeURIComponent(artist)}&album=${encodeURIComponent(album)}&api_key=${apiKey}&format=json`;
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (data.error) {
+            return res.status(404).json({ message: data.message || 'Album not found' });
+        }
+        
+        res.json(data.album);
+    } catch (err) {
+        console.error('Error fetching Last.fm album info:', err);
+        res.status(500).json({ message: err.message });
+    }
+});
+
 
 module.exports = router;
