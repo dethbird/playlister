@@ -1,12 +1,47 @@
-import React from 'react';
-import { Modal, Text, Stack, Group, Image, Anchor, Divider } from '@mantine/core';
-import { IconDisc } from '@tabler/icons-react';
+import React, { useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Modal, Text, Stack, Group, Image, Anchor, Divider, Badge, Loader, Alert } from '@mantine/core';
+import { IconDisc, IconAlertCircle } from '@tabler/icons-react';
 import { theme } from '../../app/theme';
 import { useMantineColorScheme } from '@mantine/core';
 import dayjs from 'dayjs';
+import {
+  getArtistInfo,
+  clearArtistInfo,
+  selectArtistInfo,
+  selectArtistInfoStatus,
+  selectArtistInfoError
+} from './playerSlice';
 
 export function TrackInfoModal({ opened, onClose, track }) {
   const { colorScheme } = useMantineColorScheme();
+  const dispatch = useDispatch();
+  
+  const artistInfo = useSelector(selectArtistInfo);
+  const artistInfoStatus = useSelector(selectArtistInfoStatus);
+  const artistInfoError = useSelector(selectArtistInfoError);
+  
+  // Track the artist ID we last fetched for
+  const lastFetchedArtistIdRef = useRef(null);
+  
+  // Get the primary artist ID from the track
+  const primaryArtistId = track?.artists?.[0]?.id;
+  
+  // Fetch artist info when modal opens or track changes
+  useEffect(() => {
+    if (opened && primaryArtistId && primaryArtistId !== lastFetchedArtistIdRef.current) {
+      lastFetchedArtistIdRef.current = primaryArtistId;
+      dispatch(getArtistInfo(primaryArtistId));
+    }
+  }, [opened, primaryArtistId, dispatch]);
+  
+  // Clear artist info when modal closes
+  useEffect(() => {
+    if (!opened) {
+      lastFetchedArtistIdRef.current = null;
+      dispatch(clearArtistInfo());
+    }
+  }, [opened, dispatch]);
 
   if (!track) {
     return null;
@@ -15,6 +50,12 @@ export function TrackInfoModal({ opened, onClose, track }) {
   const albumImage = track.album?.images?.[0]?.url;
   const artists = track.artists || [];
   const album = track.album || {};
+
+  // Format follower count with commas
+  const formatFollowers = (count) => {
+    if (!count) return null;
+    return count.toLocaleString();
+  };
 
   return (
     <Modal
@@ -64,28 +105,117 @@ export function TrackInfoModal({ opened, onClose, track }) {
 
         <Divider />
 
-        {/* Artists */}
+        {/* Primary Artist Info (from API) */}
         <div>
-          <Text size="sm" c="dimmed" tt="uppercase">
-            {artists.length > 1 ? 'Artists' : 'Artist'}
-          </Text>
-          <Stack gap="xs">
-            {artists.map((artist) => (
-              <Anchor
-                key={artist.id}
-                c={theme.colors['pale-purple'][colorScheme === 'light' ? 3 : 2]}
-                td="none"
-                fw={500}
-                size="lg"
-                href={artist.uri}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {artist.name}
-              </Anchor>
-            ))}
-          </Stack>
+          <Text size="sm" c="dimmed" tt="uppercase">Primary Artist</Text>
+          
+          {artistInfoStatus === 'pending' && (
+            <Group gap="xs" mt="xs">
+              <Loader size="sm" />
+              <Text size="sm" c="dimmed">Loading artist info...</Text>
+            </Group>
+          )}
+          
+          {artistInfoStatus === 'rejected' && (
+            <Alert icon={<IconAlertCircle size={16} />} color="red" variant="light" mt="xs">
+              Failed to load artist info
+            </Alert>
+          )}
+          
+          {artistInfoStatus === 'fulfilled' && artistInfo && (
+            <Stack gap="xs" mt="xs">
+              <Group gap="md" align="flex-start">
+                {/* Artist Image */}
+                {artistInfo.images?.[0]?.url && (
+                  <Image
+                    radius="xl"
+                    src={artistInfo.images[artistInfo.images.length > 1 ? 1 : 0].url}
+                    w={80}
+                    h={80}
+                    fit="cover"
+                    alt={`${artistInfo.name}`}
+                  />
+                )}
+                <Stack gap="xs" style={{ flex: 1 }}>
+                  <Anchor
+                    c={theme.colors['pale-purple'][colorScheme === 'light' ? 3 : 2]}
+                    td="none"
+                    fw={600}
+                    size="lg"
+                    href={artistInfo.uri || artistInfo.external_urls?.spotify}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {artistInfo.name}
+                  </Anchor>
+                  
+                  {artistInfo.followers?.total && (
+                    <Text size="sm" c="dimmed">
+                      {formatFollowers(artistInfo.followers.total)} followers
+                    </Text>
+                  )}
+                  
+                  {artistInfo.popularity !== undefined && (
+                    <Text size="sm" c="dimmed">
+                      Popularity: {artistInfo.popularity}/100
+                    </Text>
+                  )}
+                </Stack>
+              </Group>
+              
+              {/* Genres */}
+              {artistInfo.genres && artistInfo.genres.length > 0 && (
+                <div>
+                  <Text size="sm" c="dimmed" mb="xs">Genres</Text>
+                  <Group gap="xs">
+                    {artistInfo.genres.slice(0, 6).map((genre) => (
+                      <Badge
+                        key={genre}
+                        variant="light"
+                        color="grape"
+                        size="sm"
+                        tt="capitalize"
+                      >
+                        {genre}
+                      </Badge>
+                    ))}
+                    {artistInfo.genres.length > 6 && (
+                      <Badge variant="light" color="gray" size="sm">
+                        +{artistInfo.genres.length - 6} more
+                      </Badge>
+                    )}
+                  </Group>
+                </div>
+              )}
+            </Stack>
+          )}
         </div>
+
+        {/* Other Artists (if multiple) */}
+        {artists.length > 1 && (
+          <>
+            <Divider />
+            <div>
+              <Text size="sm" c="dimmed" tt="uppercase">Other Artists</Text>
+              <Stack gap="xs" mt="xs">
+                {artists.slice(1).map((artist) => (
+                  <Anchor
+                    key={artist.id}
+                    c={theme.colors['pale-purple'][colorScheme === 'light' ? 3 : 2]}
+                    td="none"
+                    fw={500}
+                    size="md"
+                    href={artist.uri}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {artist.name}
+                  </Anchor>
+                ))}
+              </Stack>
+            </div>
+          </>
+        )}
 
         <Divider />
 
@@ -143,12 +273,6 @@ export function TrackInfoModal({ opened, onClose, track }) {
             <Text size="sm">Popularity: {track.popularity}/100</Text>
           )}
         </div>
-
-        {/* Placeholder for future graph data */}
-        <Divider />
-        <Text size="xs" c="dimmed" ta="center">
-          More artist and label information coming soon...
-        </Text>
       </Stack>
     </Modal>
   );

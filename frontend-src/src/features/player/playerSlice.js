@@ -6,7 +6,11 @@ export const initialState = {
   isPlaying: false,
   isLiked: false,
   status: 'idle',
-  error: null
+  error: null,
+  // Artist info state
+  artistInfo: null,
+  artistInfoStatus: 'idle',
+  artistInfoError: null
 };
 
 export const getCurrentTrack = createAsyncThunk(
@@ -118,10 +122,25 @@ export const unlike = createAsyncThunk(
   }
 );
 
+export const getArtistInfo = createAsyncThunk(
+  'player/getArtistInfo',
+  async (artistId) => {
+    const response = await apiRequest('/player/artist/' + artistId);
+    const data = await response.json();
+    return data;
+  }
+);
+
 export const playerSlice = createSlice({
   name: 'player',
   initialState,
-  reducers: {},
+  reducers: {
+    clearArtistInfo: (state) => {
+      state.artistInfo = null;
+      state.artistInfoStatus = 'idle';
+      state.artistInfoError = null;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getCurrentTrack.pending, (state) => {
@@ -150,16 +169,32 @@ export const playerSlice = createSlice({
       })
       .addCase(unlike.fulfilled, (state, _action) => {
         state.isLiked = false;
+      })
+      .addCase(getArtistInfo.pending, (state) => {
+        state.artistInfoStatus = 'pending';
+        state.artistInfoError = null;
+      })
+      .addCase(getArtistInfo.fulfilled, (state, action) => {
+        state.artistInfoStatus = 'fulfilled';
+        state.artistInfo = action.payload;
+      })
+      .addCase(getArtistInfo.rejected, (state, action) => {
+        state.artistInfoStatus = 'rejected';
+        state.artistInfoError = action.error;
       });
   },
 });
 
+export const { clearArtistInfo } = playerSlice.actions;
 
 export const selectCurrentTrack = (state) => state.player.currentTrack;
 export const selectIsPlaying = (state) => state.player.isPlaying;
 export const selectIsLiked = (state) => state.player.isLiked;
 export const selectStatus = (state) => state.player.status;
 export const selectError = (state) => state.player.error;
+export const selectArtistInfo = (state) => state.player.artistInfo;
+export const selectArtistInfoStatus = (state) => state.player.artistInfoStatus;
+export const selectArtistInfoError = (state) => state.player.artistInfoError;
 
 
 
