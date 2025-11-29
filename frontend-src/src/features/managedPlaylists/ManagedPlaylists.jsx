@@ -19,7 +19,7 @@ import {
 import { ManagedPlaylistItem } from './ManagedPlaylistItem';
 
 
-export function ManagedPlaylists() {
+export function ManagedPlaylists({ hideTitle = false }) {
 
   const sensors = useSensors(
     useSensor(MouseSensor, {
@@ -61,7 +61,7 @@ export function ManagedPlaylists() {
   if (playlists.length < 1) {
     return (
       <>
-        <Text tt='uppercase' ta='left' >Managed playlists</Text>
+        {!hideTitle && <Text tt='uppercase' ta='left' >Managed playlists</Text>}
         <Container m='xl'>
           <Alert variant="light" color="grape" title="No managed playlists" icon={<IconBrandSpotify />}>
             Click the Spotify icon in the Playlists menu to start adding playlists you would like to manage.
@@ -86,7 +86,7 @@ export function ManagedPlaylists() {
 
   return (
     <Box className='ManagedPlaylists' mt='xs'>
-      <Text tt='uppercase' ta='left' >Managed playlists</Text>
+      {!hideTitle && <Text tt='uppercase' ta='left' >Managed playlists</Text>}
       <DndContext
         onDragEnd={handleDragEnd}
         sensors={sensors}

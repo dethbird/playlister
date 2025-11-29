@@ -6,7 +6,15 @@ export const initialState = {
   isPlaying: false,
   isLiked: false,
   status: 'idle',
-  error: null
+  error: null,
+  // Artist info state
+  artistInfo: null,
+  artistInfoStatus: 'idle',
+  artistInfoError: null,
+  // Album info state
+  albumInfo: null,
+  albumInfoStatus: 'idle',
+  albumInfoError: null
 };
 
 export const getCurrentTrack = createAsyncThunk(
@@ -118,10 +126,47 @@ export const unlike = createAsyncThunk(
   }
 );
 
+export const getArtistInfo = createAsyncThunk(
+  'player/getArtistInfo',
+  async (artistId) => {
+    const response = await apiRequest('/player/artist/' + artistId);
+    const data = await response.json();
+    return data;
+  }
+);
+
+export const getAlbumInfo = createAsyncThunk(
+  'player/getAlbumInfo',
+  async (albumId) => {
+    const response = await apiRequest('/player/album/' + albumId);
+    const data = await response.json();
+    return data;
+  }
+);
+
 export const playerSlice = createSlice({
   name: 'player',
   initialState,
-  reducers: {},
+  reducers: {
+    clearArtistInfo: (state) => {
+      state.artistInfo = null;
+      state.artistInfoStatus = 'idle';
+      state.artistInfoError = null;
+    },
+    clearAlbumInfo: (state) => {
+      state.albumInfo = null;
+      state.albumInfoStatus = 'idle';
+      state.albumInfoError = null;
+    },
+    clearTrackInfoModal: (state) => {
+      state.artistInfo = null;
+      state.artistInfoStatus = 'idle';
+      state.artistInfoError = null;
+      state.albumInfo = null;
+      state.albumInfoStatus = 'idle';
+      state.albumInfoError = null;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getCurrentTrack.pending, (state) => {
@@ -150,16 +195,47 @@ export const playerSlice = createSlice({
       })
       .addCase(unlike.fulfilled, (state, _action) => {
         state.isLiked = false;
+      })
+      .addCase(getArtistInfo.pending, (state) => {
+        state.artistInfoStatus = 'pending';
+        state.artistInfoError = null;
+      })
+      .addCase(getArtistInfo.fulfilled, (state, action) => {
+        state.artistInfoStatus = 'fulfilled';
+        state.artistInfo = action.payload;
+      })
+      .addCase(getArtistInfo.rejected, (state, action) => {
+        state.artistInfoStatus = 'rejected';
+        state.artistInfoError = action.error;
+      })
+      .addCase(getAlbumInfo.pending, (state) => {
+        state.albumInfoStatus = 'pending';
+        state.albumInfoError = null;
+      })
+      .addCase(getAlbumInfo.fulfilled, (state, action) => {
+        state.albumInfoStatus = 'fulfilled';
+        state.albumInfo = action.payload;
+      })
+      .addCase(getAlbumInfo.rejected, (state, action) => {
+        state.albumInfoStatus = 'rejected';
+        state.albumInfoError = action.error;
       });
   },
 });
 
+export const { clearArtistInfo, clearAlbumInfo, clearTrackInfoModal } = playerSlice.actions;
 
 export const selectCurrentTrack = (state) => state.player.currentTrack;
 export const selectIsPlaying = (state) => state.player.isPlaying;
 export const selectIsLiked = (state) => state.player.isLiked;
 export const selectStatus = (state) => state.player.status;
 export const selectError = (state) => state.player.error;
+export const selectArtistInfo = (state) => state.player.artistInfo;
+export const selectArtistInfoStatus = (state) => state.player.artistInfoStatus;
+export const selectArtistInfoError = (state) => state.player.artistInfoError;
+export const selectAlbumInfo = (state) => state.player.albumInfo;
+export const selectAlbumInfoStatus = (state) => state.player.albumInfoStatus;
+export const selectAlbumInfoError = (state) => state.player.albumInfoError;
 
 
 

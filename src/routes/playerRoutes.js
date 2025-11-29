@@ -97,5 +97,29 @@ router.delete('/unlike', (req, res) => {
         });
 });
 
+router.get('/artist/:id', (req, res) => {
+    const { id } = req.params;
+    spotifyApi.getArtist(id)
+        .then(data => {
+            res.json(data.body);
+        })
+        .catch(err => {
+            console.error('Error getting artist:', err);
+            res.status(err.statusCode || 500).json({message: err.message});
+        });
+});
+
+router.get('/album/:id', (req, res) => {
+    const { id } = req.params;
+    spotifyApi.getAlbum(id)
+        .then(data => {
+            res.json(data.body);
+        })
+        .catch(err => {
+            console.error('Error getting album:', err);
+            res.status(err.statusCode || 500).json({message: err.message});
+        });
+});
+
 
 module.exports = router;
