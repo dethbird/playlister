@@ -1,16 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ActionIcon, Alert, Anchor, Box, Card, Container, Group, Image, Text, Tooltip, useMantineColorScheme } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import {
   IconPlayerTrackPrev,
   IconPlayerTrackNext,
   IconPlayerPause,
   IconPlayerPlay,
-  IconDisc,
-  IconInfoCircle
+  IconDisc
 } from '@tabler/icons-react';
-import { TrackInfoModal } from './TrackInfoModal';
 import {
   getCurrentTrack,
   play,
@@ -48,7 +45,6 @@ export function Player() {
   const [displayProgress, setDisplayProgress] = useState(0);
   const progressTimerRef = useRef(null);
   const refreshTimerRef = useRef(null);
-  const [trackInfoOpened, { open: openTrackInfo, close: closeTrackInfo }] = useDisclosure(false);
 
   useEffect(() => {
     dispatch(getCurrentTrack());
@@ -155,23 +151,7 @@ export function Player() {
         shadow="sm"
         withBorder
         data-animate="fade-in"
-        style={{ position: 'relative' }}
       >
-        <Tooltip label="Track Info">
-          <ActionIcon
-            variant="subtle"
-            aria-label="Track Info"
-            onClick={openTrackInfo}
-            className={classes.TrackInfoButton}
-          >
-            <IconInfoCircle size={20} />
-          </ActionIcon>
-        </Tooltip>
-        <TrackInfoModal
-          opened={trackInfoOpened}
-          onClose={closeTrackInfo}
-          track={currentTrack.item}
-        />
         <Card.Section>
           {currentTrack.item.album.images && currentTrack.item.album.images.length > 0 ? (
             <Image
