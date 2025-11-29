@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Tabs } from '@mantine/core';
 import { IconPlaylist, IconInfoCircle } from '@tabler/icons-react';
 import { ManagedPlaylists } from '../features/managedPlaylists/ManagedPlaylists';
 import { TrackInfo } from '../features/player/TrackInfo';
 
+const STORAGE_KEY = 'playlistTrackTabSelection';
+
 export function PlaylistTrackTabs() {
-  const [activeTab, setActiveTab] = useState('playlists');
+  const [activeTab, setActiveTab] = useState(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved || 'playlists';
+  });
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, activeTab);
+  }, [activeTab]);
 
   return (
     <Box mt='xs'>
