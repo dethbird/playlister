@@ -8,11 +8,14 @@ import dayjs from 'dayjs';
 import {
   getArtistInfo,
   getAlbumInfo,
+  getLastfmArtistInfo,
   clearTrackInfoModal,
   selectArtistInfo,
   selectArtistInfoStatus,
   selectAlbumInfo,
   selectAlbumInfoStatus,
+  selectLastfmArtistInfo,
+  selectLastfmArtistInfoStatus,
   selectCurrentTrack,
   selectStatus
 } from './playerSlice';
@@ -27,15 +30,19 @@ export function TrackInfo() {
   const artistInfoStatus = useSelector(selectArtistInfoStatus);
   const albumInfo = useSelector(selectAlbumInfo);
   const albumInfoStatus = useSelector(selectAlbumInfoStatus);
+  const lastfmArtistInfo = useSelector(selectLastfmArtistInfo);
+  const lastfmArtistInfoStatus = useSelector(selectLastfmArtistInfoStatus);
   
   // Track the IDs we last fetched for
   const lastFetchedArtistIdRef = useRef(null);
   const lastFetchedAlbumIdRef = useRef(null);
+  const lastFetchedArtistNameRef = useRef(null);
   
   const track = currentTrack?.item;
   
   // Get the primary artist ID and album ID from the track
   const primaryArtistId = track?.artists?.[0]?.id;
+  const primaryArtistName = track?.artists?.[0]?.name;
   const albumId = track?.album?.id;
   
   // Fetch artist info when track changes
@@ -53,6 +60,14 @@ export function TrackInfo() {
       dispatch(getAlbumInfo(albumId));
     }
   }, [albumId, dispatch]);
+  
+  // Fetch Last.fm artist info when track changes
+  useEffect(() => {
+    if (primaryArtistName && primaryArtistName !== lastFetchedArtistNameRef.current) {
+      lastFetchedArtistNameRef.current = primaryArtistName;
+      dispatch(getLastfmArtistInfo(primaryArtistName));
+    }
+  }, [primaryArtistName, dispatch]);
   
   // Clear info when component unmounts
   useEffect(() => {
@@ -180,6 +195,92 @@ export function TrackInfo() {
                         +{artistInfo.genres.length - 6} more
                       </Badge>
                     )}
+                  </Group>
+                </div>
+              )}
+              
+              {/* Last.fm Bio */}
+              {lastfmArtistInfoStatus === 'pending' && (
+                <Group gap="xs" mt="xs">
+                  <Loader size="xs" />
+                  <Text size="sm" c="dimmed">Loading bio...</Text>
+                </Group>
+              )}
+              
+              {lastfmArtistInfoStatus === 'fulfilled' && lastfmArtistInfo?.bio?.summary && (
+                <div>
+                  <Text size="sm" c="dimmed" mb="xs">Bio</Text>
+                  <Text size="sm" style={{ lineHeight: 1.6 }}>
+                    {/* Remove the "Read more on Last.fm" link that's embedded in the summary */}
+                    {lastfmArtistInfo.bio.summary.replace(/<a href=".*">Read more on Last\.fm<\/a>\.?/gi, '').trim()}
+                  </Text>
+                  {lastfmArtistInfo.url && (
+                    <Anchor
+                      href={lastfmArtistInfo.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      size="xs"
+                      c="dimmed"
+                      mt="xs"
+                      display="inline-block"
+                    >
+                      Read more on Last.fm
+                    </Anchor>
+                  )}
+                </div>
+              )}
+              
+              {/* Last.fm Tags */}
+              {lastfmArtistInfoStatus === 'fulfilled' && lastfmArtistInfo?.tags?.tag?.length > 0 && (
+                <div>
+                  <Text size="sm" c="dimmed" mb="xs">Tags</Text>
+                  <Group gap="xs">
+                    {lastfmArtistInfo.tags.tag.slice(0, 6).map((tag) => (
+                      <Anchor
+                        key={tag.name}
+                        href={tag.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{ textDecoration: 'none' }}
+                      >
+                        <Badge
+                          variant="light"
+                          color="blue"
+                          size="sm"
+                          tt="capitalize"
+                          style={{ cursor: 'pointer' }}
+                        >
+                          {tag.name}
+                        </Badge>
+                      </Anchor>
+                    ))}
+                  </Group>
+                </div>
+              )}
+              
+              {/* Similar Artists */}
+              {lastfmArtistInfoStatus === 'fulfilled' && lastfmArtistInfo?.similar?.artist?.length > 0 && (
+                <div>
+                  <Text size="sm" c="dimmed" mb="xs">Similar Artists</Text>
+                  <Group gap="xs">
+                    {lastfmArtistInfo.similar.artist.slice(0, 5).map((artist) => (
+                      <Anchor
+                        key={artist.name}
+                        href={artist.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{ textDecoration: 'none' }}
+                      >
+                        <Badge
+                          variant="outline"
+                          color="grape"
+                          size="sm"
+                          style={{ cursor: 'pointer' }}
+                        >
+                          {artist.name}
+                        </Badge>
+                      </Anchor>
+                    ))}
                   </Group>
                 </div>
               )}
