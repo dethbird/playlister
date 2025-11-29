@@ -101,44 +101,6 @@ export function TrackInfo() {
   return (
     <Box mt='xs' data-animate="fade-in">
       <Stack gap="md">
-        {/* Album Art */}
-        <Group justify="center">
-          {albumImage ? (
-            <Image
-              radius="md"
-              src={albumImage}
-              w={200}
-              h={200}
-              fit="cover"
-              alt={`${album.name} album art`}
-            />
-          ) : (
-            <IconDisc
-              size={200}
-              stroke={1.5}
-              color={theme.colors['pale-purple'][colorScheme === 'light' ? 3 : 2]}
-            />
-          )}
-        </Group>
-
-        {/* Track Name */}
-        <div>
-          <Text size="sm" c="dimmed" tt="uppercase">Track</Text>
-          <Anchor
-            c={theme.colors['pale-purple'][colorScheme === 'light' ? 4 : 1]}
-            td="none"
-            fw={700}
-            size="xl"
-            href={track.uri}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {track.name}
-          </Anchor>
-        </div>
-
-        <Divider />
-
         {/* Primary Artist Info (from API) */}
         <div>
           <Text size="sm" c="dimmed" tt="uppercase">Primary Artist</Text>

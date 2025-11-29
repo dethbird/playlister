@@ -13,7 +13,7 @@ import {
 } from '@tabler/icons-react';
 import { Notifications } from '@mantine/notifications';
 import { Player } from './features/player/Player';
-import { PlaylistTrackTabs } from './features/player/PlaylistTrackTabs';
+import { PlaylistTrackTabs } from './components/PlaylistTrackTabs';
 import About from './pages/About.jsx';
 import HowTo from './pages/HowTo';
 import Pp from './pages/Pp';
