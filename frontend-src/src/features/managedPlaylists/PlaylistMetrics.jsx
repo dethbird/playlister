@@ -24,8 +24,8 @@ export function PlaylistMetrics({ metrics, status }) {
         return null;
     }
     
-    const topArtists = (metrics.top_artists || []).slice(0, 10);
-    const topGenres = (metrics.top_genres || []).slice(0, 10);
+    const topArtists = (metrics.top_artists || []).slice(0, 25);
+    const topGenres = (metrics.top_genres || []).slice(0, 25);
     
     return (
         <Stack gap="md" py="xs">

@@ -1,16 +1,20 @@
 .Player {
   text-align: center;
 }
-.PlayerControls {
+ .PlayerControls {
   height: 100%;
-}
-.AlbumArt {
-  float:left;
+  /* match left padding with album art for visual alignment */
+  padding-left: 8px;
+ }
+ .AlbumArt {
+  float: left;
   margin-right: 10px;
-  padding: 5px;
-}
+  /* add a little left padding so the album art lines up with the controls */
+  padding: 10px 5px 5px 15px;
+ }
 .AlbumInfo {
   margin: 0px;
+  padding-top: 5px;
   text-align: left;
 }
 .ProgressBar {
