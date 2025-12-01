@@ -20,6 +20,7 @@
     "express": "^4.19.2",
     "express-rate-limit": "^7.4.0",
     "express-session": "^1.18.0",
+    "ioredis": "^5.8.2",
     "morgan": "^1.10.0",
     "nunjucks": "^3.2.4",
     "passport": "^0.7.0",

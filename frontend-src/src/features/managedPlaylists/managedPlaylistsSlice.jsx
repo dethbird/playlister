@@ -8,6 +8,8 @@ import { theme } from '../../app/theme';
 export const initialState = {
   playlists: [],
   playlistsMeta: {},
+  playlistsMetrics: {}, // metrics data keyed by spotify_playlist_id
+  playlistsMetricsStatus: {}, // loading status keyed by spotify_playlist_id
   favoriteDialogIsOpen: false,
   favoritePlaylists: [],
   status: 'idle',
@@ -146,10 +148,12 @@ export const addTrackToActive = createAsyncThunk(
       .then(data => {
         const playlists = selectPlaylists(getState());
         notifications.show(trackAddedNotification);
-        // Refresh meta for active playlists after the request succeeds
+        // Refresh meta and invalidate metrics cache for active playlists after the request succeeds
         playlists.forEach(playlist => {
           if (playlist.active === 'Y') {
             dispatch(managedPlaylistsSlice.actions.invalidatePlaylistMeta(playlist.spotify_playlist_id));
+            dispatch(managedPlaylistsSlice.actions.invalidatePlaylistMetrics(playlist.spotify_playlist_id));
+            invalidatePlaylistMetricsCache(playlist.spotify_playlist_id);
           }
         });
         return data;
@@ -174,10 +178,12 @@ export const removeTrackFromActive = createAsyncThunk(
       .then(data => {
         const playlists = selectPlaylists(getState());
         notifications.show(trackRemovedNotification);
-        // Refresh meta for active playlists after the request succeeds
+        // Refresh meta and invalidate metrics cache for active playlists after the request succeeds
         playlists.forEach(playlist => {
           if (playlist.active === 'Y') {
             dispatch(managedPlaylistsSlice.actions.invalidatePlaylistMeta(playlist.spotify_playlist_id));
+            dispatch(managedPlaylistsSlice.actions.invalidatePlaylistMetrics(playlist.spotify_playlist_id));
+            invalidatePlaylistMetricsCache(playlist.spotify_playlist_id);
           }
         });
         return data;
@@ -203,6 +209,8 @@ export const addTrackToPlaylist = createAsyncThunk(
       .then(data => {
         notifications.show(trackAddedNotification);
         dispatch(managedPlaylistsSlice.actions.invalidatePlaylistMeta(spotifyPlaylistId));
+        dispatch(managedPlaylistsSlice.actions.invalidatePlaylistMetrics(spotifyPlaylistId));
+        invalidatePlaylistMetricsCache(spotifyPlaylistId);
         return data;
       });
   }
@@ -226,6 +234,8 @@ export const removeTrackFromPlaylist = createAsyncThunk(
       .then(data => {
         notifications.show(trackRemovedNotification);
         dispatch(managedPlaylistsSlice.actions.invalidatePlaylistMeta(spotifyPlaylistId));
+        dispatch(managedPlaylistsSlice.actions.invalidatePlaylistMetrics(spotifyPlaylistId));
+        invalidatePlaylistMetricsCache(spotifyPlaylistId);
         return data;
       });
   }
@@ -265,6 +275,57 @@ export const getFavoritePlaylists = createAsyncThunk(
   }
 );
 
+/**
+ * Fetch playlist metrics (top artists and genres)
+ * Checks localStorage first, then fetches from API if not cached
+ */
+export const getPlaylistMetrics = createAsyncThunk(
+  'playlists/getPlaylistMetrics',
+  async (spotifyPlaylistId, { rejectWithValue }) => {
+    // Check localStorage cache first
+    const cacheKey = `playlist_metrics_${spotifyPlaylistId}`;
+    const cached = localStorage.getItem(cacheKey);
+    
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached);
+        // Check if cache is still valid (24 hours)
+        if (parsed.timestamp && Date.now() - parsed.timestamp < 24 * 60 * 60 * 1000) {
+          return { spotifyPlaylistId, metrics: parsed.data, fromCache: true };
+        }
+      } catch (e) {
+        // Invalid cache, continue to fetch
+      }
+    }
+    
+    try {
+      const response = await apiRequest(`/playlists/spotify/${spotifyPlaylistId}/metrics`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch metrics');
+      }
+      const data = await response.json();
+      
+      // Cache in localStorage
+      localStorage.setItem(cacheKey, JSON.stringify({
+        data,
+        timestamp: Date.now()
+      }));
+      
+      return { spotifyPlaylistId, metrics: data, fromCache: false };
+    } catch (err) {
+      return rejectWithValue({ spotifyPlaylistId, error: err.message });
+    }
+  }
+);
+
+/**
+ * Invalidate playlist metrics cache (called when tracks are added/removed)
+ */
+export const invalidatePlaylistMetricsCache = (spotifyPlaylistId) => {
+  const cacheKey = `playlist_metrics_${spotifyPlaylistId}`;
+  localStorage.removeItem(cacheKey);
+};
+
 export const addFavoritePlaylistToManaged = createAsyncThunk(
   'playlists/addFavoriteToManaged',
   async (spotifyPlaylistId, { dispatch }) => {
@@ -296,6 +357,10 @@ export const managedPlaylistsSlice = createSlice({
     },
     invalidatePlaylistMeta: (state, action) => {
       delete state.playlistsMeta[action.payload];
+    },
+    invalidatePlaylistMetrics: (state, action) => {
+      delete state.playlistsMetrics[action.payload];
+      delete state.playlistsMetricsStatus[action.payload];
     }
   },
   extraReducers: (builder) => {
@@ -314,6 +379,18 @@ export const managedPlaylistsSlice = createSlice({
       .addCase(getPlaylistMeta.fulfilled, (state, action) => {
         state.playlistsMeta[action.payload.id] = action.payload;
       })
+      .addCase(getPlaylistMetrics.pending, (state, action) => {
+        state.playlistsMetricsStatus[action.meta.arg] = 'pending';
+      })
+      .addCase(getPlaylistMetrics.fulfilled, (state, action) => {
+        state.playlistsMetrics[action.payload.spotifyPlaylistId] = action.payload.metrics;
+        state.playlistsMetricsStatus[action.payload.spotifyPlaylistId] = 'fulfilled';
+      })
+      .addCase(getPlaylistMetrics.rejected, (state, action) => {
+        if (action.payload) {
+          state.playlistsMetricsStatus[action.payload.spotifyPlaylistId] = 'rejected';
+        }
+      })
       .addCase(getFavoritePlaylists.pending, (state) => {
         state.favoriteStatus = 'pending';
       })
@@ -328,10 +405,12 @@ export const managedPlaylistsSlice = createSlice({
   },
 });
 
-export const { toggleFavoriteDialog, invalidatePlaylistMeta } = managedPlaylistsSlice.actions;
+export const { toggleFavoriteDialog, invalidatePlaylistMeta, invalidatePlaylistMetrics } = managedPlaylistsSlice.actions;
 
 export const selectPlaylists = (state) => state.managedPlaylists.playlists;
 export const selectPlaylistsMeta = (state) => state.managedPlaylists.playlistsMeta;
+export const selectPlaylistsMetrics = (state) => state.managedPlaylists.playlistsMetrics;
+export const selectPlaylistsMetricsStatus = (state) => state.managedPlaylists.playlistsMetricsStatus;
 export const selectFavoriteDialogIsOpen = (state) => state.managedPlaylists.favoriteDialogIsOpen;
 export const selectFavoritePlaylists = (state) => state.managedPlaylists.favoritePlaylists;
 export const selectFavoriteStatus = (state) => state.managedPlaylists.favoriteStatus;

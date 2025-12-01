@@ -4,6 +4,7 @@ const spotifyApi = require('../modules/spotifyApi');
 const { QueryTypes } = require('sequelize');
 const { sequelize, Playlist, Favorite } = require('../models/models');
 const { prunePlaylist, prunePage } = require('../utils/playlistPrune');
+const { calculatePlaylistMetrics } = require('../services/playlistMetricsService');
 
 
 /**
@@ -112,6 +113,27 @@ router.get('/spotify/:id', (req, res) => {
             res.status(err.statusCode).json({ message: err.message });
         });
 
+});
+
+/**
+ * Get playlist metrics (top artists and genres)
+ * Performs graph-style data collection, fetching artist and album info for each track
+ * Results are cached in Redis to minimize Spotify API calls
+ */
+router.get('/spotify/:id/metrics', async (req, res) => {
+    const { id } = req.params;
+    
+    if (!req.user || !req.user.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+    
+    try {
+        const metrics = await calculatePlaylistMetrics(id);
+        res.json(metrics);
+    } catch (err) {
+        console.error('Error calculating playlist metrics:', err);
+        res.status(err.statusCode || 500).json({ message: err.message || 'Error calculating metrics' });
+    }
 });
 
 /**
