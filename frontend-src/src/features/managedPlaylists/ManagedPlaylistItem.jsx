@@ -1,7 +1,9 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ActionIcon, Anchor, Box, Grid, Group, Image, Switch, Text, Tooltip, useMantineColorScheme } from '@mantine/core';
+import { ActionIcon, Anchor, Box, Collapse, Grid, Group, Image, Switch, Text, Tooltip, useMantineColorScheme } from '@mantine/core';
 import {
+    IconChevronDown,
+    IconChevronUp,
     IconCirclePlus,
     IconCircleX,
     IconDisc,
@@ -15,15 +17,19 @@ import { PaperStyled } from '../../components/PaperStyled';
 import {
     addTrackToPlaylist,
     getPlaylistMeta,
+    getPlaylistMetrics,
     removeManagedPlaylist,
     removeTrackFromPlaylist,
     selectPlaylistsMeta,
+    selectPlaylistsMetrics,
+    selectPlaylistsMetricsStatus,
     toggleFavoritePlaylist,
     togglePlaylistActive
 } from './managedPlaylistsSlice';
 import {
     selectCurrentTrack
 } from '../player/playerSlice';
+import { PlaylistMetrics } from './PlaylistMetrics';
 import { theme } from '../../app/theme';
 import { gsap } from 'gsap';
 import { buttonAnimation } from '../../constants';
@@ -58,6 +64,13 @@ export function ManagedPlaylistItem({ playlist, index = 0 }) {
     const playlistMeta = currentPlaylistMeta || staleMeta;
     const [dropMarker, setDropMarker] = useState(0);
     const wasDragging = useRef(false);
+    
+    // Expanded state for metrics
+    const [expanded, setExpanded] = useState(false);
+    const playlistsMetrics = useSelector(selectPlaylistsMetrics);
+    const playlistsMetricsStatus = useSelector(selectPlaylistsMetricsStatus);
+    const metrics = playlistsMetrics[playlist.spotify_playlist_id];
+    const metricsStatus = playlistsMetricsStatus[playlist.spotify_playlist_id];
 
     const dispatch = useDispatch();
 
@@ -80,6 +93,18 @@ export function ManagedPlaylistItem({ playlist, index = 0 }) {
         }
         wasDragging.current = isDragging;
     }, [isDragging]);
+    
+    // Fetch metrics when expanded and not already loaded
+    useEffect(() => {
+        if (expanded && !metrics && metricsStatus !== 'pending') {
+            dispatch(getPlaylistMetrics(playlist.spotify_playlist_id));
+        }
+    }, [expanded, metrics, metricsStatus, dispatch, playlist.spotify_playlist_id]);
+    
+    const handleToggleExpand = (e) => {
+        e.stopPropagation();
+        setExpanded(!expanded);
+    };
 
     return (
         <Box ref={setNodeRef} style={style} {...attributes} {...listeners} pb='xs'>
@@ -92,12 +117,16 @@ export function ManagedPlaylistItem({ playlist, index = 0 }) {
                 index={index}
                 dropMarker={dropMarker}
                 showActions
+                expanded={expanded}
+                onToggleExpand={handleToggleExpand}
+                metrics={metrics}
+                metricsStatus={metricsStatus}
             />
         </Box>
     );
 }
 
-export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, dispatch, colorScheme, dropMarker = 0, index = 0, showActions = true }) {
+export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, dispatch, colorScheme, dropMarker = 0, index = 0, showActions = true, expanded = false, onToggleExpand = null, metrics = null, metricsStatus = null }) {
     if (!playlistMeta) {
         return <div role='alert' aria-busy="true"></div>;
     }
@@ -209,7 +238,22 @@ export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, disp
                         <Grid.Col span={{ base: 9, xs: 8, sm: 9 }} className='PlaylistDetails' >
                             <Anchor td='none' c={theme.colors['pale-purple'][colorScheme === 'light' ? 3 : 2]} fw={500} size="lg" href={playlistMeta.uri} target="_blank" rel="noreferrer">{playlistMeta.name}</Anchor>
                             <br />
-                            <IconMusic className='Notes' size={20} /><Text size='md'>{playlistMeta.tracks.total} tracks</Text>
+                            <Group gap="xs" align="center">
+                                <IconMusic className='Notes' size={20} />
+                                <Text size='md'>{playlistMeta.tracks.total} tracks</Text>
+                                {showActions && onToggleExpand && (
+                                    <Tooltip label={expanded ? "Hide analytics" : "Show analytics"}>
+                                        <ActionIcon
+                                            variant="subtle"
+                                            size="sm"
+                                            aria-label={expanded ? "Hide analytics" : "Show analytics"}
+                                            onClick={onToggleExpand}
+                                        >
+                                            {expanded ? <IconChevronUp size={16} /> : <IconChevronDown size={16} />}
+                                        </ActionIcon>
+                                    </Tooltip>
+                                )}
+                            </Group>
                         </Grid.Col>
                     </Grid>
                 </Grid.Col>
@@ -303,6 +347,14 @@ export function ManagedPlaylistCard({ playlist, playlistMeta, currentTrack, disp
                     </Grid.Col>
                 )}
             </Grid>
+            {/* Expandable metrics section */}
+            {showActions && onToggleExpand && (
+                <Collapse in={expanded}>
+                    <Box pt="md" mt="md" style={{ borderTop: '1px solid var(--mantine-color-default-border)' }}>
+                        <PlaylistMetrics metrics={metrics} status={metricsStatus} />
+                    </Box>
+                </Collapse>
+            )}
             </PaperStyled>
         </Box>
     )
